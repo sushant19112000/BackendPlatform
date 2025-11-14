@@ -1,0 +1,289 @@
+{
+    "fieldRules": {
+        "email": {
+            "label": "Email",
+            "regex": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+            "error": "Invalid email format",
+            "required": true
+        },
+        "title": {
+            "label": "Title",
+            "regex": "^[A-Za-z .,'-]{2,50}$",
+            "error": "Title must contain only letters and be at least 2 characters",
+            "required": true
+        },
+        "firstName": {
+            "label": "First Name",
+            "regex": "^[A-Za-z .,'-]{2,50}$",
+            "error": "First name must contain at least 2 alphabetic characters",
+            "required": true
+        },
+        "lastName": {
+            "label": "Last Name",
+            "regex": "^[A-Za-z .,'-]{2,50}$",
+            "error": "Last name must contain at least 2 alphabetic characters",
+            "required": true
+        },
+        "companyTelephone": {
+            "label": "Company Telephone",
+            "regex": "^\\+?[0-9 ()-]{7,20}$",
+            "error": "Invalid company telephone number",
+            "required": true
+        },
+        "directTelephone": {
+            "label": "Direct Telephone",
+            "regex": "^\\+?[0-9 ()-]{7,20}$",
+            "error": "Invalid direct telephone number",
+            "required": false
+        },
+        "mobileTelephone": {
+            "label": "Mobile Telephone",
+            "regex": "^\\+?[0-9 ()-]{7,20}$",
+            "error": "Invalid mobile number",
+            "required": false
+        },
+        "region": {
+            "label": "Region",
+            "regex": "^[A-Za-z .,'-]{2,100}$",
+            "error": "Invalid region name",
+            "required": true
+        },
+        "jobTitle": {
+            "label": "Job Title",
+            "regex": "^[A-Za-z0-9 .,'-/]{2,100}$",
+            "error": "Invalid job title",
+            "required": true
+        },
+        "audience": {
+            "label": "Audience",
+            "regex": "^[A-Za-z .,'-]{2,100}$",
+            "error": "Invalid audience value",
+            "required": true
+        },
+        "authority": {
+            "label": "Authority",
+            "regex": "^[A-Za-z0-9 .,&'()-]{2,100}$",
+            "error": "Invalid authority value",
+            "required": true
+        },
+        "addressline1": {
+            "label": "Address Line 1",
+            "regex": "^[A-Za-z0-9 .,'#/-]{2,100}$",
+            "error": "Invalid address line 1",
+            "required": true
+        },
+        "addressline2": {
+            "label": "Address Line 2",
+            "regex": "^[A-Za-z0-9 .,'#/-]{0,100}$",
+            "error": "Invalid address line 2",
+            "required": true
+        },
+        "addressline3": {
+            "label": "Address Line 3",
+            "regex": "^[A-Za-z0-9 .,'#/-]{0,100}$",
+            "error": "Invalid address line 3",
+            "required": true
+        },
+        "addressCity": {
+            "label": "Address City",
+            "regex": "^[A-Za-z .,'-]{2,50}$",
+            "error": "Invalid city name",
+            "required": true
+        },
+        "addressStateCode": {
+            "label": "Address State Code",
+            "regex": "^[A-Za-z .,'-]{2,50}$",
+            "error": "Invalid state code/name",
+            "required": true
+        },
+        "addressPostalCode": {
+            "label": "Address Postal Code",
+            "regex": "^[A-Za-z0-9 -]{3,12}$",
+            "error": "Invalid postal code",
+            "required": true
+        },
+        "addressCountryCode": {
+            "label": "Address Country Code",
+            "regex": "^[A-Z]{2}$",
+            "error": "Country code must be 2 uppercase letters (e.g., US, IN)",
+            "required": true
+        },
+        "companyName": {
+            "label": "Company Name",
+            "regex": "^[A-Za-z0-9 .,&'()-]{2,100}$",
+            "error": "Invalid company name",
+            "required": true
+        },
+        "companySize": {
+            "label": "Company Size",
+            "regex": "^[0-9]{1,6}$",
+            "error": "Invalid company size (must be a number)",
+            "required": true
+        },
+        "industry": {
+            "label": "Industry",
+            "regex": "^[A-Za-z .,&'-]{2,100}$",
+            "error": "Invalid industry name",
+            "required": true
+        },
+        "opt-InTime": {
+            "label": "Opt-In Time",
+            "format": "YYYY-MM-DD HH:MM",
+            "regex": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}$",
+            "error": "Invalid date-time format (use YYYY-MM-DD HH:MM)",
+            "required": true
+        },
+        "iPAddress": {
+            "label": "IP Address",
+            "regex": "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+            "error": "Invalid IPv4 address",
+            "required": false
+        },
+        "verificationURL": {
+            "label": "Verification URL",
+            "regex": "^(https?:\\/\\/)?([\\w.-]+)\\.([a-z\\.]{2,6})([\\/\\w .-]*)*\\/?$",
+            "error": "Invalid URL format",
+            "required": true
+        },
+        "contentTitle": {
+            "label": "Content Title",
+            "regex": "^.{2,150}$",
+            "error": "Invalid content title",
+            "required": true
+        }
+    },
+    "valueRules": [
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "country"
+            ],
+            "values": [
+                "Germany"
+            ],
+            "error": "Country is not valid"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "employeeSize"
+            ],
+            "values": [
+                "1-10",
+                "11-50",
+                "51-200",
+                "201-500",
+                "501-1000",
+                "1001-5000",
+                "5001-10000",
+                "10001+"
+            ],
+            "error": "Employee size is not valid"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "audience"
+            ],
+            "values": [
+                "Finance",
+                "Marketing",
+                "IT",
+                "Operations",
+                "Procurement",
+                "Supply Chain",
+                "Purchasing"
+            ],
+            "error": "Audience not valid"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "title"
+            ],
+            "values": [
+                "Mr",
+                "Mrs",
+                "Ms",
+                "Dr"
+            ],
+            "error": "title not valid"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "authority"
+            ],
+            "values": [
+                "Manager",
+                "Director",
+                "VP",
+                "CSuite"
+            ],
+            "error": "authority not valid"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "industry"
+            ],
+            "values": [
+                "Accountancy",
+                "Advertising/PR/Marketing",
+                "Aerospace and Aviation",
+                "Agriculture/Farming",
+                "Architect",
+                "Association/Society/Institute",
+                "Automotive",
+                "Chemical/Oil",
+                "Construction/Contractor",
+                "Consultancy",
+                "Design",
+                "Education Private",
+                "Education Public",
+                "Engineering",
+                "Facilities Management",
+                "Finance and Banking",
+                "Food/Beverage",
+                "Government Central",
+                "Government Local",
+                "Healthcare Private",
+                "Healthcare Public",
+                "Information Technology",
+                "Legal",
+                "Leisure/Tourism/Travel",
+                "Manufacturing",
+                "Medical/Pharmaceutical",
+                "Not for Profit",
+                "Other",
+                "Press/Media",
+                "Printers/Publishers",
+                "Property",
+                "Recruitment",
+                "Research/Scientific",
+                "Retail",
+                "Service Industry",
+                "Software",
+                "Telecommunications",
+                "Transport/Distribution",
+                "Utilities/Energy",
+                "Wholesale",
+                "Travel",
+                "Fashion",
+                "Health and Beauty",
+                "Home and Garden"
+            ],
+            "error": "industry not valid"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "contentTitle"
+            ],
+            "values": [
+                "Bericht zum Stand der Beschaffung 2025: Bericht zum Thema Smart Business Buying"
+            ],
+            "error": "contentTitle not valid"
+        }
+    ]
+}

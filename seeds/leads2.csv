@@ -1,0 +1,11 @@
+firstName,lastName,email,address,linkedIn,company,title,country,uploadType,industry,employeeSize
+Erik,James,erik.james@regionalpartner.com,12 Storgatan,https://www.linkedin.com/in/erikjohansson,NordicSecure,Network Architect,Sweden,manual,Healthcare,1000-5000
+Lars,Bergse,lars.berges@regionalpartner.com,5 Main St,https://www.linkedin.com/in/larsberg,HealthCore,Compliance Manager,Norway,manual,Healthcare,1000-5000
+Anna,Nilsson,annat.ht@regionalpartner.com,88 Canal St,https://www.linkedin.com/in/annanilsson,BioTek,Compliance Manager,Finland,manual,Healthcare,5000-10000
+Johan,Lindsan,johan.lindsan@regionalpartner.com,14 Park Rd,https://www.linkedin.com/in/johanlind,MedNord,Network Architect,Norway,manual,Healthcare,1000-5000
+Sam,Malm,sam@regionalpartner.com,44 Street View,https://www.linkedin.com/in/saramalm,NordHealth,Compliance Manager,Sweden,manual,Healthcare,5000-10000
+John,Ein,john.ein@regionalpartner.com,99 Grid Rd,https://www.linkedin.com/in/tomeinarsson,HealthBridge,Network Architect,Finland,manual,Healthcare,1000-5000
+Olef,Jansen,olef@regionalpartner.com,65 Hilltop Ln,https://www.linkedin.com/in/olahansen,TeleNord,Compliance Manager,Sweden,manual,Healthcare,1000-5000
+Emma,Larsson,emma@regionalpartner.com,77 Elm St,http://linkedin.com/in/emmalarsson,NordTek,Compliance Manager,Norway,manual,Healthcare,5000-10000
+Jamie,Engstrom,jamie@regionalpartner.com,31 Maple Rd,https://www.linkedin.com/in/karlengstrom,NordLogix,Network Architect,Sweden,auto,Healthcare,1000-5000
+Tor,Persson,tor@regionalpartner.com,22 Bayview Ave,https://www.linkedin.com/in/ninapersson,NordData,Compliance Manager,Denmark,manual,Healthcare,5000-10000

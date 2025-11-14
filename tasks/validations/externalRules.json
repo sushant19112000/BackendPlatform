@@ -1,0 +1,16 @@
+[
+       {
+            "mode": "inclusion",
+            "fieldNames": [
+                "email"
+            ],
+            "source": {
+                "link": "https://www.dropbox.com/scl/fi/ybwqk17q8vtqg7uugpcqv/DE-Self-Service-TAL-Com-ent-domains.xlsx?rlkey=ivywe2pe68gl73i4wdjkuo66f&st=ewaxbect&raw=1",
+                "fileType": "xlsx",
+                "valueField": 0,
+                "fieldType": "domain"
+            },
+            "error": "Domain not in Tal"
+        }
+
+]

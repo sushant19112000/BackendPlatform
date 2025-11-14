@@ -1,0 +1,28 @@
+[
+    {
+        "categoryName": "global",
+        "content": [
+            {
+                "id": 1758630868226,
+                "title": "Shifting Data Attitudes: The 10th Annual Dun & Bradstreet B2B Data Report",
+                "type": "whitepaper",
+                "approveDate": "2025-09-23",
+                "optinType": ""
+            },
+            {
+                "id": 1758630897110,
+                "title": "The Data-Driven Way to Build Deeper Customer Relationships",
+                "type": "whitepaper",
+                "approveDate": "2025-09-23",
+                "optinType": ""
+            },
+            {
+                "id": 1758630910199,
+                "title": "How Intent Data Can Unify Sales and Marketing",
+                "type": "whitepaper",
+                "approveDate": "2025-09-23",
+                "optinType": ""
+            }
+        ]
+    }
+]

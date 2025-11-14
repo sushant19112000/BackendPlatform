@@ -1,0 +1,11 @@
+First Name,Last Name,Email,Phone,Address,City,Postal Code,Title,Jobtitle,Company Name,LinkedIn URL,State,Country,Company Size,Industry,Website
+John,Doe,john.doe@example.com,1234567890,123 Main St,New York,10001,Manager,Manager,Company A,https://linkedin.com/johndoe,NY,USA,50-100,Tech,https://companya.com
+Jane,Smith,jane.smith@example.com,1234567891,456 Oak St,Los Angeles,90001,Developer,Developer,Company B,https://linkedin.com/janesmith,CA,USA,200-500,Finance,https://companyb.com
+,Doe,missingemail@example.com,1234567892,789 Pine St,Chicago,60001,Analyst,Analyst,Company C,,IL,USA,10-50,Healthcare,https://companyc.com
+Jack,White,jack.white@example.com,1234567893,101 Maple St,Houston,77001,Director,Director,Company D,https://linkedin.com/jackwhite,TX,USA,100-200,Marketing,https://companyd.com
+Emily,Johnson,,1234567894,202 Birch St,Dallas,75001,Consultant,Consultant,Company E,https://linkedin.com/emilyjohnson,TX,USA,500-1000,Tech,https://companye.com
+Michael,Lee,michael.lee@example.com,1234567895,303 Cedar St,San Francisco,94101,Lead Developer,Lead Developer,Company F,https://linkedin.com/michaellee,CA,USA,200-500,Tech,https://companyf.com
+Susan,Kim,susan.kim@example.com,1234567896,404 Elm St,Miami,33101,HR Manager,HR Manager,Company G,https://linkedin.com/susankim,FL,USA,50-100,Education,https://companyg.com
+James,Brown,james.brown@example.com,1234567897,505 Redwood St,Boston,02101,CEO,CEO,Company H,,MA,USA,1000+,Retail,https://companyh.com
+Olivia,Martinez,olivia.martinez@example.com,1234567898,606 Fir St,Seattle,98101,CTO,CTO,Company I,https://linkedin.com/oliviamartinez,WA,USA,500-1000,Tech,https://companyi.com
+,Miller,,1234567899,707 Pine St,Denver,80201,VP,VP,Company J,,CO,USA,10-50,Manufacturing,https://companyj.com

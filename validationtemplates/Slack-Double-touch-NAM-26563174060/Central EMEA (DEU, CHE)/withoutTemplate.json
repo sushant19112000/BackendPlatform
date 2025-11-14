@@ -1,0 +1,96 @@
+{
+    "fieldRules": {
+        "email": {
+            "regex": "^[a-z0-9]+(\\.[a-z0-9]+)?@[a-z0-9.-]+\\.[a-z]{2,}$",
+            "error": "Invalid email format. Must be lowercase, business-oriented, may include dot separator."
+        },
+        "firstName": {
+            "regex": "^[A-Z][a-z]{1,49}$",
+            "error": "First name must start with an uppercase letter, only letters allowed, no spaces, minimum 2 characters."
+        },
+        "lastName": {
+            "regex": "^[A-Z][a-z]{1,49}$",
+            "error": "Last name must start with an uppercase letter, only letters allowed, no spaces, minimum 2 characters."
+        },
+        "companyTelephone": {
+            "regex": "^\\+?[0-9]{7,15}$",
+            "error": "Invalid company telephone number. Only digits and optional leading '+' allowed."
+        },
+        "region": {
+            "regex": "^[A-Za-z ]{2,100}$",
+            "error": "Invalid region name. Only letters and spaces allowed; no dots, hyphens, or apostrophes."
+        },
+        "jobTitle": {
+            "regex": "^[A-Za-z ]+$",
+            "error": "Invalid job title. Only letters and spaces are allowed."
+        },
+        "addressline1": {
+            "regex": "^[A-Za-z0-9 ]{2,100}$",
+            "error": "Invalid address line 1. Only letters, numbers, and spaces allowed; no dots, hyphens, slashes, commas, or apostrophes."
+        },
+        "companyName": {
+            "regex": "^.{2,100}$",
+            "error": "Invalid company name."
+        },
+        "companySize": {
+            "regex": "^(?!\\s)(.*\\S)$",
+            "error": "Invalid company size. Cannot be empty and cannot start or end with spaces."
+        },
+        "industry": {
+            "regex": "^[A-Za-z .,&'\\-()/!@#$%^*_=+?:;|]{2,100}$",
+            "error": "Invalid industry name. Only letters, spaces, and special characters are allowed. Numbers are not permitted."
+        }
+    },
+    "valueRules": [
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "region"
+            ],
+            "values": [
+                "Germany",
+                "Switzerland"
+            ],
+            "source": {
+                "type": "Internal",
+                "link": "#",
+                "fileType": "none",
+                "valueField": 0,
+                "fieldType": "#"
+            },
+            "error": "Region is not in picklist"
+        },
+        {
+            "mode": "contactsPerCompany",
+            "fieldNames": [
+                "email"
+            ],
+            "values": [
+                7
+            ],
+            "source": {
+                "type": "Internal",
+                "link": "#",
+                "fileType": "none",
+                "valueField": 0,
+                "fieldType": "#"
+            },
+            "error": "Max per contact per company reached"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "email"
+            ],
+            "values": [],
+            "source": {
+                "type": "External",
+                "link": "https://www.dropbox.com/scl/fi/8oy4x1uenn56o8bzzv5tm/TAL_CENTRAL_WorkOS_P1_PTB4.csv?rlkey=g3amfxegr7h2d5hpf9r0vp0t0&st=6jozs6fb&raw=1",
+                "fileType": "xlsx",
+                "valueField": 1,
+                "fieldType": "domain"
+            },
+            "error": "Domain not in Tal"
+        }
+    ]
+}

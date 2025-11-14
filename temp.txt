@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                       Int                    @id @default(autoincrement())
+  email                    String                 @unique
+  name                     String?
+  password                 String
+  created_at               DateTime               @default(now())
+  updated_at               DateTime               @updatedAt
+  uploads                  leadsUpload[]
+  roles                    userrole[]
+  sentMessages             message[]              @relation("SentMessages")
+  receivedMessages         message[]              @relation("ReceivedMessages")
+  groupId                  Int?
+  group                    group?                 @relation(fields: [groupId], references: [id])
+  notificationSubscriberId Int
+  notificationSubscriber   notificationSubscriber @relation(fields: [notificationSubscriberId], references: [id])
+  groupMessage             groupMessage[]
+}
+
+model message {
+  id          Int       @id @default(autoincrement())
+  body        String
+  senderId    Int
+  sender      user      @relation("SentMessages", fields: [senderId], references: [id])
+  recipientId Int
+  recipient   user      @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  created_at  DateTime  @default(now())
+  read_at     DateTime?
+}
+
+model groupMessage {
+  id         Int       @id @default(autoincrement())
+  groupId    Int
+  group      group     @relation(fields: [groupId], references: [id])
+  body       String
+  senderId   Int
+  sender     user      @relation(fields: [senderId], references: [id])
+  created_at DateTime  @default(now())
+  read_at    DateTime?
+}
+
+model group {
+  id            Int            @id @default(autoincrement())
+  subscribers   user[]
+  groupMessages groupMessage[]
+}
+
+model notification {
+  id                       Int                    @id @default(autoincrement())
+  message                  String
+  notificationSubscriberId Int
+  notificationSubscriber   notificationSubscriber @relation(fields: [notificationSubscriberId], references: [id])
+  notificationPriorityId   Int
+  notificationPriority     notificationPriority   @relation(fields: [notificationPriorityId], references: [id])
+  created_at               DateTime               @default(now())
+}
+
+model notificationSubscriber {
+  id            Int            @id @default(autoincrement())
+  notifications notification[]
+  user          user[]
+}
+
+model notificationPriority {
+  id            Int            @id @default(autoincrement())
+  level         String
+  notifications notification[]
+}
+
+model userrole {
+  id     Int    @id @default(autoincrement())
+  name   String
+  userId Int
+  user   user   @relation(fields: [userId], references: [id])
+}
+
+model client {
+  id         Int        @id @default(autoincrement())
+  name       String
+  campaigns  campaign[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+}
+
+model campaign {
+  id                             Int                        @id @default(autoincrement()) // id is same as code if there is no code generate a 8 digit hash
+  name                           String
+  clientId                       Int
+  client                         client                     @relation(fields: [clientId], references: [id])
+  leadgoal                       Int                        @default(0)
+  volumeGoals                    Json                       @default("{}") // e.g. { "SASE SHW_UKI": 368, "SASE SHW_NLD": 250 }
+  duedate                        DateTime                   @default(now())
+  leads                          lead[]
+  pacings                        pacing[]
+  created_at                     DateTime                   @default(now())
+  updated_at                     DateTime                   @updatedAt
+  campaignValidationProfile      campaignValidationProfile?
+  campaignValidationProfileCheck String                     @default("none")
+  campaignInfo                   campaignInfo?
+}
+
+model campaignInfo {
+  id         Int      @id @default(autoincrement())
+  campaignId Int      @unique
+  campaign   campaign @relation(fields: [campaignId], references: [id])
+  info       Json     @default("[]") // JSON array
+  content    Json     @default("[]") // JSON array 
+  filesInfo  Json     @default("[]") // JSON array
+  updates    Json     @default("[]") // JSON array
+}
+
+model campaignValidationProfile {
+  id          Int       @id @default(autoincrement())
+  campaignId  Int       @unique
+  campaign    campaign? @relation(fields: [campaignId], references: [id])
+  validations Json      @default("{}")
+}
+
+model pacing {
+  id           Int           @id @default(autoincrement())
+  campaignId   Int
+  campaign     campaign      @relation(fields: [campaignId], references: [id])
+  scheduledFor DateTime
+  leadGoal     Int
+  volumeName   String        @default("single")
+  status       String        @default("scheduled") // scheduled | active | completed
+  actualLeads  Int           @default(0) // Optional denormalized counter
+  uploads      leadsUpload[]
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+}
+
+model leadsUpload {
+  id         Int      @id @default(autoincrement())
+  pacingId   Int
+  pacing     pacing   @relation(fields: [pacingId], references: [id])
+  leads      lead[]
+  uploadedBy Int? // Now refers to User ID
+  uploader   user?    @relation(fields: [uploadedBy], references: [id])
+  filename   String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model lead {
+  id         Int          @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  email      String
+  address    String
+  linkedin   String
+  company    String
+  title      String
+  country    String
+  campaignId Int
+  campaign   campaign     @relation(fields: [campaignId], references: [id])
+  uploadId   Int?
+  upload     leadsUpload? @relation(fields: [uploadId], references: [id])
+  uploadType String       @default("manual")
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+
+  @@unique([campaignId, email])
+  @@index([uploadId])
+}

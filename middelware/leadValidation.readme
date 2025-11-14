@@ -1,0 +1,56 @@
+
+
+if (emailInclusions.split){
+        if (emailInclusions.data.splitValue.length>=0 ){
+            if (!emailInclusions.data.splitValue.includes(lead.email.domain)){
+                        addError
+            }
+        }
+}
+else{
+        if(emailInclusions.data.global.length>=0){
+            if (!emailInclusions.data.global.includes(lead.email.domain)){
+                      addError
+            }
+        }
+}
+
+
+if (emailExclusions.split){
+        if (emailExclusions.data.splitValue.length>=0 ){
+            if (emailExclusions.data.splitValue.includes(lead.email.domain)){
+                        addError
+            }
+        }
+}
+else{
+    if(emailExclusions.data.global.length>=0){
+            if (emailExclusions.data.global.includes(lead.email.domain)){
+                      addError
+            }
+    }
+}
+
+
+
+
+if (jobtitle.split && jobtitle.data.split.length>=0){
+    if (!jobtitle.data.splitValue.includes(lead.jobtitle)){
+            addError
+    }
+}
+else{
+    if (!jobtitle.data.global.includes(lead.jobtitle)){
+            addError
+    }
+}
+
+if ()
+
+
+
+
+
+
+
+

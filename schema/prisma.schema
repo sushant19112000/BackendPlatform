@@ -1,0 +1,250 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                       Int                    @id @default(autoincrement())
+  email                    String                 @unique
+  name                     String?
+  password                 String
+  created_at               DateTime               @default(now())
+  updated_at               DateTime               @updatedAt
+  uploads                  leadsUpload[]
+  roles                    userrole[]
+  sentMessages             message[]              @relation("SentMessages")
+  receivedMessages         message[]              @relation("ReceivedMessages")
+  groups                   userGroups[]
+  userNotificationLinks  UserNotificationLink[]
+  sentMessage             groupMessage[]
+}
+
+model message {
+  id          Int       @id @default(autoincrement())
+  body        String
+  senderId    Int
+  sender      user      @relation("SentMessages", fields: [senderId], references: [id])
+  recipientId Int
+  recipient   user      @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  created_at  DateTime  @default(now())
+  read_at     DateTime?
+}
+
+
+model groupMessage {
+  id         Int       @id @default(autoincrement())
+  groupId    Int
+  group      group     @relation(fields: [groupId], references: [id])
+  body       String
+  senderId   Int
+  sender     user      @relation(fields: [senderId], references: [id])
+  created_at DateTime  @default(now())
+  read_at    DateTime?
+}
+
+model group{
+  id            Int            @id @default(autoincrement())
+  members   userGroups[]
+  name       String
+  groupMessages groupMessage[]
+}
+
+model userGroups {
+  userId                   Int
+  groupId                  Int
+  user                     user                      @relation(fields: [userId], references: [id])
+  group  group    @relation(fields: [groupId], references: [id])
+  assignedAt               DateTime                  @default(now())
+  @@id([userId, groupId])  // composite primary key
+}
+
+model notification {
+  id                     Int                     @id @default(autoincrement())
+  message                String
+  notificationPriorityId Int
+  notificationPriority   notificationPriority    @relation(fields: [notificationPriorityId], references: [id])
+  notificationGroupLinks notificationGroupLink[]
+  userNotificationLinks  userNotificationLink[]
+  createdAt              DateTime                @default(now())
+}
+
+model notificationPriority {
+  id            Int             @id @default(autoincrement())
+  level         Int
+  notifications notification[]
+}
+
+model notificationSubscriberGroup {
+  id                     Int                     @id @default(autoincrement())
+  name                   String
+  groupUsers             subscriberGroupUser[]
+  groupNotifications     notificationGroupLink[]
+  userNotificationLinks  userNotificationLink[]
+}
+
+model subscriberGroupUser {
+  id                   Int                      @id @default(autoincrement())
+  subscriberGroupId    Int
+  userId               Int
+  subscriberGroup      notificationSubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+  user                 user                     @relation(fields: [userId], references: [id])
+}
+
+model notificationGroupLink {
+  subscriberGroupId    Int
+  notificationId       Int
+  subscriberGroup      notificationSubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+  notification         notification          @relation(fields: [notificationId], references: [id])
+  assignedAt           DateTime              @default(now())
+
+  @@id([subscriberGroupId, notificationId]) // Composite primary key
+}
+
+model userNotificationLink {
+  id                   Int        @id @default(autoincrement())
+  userId               Int
+  notificationId       Int
+  isRead               Boolean    @default(false)
+  deliveredAt          DateTime   @default(now())
+
+  user                 user       @relation(fields: [userId], references: [id])
+  notification         notification @relation(fields: [notificationId], references: [id])
+}
+
+model role {
+  id     Int    @id @default(autoincrement())
+  name   String @unique @default("user")
+  users   userrole[]
+}
+
+model userrole {
+  id     Int    @id @default(autoincrement())
+  userId Int  
+  roleId Int   @default(1)
+  role   role   @relation(fields:[roleId],references:[id])
+  user   user   @relation(fields: [userId], references: [id])
+}
+
+model client {
+  id         Int        @id @default(autoincrement())
+  name       String
+  campaigns  campaign[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+}
+
+model campaign {
+  id                             Int                        @id @default(autoincrement()) // id is same as code if there is no code generate a 8 digit hash
+  name                           String
+  clientId                       Int
+  client                         client                     @relation(fields: [clientId], references: [id])
+  leadgoal                       Int                        @default(0)
+  volumeGoals                    Json                       
+  duedate                        DateTime                   @default(now())
+  leads                          lead[]
+  pacings                        pacing[]
+  created_at                     DateTime                   @default(now())
+  updated_at                     DateTime                   @updatedAt
+  campaignValidationProfile      campaignValidationProfile?
+  campaignInfo                   campaignInfo?
+  leadTemplate                   Json
+}
+
+model lead {
+  id         Int          @id @default(autoincrement())
+  data       Json
+  email      String
+  campaignId Int
+  campaign   campaign     @relation(fields: [campaignId], references: [id])
+  uploadId   Int?
+  upload     leadsUpload? @relation(fields: [uploadId], references: [id])
+  uploadType String       @default("manual")
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  @@unique([campaignId, email])
+  @@index([uploadId])
+}
+
+model campaignInfo {
+  id         Int      @id @default(autoincrement())
+  campaignId Int      @unique
+  campaign   campaign @relation(fields: [campaignId], references: [id])
+  info       Json     
+  content    Json      
+  filesInfo  Json     
+  updates    Json     
+}
+
+model campaignValidationProfile {
+  id          Int       @id @default(autoincrement())
+  campaignId  Int       @unique
+  campaign    campaign? @relation(fields: [campaignId], references: [id])
+  validations Json      
+}
+
+model pacing {
+  id           Int           @id @default(autoincrement())
+  campaignId   Int
+  campaign     campaign      @relation(fields: [campaignId], references: [id])
+  scheduledFor DateTime
+  leadGoal     Int
+  volumeName   String        @default("global")
+  status       String        @default("scheduled") // scheduled | active | completed | paused
+  actualLeads  Int           @default(0) // Optional denormalized counter
+  uploads      leadsUpload[]
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+}
+
+model leadsUpload {
+  id         Int      @id @default(autoincrement())
+  pacingId   Int
+  pacing     pacing   @relation(fields: [pacingId], references: [id])
+  leads      lead[]
+  uploadedBy Int? // Now refers to User ID
+  uploader   user?    @relation(fields: [uploadedBy], references: [id])
+  filename   String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model pacingReport{
+  id         Int          @id @default(autoincrement())
+  type       reportType  
+  data        Json
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  generatedType  generatedType
+  // data= all the pacing data in single array
+}
+
+model campaignReport{
+  id         Int          @id @default(autoincrement())
+  type       reportType  
+  data        Json
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  generatedType  generatedType  
+  // Ex->  data=[{campaignId:1,campaignName:"xyz",leadGoal:262,currentLeads:200,dueLeads:62,dueDate:'25-02-2025'}]
+}
+
+enum reportType{
+  TODAY
+  OVERDUE
+  PAUSED
+  COMPLETED
+  ALL
+}
+
+enum  generatedType{
+  AUTO 
+  ADMIN
+}

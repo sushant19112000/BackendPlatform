@@ -1,0 +1,25 @@
+model Brief {
+  id  Int         @id @default(autoincrement())
+  name String
+  arrivedOn DateTime
+  due   DateTime
+  status    BriefStatus  @default(New)
+  typeId    Int 
+  type       BriefType       @relation(fields: [typeId], references: [id])
+  quotes    String
+  campaignId  Int?
+  remark    String
+  briefHyperlink String
+}
+
+model BriefType {
+   id  Int         @id @default(autoincrement())
+   name  String
+}
+
+enum BriefStatus {
+  New
+  InProgress
+  Quoted
+  NewUpdate
+}

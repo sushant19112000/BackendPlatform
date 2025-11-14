@@ -1,0 +1,152 @@
+{
+    "email": {
+        "label": "Email",
+        "regex": "^[a-z]+(\\.[a-z]+)?@[a-z0-9.-]+\\.[a-z]{2,}$",
+        "error": "Invalid email format. Must be lowercase, business-oriented, include first and last name references.",
+        "required": true
+    },
+    "title": {
+        "label": "Title",
+        "regex": "^[A-Za-z ]{2,50}$",
+        "error": "Title must contain only letters and spaces, at least 2 characters, proper capitalization required.",
+        "required": true
+    },
+    "firstName": {
+        "label": "First Name",
+        "regex": "^[A-Z][a-z]{1,49}$",
+        "error": "First name must start with an uppercase letter, only letters allowed, minimum 2 characters.",
+        "required": true
+    },
+    "lastName": {
+        "label": "Last Name",
+        "regex": "^[A-Z][a-z]{1,49}$",
+        "error": "Last name must start with an uppercase letter, only letters allowed, minimum 2 characters, no abbreviations.",
+        "required": true
+    },
+    "companyTelephone": {
+        "label": "Company Telephone",
+        "regex": "^\\+?[0-9]{7,15}$",
+        "error": "Invalid company telephone number. Only digits and optional leading '+' allowed.",
+        "required": true
+    },
+    "directTelephone": {
+        "label": "Direct Telephone",
+        "regex": "^\\+?[0-9]{7,15}$",
+        "error": "Invalid direct telephone number. Only digits and optional leading '+' allowed.",
+        "required": false
+    },
+    "mobileTelephone": {
+        "label": "Mobile Telephone",
+        "regex": "^\\+?[0-9]{7,15}$",
+        "error": "Invalid mobile number. Only digits and optional leading '+' allowed.",
+        "required": false
+    },
+    "region": {
+        "label": "Region",
+        "regex": "^[A-Za-z .'-]{2,100}$",
+        "error": "Invalid region name. Only letters, spaces, dots, apostrophes and hyphens allowed.",
+        "required": true
+    },
+    "jobTitle": {
+        "label": "Job Title",
+        "regex": "^(?:[A-Z][a-z]*(?: [A-Z][a-z]*)*|CIO|CTO|CISO|Chief Information Officer|Chief Technology Officer|Chief Information Security Officer)$",
+        "error": "Invalid job title. Use proper capitalization. Only allowed abbreviations or full titles.",
+        "required": true
+    },
+    "audience": {
+        "label": "Audience",
+        "regex": "^[A-Za-z .'-]{2,100}$",
+        "error": "Invalid audience value. Only letters, spaces, dots, apostrophes and hyphens allowed.",
+        "required": true
+    },
+    "authority": {
+        "label": "Authority",
+        "regex": "^[A-Za-z0-9 .,&'()-]{2,100}$",
+        "error": "Invalid authority value.",
+        "required": true
+    },
+    "addressline1": {
+        "label": "Address Line 1",
+        "regex": "^[A-Za-z0-9 .,'/-]{2,100}$",
+        "error": "Invalid address line 1. Only letters, numbers, spaces, dots, commas, apostrophes, hyphens, and slashes allowed.",
+        "required": true
+    },
+    "addressline2": {
+        "label": "Address Line 2",
+        "regex": "^[A-Za-z0-9 .,'/-]{0,100}$",
+        "error": "Invalid address line 2.",
+        "required": false
+    },
+    "addressline3": {
+        "label": "Address Line 3",
+        "regex": "^[A-Za-z0-9 .,'/-]{0,100}$",
+        "error": "Invalid address line 3.",
+        "required": false
+    },
+    "addressCity": {
+        "label": "Address City",
+        "regex": "^[A-Za-z .'-]{2,50}$",
+        "error": "Invalid city name. Only letters, spaces, dots, apostrophes and hyphens allowed.",
+        "required": true
+    },
+    "addressStateCode": {
+        "label": "Address State Code",
+        "regex": "^[A-Za-z .'-]{2,50}$",
+        "error": "Invalid state code/name.",
+        "required": true
+    },
+    "addressPostalCode": {
+        "label": "Address Postal Code",
+        "regex": "^[A-Za-z0-9 ]{3,12}$",
+        "error": "Invalid postal code. Ensure spaces are preserved and characters match address.",
+        "required": true
+    },
+    "addressCountryCode": {
+        "label": "Address Country Code",
+        "regex": "^[A-Z]{2,4}$",
+        "error": "Country code must be 2 to 4 uppercase letters (e.g., US, IN, GBR).",
+        "required": true
+    },
+    "companyName": {
+        "label": "Company Name",
+        "regex": "^.{2,100}$",
+        "error": "Invalid company name. Ensure exact spelling.",
+        "required": true
+    },
+    "companySize": {
+        "label": "Company Size",
+        "regex": "^.+$",
+        "error": "Invalid company size. Must match picklist values exactly.",
+        "required": true
+    },
+    "industry": {
+        "label": "Industry",
+        "regex": "^[A-Za-z .,&'-]{2,100}$",
+        "error": "Invalid industry name. Must match picklist values exactly.",
+        "required": true
+    },
+    "optInTime": {
+        "label": "Opt-In Time",
+        "regex": "^\\d{4}-\\d{2}-\\d{2}( \\d{2}:\\d{2})?$",
+        "error": "Invalid date-time format. Use YYYY-MM-DD HH:MM or YYYY-MM-DD.",
+        "required": true
+    },
+    "iPAddress": {
+        "label": "IP Address",
+        "regex": "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+        "error": "Invalid IPv4 address.",
+        "required": false
+    },
+    "verificationURL": {
+        "label": "Verification URL",
+        "regex": "^(https?:\\/\\/)?([\\w.-]+)\\.([a-z\\.]{2,6})([\\/\\w .-]*)*\\/?$",
+        "error": "Invalid URL format.",
+        "required": false
+    },
+    "invalidContentTitle": {
+        "label": "Content Title",
+        "regex": "^.{2,150}$",
+        "error": "Invalid Content Title",
+        "required": true
+    }
+}

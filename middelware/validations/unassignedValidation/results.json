@@ -1,0 +1,301 @@
+{
+    "totalRows": 20,
+    "validRowsCount": 7,
+    "errorRowsCount": 13,
+    "errors": [
+        {
+            "index": 0,
+            "firstName": "Carlos",
+            "lastName": "Martinez",
+            "email": "carlos.martinez@alfaloc.pta",
+            "address": "Calle Mayor 12, Madrid",
+            "linkedin": "https://www.linkedin.com/in/carlosmartinez",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Operations Manager",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 2,
+            "firstName": "Luis",
+            "lastName": "Santos",
+            "email": "luis.santos@alfaloc.pta",
+            "address": "Calle Sol 22, Valencia",
+            "linkedin": "https://www.linkedin.com/in/luissantos",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Sales Executive",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 4,
+            "firstName": "Javier",
+            "lastName": "Ruiz",
+            "email": "javier.ruiz@alfaloc.pta",
+            "address": "Calle Alcala 202, Madrid",
+            "linkedin": "https://www.linkedin.com/in/javierruiz",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Finance Analyst",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 6,
+            "firstName": "Fernando",
+            "lastName": "Iglesias",
+            "email": "fernando.iglesias@alfaloc.pta",
+            "address": "Av. Libertad 15, Bilbao",
+            "linkedin": "https://www.linkedin.com/in/fernandoiglesias",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "IT Coordinator",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 8,
+            "firstName": "Diego",
+            "lastName": "Ramos",
+            "email": "diego.ramos@alfaloc.pta",
+            "address": "Calle Carmen 17, Toledo",
+            "linkedin": "https://www.linkedin.com/in/diegoramos",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Customer Success Lead",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 10,
+            "firstName": "Sergio",
+            "lastName": "Dominguez",
+            "email": "sergio.dominguez@alfaloc.pta",
+            "address": "Calle Prado 56, Madrid",
+            "linkedin": "https://www.linkedin.com/in/sergiodominguez",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Logistics Planner",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 12,
+            "firstName": "Miguel",
+            "lastName": "Torres",
+            "email": "miguel.torres@alfaloc.pta",
+            "address": "Calle Larga 19, Valladolid",
+            "linkedin": "https://www.linkedin.com/in/migueltorres",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Business Development",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 14,
+            "firstName": "Adrian",
+            "lastName": "Navarro",
+            "email": "adrian.navarro@alfaloc.pta",
+            "address": "Calle Norte 11, Zaragoza",
+            "linkedin": "https://www.linkedin.com/in/adriannavarro",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Data Analyst",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 15,
+            "firstName": "Juan",
+            "lastName": "Perez",
+            "email": "juan.perez#alfaloc.pta",
+            "address": "Calle Falsa 123, Madrid",
+            "linkedin": "https://www.linkedin.com/in/juanperez",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Developer",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Invalid email format",
+                    "Domain not in Tal"
+                ]
+            }
+        },
+        {
+            "index": 16,
+            "firstName": "Laura",
+            "lastName": "Diaz",
+            "email": "laura.diaz@jaencoop.com",
+            "address": "Gran Via 22, Barcelona",
+            "linkedin": "https://www.linkedin.com/in/lauradiaz",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Consultant",
+            "country": "France",
+            "_errors": {
+                "country": [
+                    "Country is not valid"
+                ]
+            }
+        },
+        {
+            "index": 17,
+            "firstName": "Pedro",
+            "lastName": "Suarez",
+            "email": "pedro.suarez@alfaloc.pta",
+            "address": "Av. Sur 10, Sevilla",
+            "linkedin": "http://linkedin.com/pedrosuarez",
+            "company": "AlfaLoc Logistics",
+            "jobTitle": "Analyst",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ],
+                "linkedin": [
+                    "LinkedIn URL must be valid and start with https://www.linkedin.com/"
+                ]
+            }
+        },
+        {
+            "index": 18,
+            "firstName": "A",
+            "lastName": "Moreno",
+            "email": "amoreno@jaencoop.com",
+            "address": "Calle Norte 7, Valencia",
+            "linkedin": "https://www.linkedin.com/in/amoreno",
+            "company": "JaenCoop Oils",
+            "jobTitle": "HR",
+            "country": "Spain",
+            "_errors": {
+                "firstName": [
+                    "First name must contain only letters and be at least 2 characters"
+                ]
+            }
+        },
+        {
+            "index": 19,
+            "firstName": "Sofia",
+            "lastName": "Reyes",
+            "email": "sofia.reyes@alfaloc.pta",
+            "address": "Calle Sol 99, Bilbao",
+            "linkedin": "https://www.linkedin.com/in/sofiarey",
+            "company": "@@@@",
+            "jobTitle": "Finance Officer",
+            "country": "Spain",
+            "_errors": {
+                "email": [
+                    "Domain not in Tal"
+                ],
+                "company": [
+                    "Company name must be at least 2 characters"
+                ]
+            }
+        }
+    ],
+    "validData": [
+        {
+            "index": 1,
+            "firstName": "Maria",
+            "lastName": "Lopez",
+            "email": "maria.lopez@jaencoop.com",
+            "address": "Av. Andalucia 45, Jaen",
+            "linkedin": "https://www.linkedin.com/in/marialopez",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Marketing Director",
+            "country": "Spain"
+        },
+        {
+            "index": 3,
+            "firstName": "Ana",
+            "lastName": "Garcia",
+            "email": "ana.garcia@jaencoop.com",
+            "address": "Gran Via 110, Barcelona",
+            "linkedin": "https://www.linkedin.com/in/anagarcia",
+            "company": "JaenCoop Oils",
+            "jobTitle": "HR Specialist",
+            "country": "Spain"
+        },
+        {
+            "index": 5,
+            "firstName": "Carmen",
+            "lastName": "Morales",
+            "email": "carmen.morales@jaencoop.com",
+            "address": "Calle Feria 78, Sevilla",
+            "linkedin": "https://www.linkedin.com/in/carmenmorales",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Export Manager",
+            "country": "Spain"
+        },
+        {
+            "index": 7,
+            "firstName": "Lucia",
+            "lastName": "Perez",
+            "email": "lucia.perez@jaencoop.com",
+            "address": "Calle Real 89, Cordoba",
+            "linkedin": "https://www.linkedin.com/in/luciaperez",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Product Manager",
+            "country": "Spain"
+        },
+        {
+            "index": 9,
+            "firstName": "Laura",
+            "lastName": "Castillo",
+            "email": "laura.castillo@jaencoop.com",
+            "address": "Plaza Nueva 10, Granada",
+            "linkedin": "https://www.linkedin.com/in/lauracastillo",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Supply Chain Manager",
+            "country": "Spain"
+        },
+        {
+            "index": 11,
+            "firstName": "Isabel",
+            "lastName": "Hernandez",
+            "email": "isabel.hernandez@jaencoop.com",
+            "address": "Av. Reina Sofia 88, Malaga",
+            "linkedin": "https://www.linkedin.com/in/isabelhernandez",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Sales Coordinator",
+            "country": "Spain"
+        },
+        {
+            "index": 13,
+            "firstName": "Elena",
+            "lastName": "Vega",
+            "email": "elena.vega@jaencoop.com",
+            "address": "Calle Luna 40, Alicante",
+            "linkedin": "https://www.linkedin.com/in/elenavega",
+            "company": "JaenCoop Oils",
+            "jobTitle": "Operations Specialist",
+            "country": "Spain"
+        }
+    ]
+}

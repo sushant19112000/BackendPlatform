@@ -1,0 +1,255 @@
+{
+    "fieldRules": {
+        "firstName": {
+            "regex": "^[A-Za-z ,.'-]{2,}$",
+            "error": "First name must contain at least 2 alphabetic characters"
+        },
+        "lastName": {
+            "regex": "^[A-Za-z ,.'-]{2,}$",
+            "error": "Last name must contain at least 2 alphabetic characters"
+        },
+        "email": {
+            "regex": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+            "error": "Invalid email format"
+        },
+        "address": {
+            "regex": "^(?!\\s*$).+",
+            "error": "Address is required"
+        },
+        "linkedin": {
+            "regex": "^https:\\/\\/(www\\.)?linkedin\\.com\\/.*$",
+            "error": "LinkedIn URL must start with https://www.linkedin.com/"
+        },
+        "company": {
+            "regex": "^[\\w\\s\\-&',.()]{2,}$",
+            "error": "Company name must be at least 2 characters"
+        },
+        "title": {
+            "regex": "^[A-Za-z0-9 ,.'-/]{2,}$",
+            "error": "Job title must be at least 2 characters"
+        },
+        "country": {
+            "regex": "^[A-Za-z ,.'-]{2,}$",
+            "error": "Invalid country name"
+        },
+        "uploadType": {
+            "regex": "^(manual|automated)$",
+            "error": "Upload type must be 'manual' or 'automated'"
+        }
+    },
+    "valueRules": [
+        {
+            "mode": "exclusion",
+            "fieldNames": [
+                "company"
+            ],
+            "values": [
+                    "2U Inc",
+                    "Apex Health",
+                    "Benco Dental Supply Co",
+                    "Burris Logistics",
+                    "Dorman Products Inc",
+                    "Globus Medical, Inc.",
+                    "PCI Pharma Services",
+                    "Steptoe & Johnson LLP",
+                    "Victaulic Co",
+                    "BGC Partners Inc",
+                    "Brevan Howard Capital Management",
+                    "Eaton Vance Corp",
+                    "Rockland Trust Co",
+                    "Acronis",
+                    "Planet Fitness Inc",
+                    "SharkNinja Operating LLC",
+                    "SkillSoft Corp",
+                    "Virgin Pulse",
+                    "Acuren Inspection Inc",
+                    "Brother Intil Corp",
+                    "IPC Systems Inc",
+                    "MongoDB",
+                    "Peloton Interactive Inc",
+                    "Raymour & Flanigan Furniture Co",
+                    "SI Group",
+                    "Spencer Gifts LLC",
+                    "CustomInk LLC",
+                    "DCS Corporation",
+                    "Epic Games Inc",
+                    "National General Insurance",
+                    "E2open LLC",
+                    "IBC Bank",
+                    "Q2 eBanking",
+                    "Strike Construction, LLC",
+                    "Vinson & Elkins L.L.P.",
+                    "Amadeus North America Inc",
+                    "Florida Cancer Specialists PL",
+                    "Greenway Health LLC",
+                    "Ultimate Medical Academy",
+                    "World Fuel Services Corp",
+                    "Aptean",
+                    "Cadence Bank",
+                    "ExamWorks Group Inc",
+                    "First Advantage Corp",
+                    "Embrace Home Loans, Inc.",
+                    "Strategic Financial Solutions",
+                    "Xceedance",
+                    "Alegeus Technologies LLC",
+                    "Ampacet Corp",
+                    "GlobalData Publications Inc",
+                    "Tompkins Financial Corporation",
+                    "ConnectiveRx",
+                    "Nityo Infotech Corp",
+                    "New Era Cap Co Inc",
+                    "Attentive",
+                    "Niagara Frontier Transportation Authority",
+                    "Emtec, Inc.",
+                    "ORBCOMM",
+                    "Spring Health",
+                    "Cadwalader Wickersham & Taft LLP",
+                    "ThoughtFocus",
+                    "Amspec Group",
+                    "Better Mortgage Corp",
+                    "Flywire Corp",
+                    "Rothschild North America Inc",
+                    "AdvantageCare Physicians",
+                    "Pacira Pharmaceuticals",
+                    "Hayward Industries Inc",
+                    "Bojangles' Famous Chicken 'N Biscuits",
+                    "Fathom Realty",
+                    "iPlace USA Inc",
+                    "Zeiders Enterprises Inc",
+                    "The Center for Creative Leadership Inc",
+                    "Regional Management Corporation",
+                    "C&D Technologies Inc",
+                    "Temenos USA",
+                    "David Weekley Homes, LP",
+                    "PHI Inc.",
+                    "Helix Energy Solutions Group, Inc.",
+                    "Bazaarvoice Inc",
+                    "Neighborly, Inc.",
+                    "Loyola University",
+                    "Haskell Company",
+                    "Checkers Drive-In Restaurants Inc",
+                    "MarineMax, Inc",
+                    "AdaptHealth LLC",
+                    "Fairwinds Credit Union",
+                    "Kforce Inc",
+                    "CNL Financial Group",
+                    "Akumin Inc",
+                    "Cal-Maine Foods",
+                    "Command Alkon Inc",
+                    "Qualifacts Systems Inc",
+                    "Riskonnect Inc"
+            ],
+            "scope": "global",
+            "error": "Company Name in Master Suppression"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "email"
+            ],
+            "values": [
+                "regionalpartner.com"
+            ],
+            "scope": "global",
+            "error": "Email domain is not a regional partner"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "title"
+            ],
+            "values": [
+                "CIO",
+                "CISO",
+                "Security Director"
+            ],
+            "scope": "SASE SHW UKI",
+            "error": "Job title is not valid for SASE SHW UKI"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "title"
+            ],
+            "values": [
+                "Compliance Manager",
+                "Network Architect"
+            ],
+            "scope": "SASE PAB NORDICS",
+            "error": "Job title is not valid for SASE PAB NORDICS"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "industry"
+            ],
+            "values": [
+                "Technology",
+                "Finance"
+            ],
+            "scope": "SASE SHW UKI",
+            "error": "Industry is not valid for SASE SHW UKI"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "industry"
+            ],
+            "values": [
+                "Healthcare",
+                "Energy"
+            ],
+            "scope": "SASE PAB NORDICS",
+            "error": "Industry is not valid for SASE PAB NORDICS"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "country"
+            ],
+            "values": [
+                "United Kingdom",
+                "Ireland"
+            ],
+            "scope": "SASE SHW UKI",
+            "error": "Country is not valid for SASE SHW UKI"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "country"
+            ],
+            "values": [
+                "Sweden",
+                "Norway",
+                "Finland"
+            ],
+            "scope": "SASE PAB NORDICS",
+            "error": "Country is not valid for SASE PAB NORDICS"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "employeeSize"
+            ],
+            "values": [
+                "100-500",
+                "500-1000"
+            ],
+            "scope": "SASE SHW UKI",
+            "error": "Employee size is not valid for SASE SHW UKI"
+        },
+        {
+            "mode": "inclusion",
+            "fieldNames": [
+                "employeeSize"
+            ],
+            "values": [
+                "1000-5000",
+                "5000+"
+            ],
+            "scope": "SASE PAB NORDICS",
+            "error": "Employee size is not valid for SASE PAB NORDICS"
+        }
+    ]
+}

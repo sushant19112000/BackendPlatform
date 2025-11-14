@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1755259583001,
+    "name": "Amazon Business | Self Service | DEU | COM | ENT | EMEA/27050838403",
+    "leadGoal": 10,
+    "completed": 0,
+    "pending": 10
+  },
+  {
+    "id": 1755259594900,
+    "name": "Amazon Business | Self Service | DEU | COM | Small + Mid | EMEA/27050838403",
+    "leadGoal": 81,
+    "completed": 0,
+    "pending": 81
+  },
+  {
+    "id": 1755259605852,
+    "name": "Amazon Business | Self Service | DEU | Travel + Hospitality | Small + Mid | EMEA/27050838403",
+    "leadGoal": 20,
+    "completed": 0,
+    "pending": 20
+  },
+  {
+    "id": 1755259619484,
+    "name": "Amazon Business | Self Service | ESP | COM | ENT | EMEA/27050838403",
+    "leadGoal": 10,
+    "completed": 0,
+    "pending": 10
+  },
+  {
+    "id": 1755259628908,
+    "name": "Amazon Business | Self Service | ESP | COM | Small + Mid | EMEA/27050838403",
+    "leadGoal": 100,
+    "completed": 0,
+    "pending": 100
+  },
+  {
+    "id": 1755259642141,
+    "name": "Amazon Business | Self Service | ESP | Travel + Hospitality | Small + Mid | EMEA/27050838403",
+    "leadGoal": 9,
+    "completed": 0,
+    "pending": 9
+  },
+  {
+    "id": 1755259655077,
+    "name": "Amazon Business | Self Service | FRA | COM | ENT | EMEA/27050838403",
+    "leadGoal": 10,
+    "completed": 0,
+    "pending": 10
+  },
+  {
+    "id": 1755259665053,
+    "name": "Amazon Business | Self Service | FRA | COM | Small + Mid | EMEA/27050838403",
+    "leadGoal": 100,
+    "completed": 0,
+    "pending": 100
+  },
+  {
+    "id": 1755259682262,
+    "name": "Amazon Business | Self Service | FRA | Travel + Hospitality | Small + Mid | EMEA/27050838403",
+    "leadGoal": 21,
+    "completed": 0,
+    "pending": 21
+  },
+  {
+    "id": 1755259698182,
+    "name": "Amazon Business | Self Service | ITA | COM | Small + Mid | EMEA/27050838403",
+    "leadGoal": 97,
+    "completed": 0,
+    "pending": 97
+  },
+  {
+    "id": 1755259709238,
+    "name": "Amazon Business | Self Service | ITA | Travel + Hospitality | Small + Mid | EMEA/27050838403",
+    "leadGoal": 14,
+    "completed": 0,
+    "pending": 14
+  },
+  {
+    "id": 1755259721569,
+    "name": "Amazon Business | Self Service | UK | COM | ENT | EMEA/27050838403",
+    "leadGoal": 10,
+    "completed": 0,
+    "pending": 10
+  },
+  {
+    "id": 1755259733919,
+    "name": "Amazon Business | Self Service | UK | COM | Small + Mid | EMEA/27050838403",
+    "leadGoal": 300,
+    "completed": 0,
+    "pending": 300
+  },
+  {
+    "id": 1755259748159,
+    "name": "Amazon Business | Self Service | UK | Travel + Hospitality | Small + Mid | EMEA/27050838403",
+    "leadGoal": 90,
+    "completed": 0,
+    "pending": 90
+  }
+]

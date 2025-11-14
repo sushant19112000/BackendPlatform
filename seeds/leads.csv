@@ -1,0 +1,11 @@
+firstName,lastName,email,address,linkedIn,company,title,country,uploadType,industry,employeeSize
+Alice,Jackob,alice.jackob@regionalpartner.com,123 Main St,https://www.linkedin.com/in/alicejohnson,SecureTech,CIO,United Kingdom,manual,Technology,100-500
+Bob,Smear,bob.smear@regionalpartner.com,456 Side St,https://www.linkedin.com/in/bsmith,FinanceX,CISO,Ireland,manual,Finance,500-1000
+Carole,Leer,carol.leear@regionalpartner.com,789 Avenue,https://www.linkedin.com/in/carollee,TechNova,Security Director,United Kingdom,manual,Technology,100-500
+David,Morris,david@regionalpartner.com,10 Downing St,https://www.linkedin.com/in/davidmorris,CyberSecure,CIO,Ireland,manual,Finance,500-1000
+Eva,Taylor,eva@regionalpartner.com,22 Main Road,https://www.linkedin.com/in/evataylor,NetGuard,CISO,United Kingdom,manual,Technology,100-500
+A,Brown,a.brown@gmail.com,,http://linkedin.com/in/abrown,A,Developer,Germany,manual,Retail,50-100
+Ben,S,ben@yahoo.com,23 Side St,linkedin.com/in/ben,,Analyst,France,manual,Retail,10-50
+Cathy,Nagi,cathy.nagi@tempmail.com,98 Lane,https://linkedin.com/in/cathyng,X,Unknown,Italy,manual,Hospitality,20-100
+Dan,Qate,dan.qate@unknown.com,,http://linkedin.com/in/danq,,Unknown,Unknown,manual,Unknown,unknown
+Ella,Ray,ella.ray@gmail.com,88 Drive,linkedin.com/in/ellaray,AB,Tester,Spain,manual,Retail,0-10

@@ -1,0 +1,13 @@
+f1-> test each lead field with its field rules
+f2-> test each lead field with its value rules 
+    (
+        if source==internal {
+            valueRules then directly compare with mode and array
+        }
+        else {
+            load the source array 
+            if source array is greater than 10k use batches and hash tables  
+        
+        
+        }
+    )

@@ -1,0 +1,74 @@
+{
+  "fieldRules": {
+    "firstName": {
+      "regex": "^[A-Za-zÀ-ÿ ,.'-]{2,50}$",
+      "error": "First name must contain only letters and be at least 2 characters"
+    },
+    "lastName": {
+      "regex": "^[A-Za-zÀ-ÿ ,.'-]{2,50}$",
+      "error": "Last name must contain only letters and be at least 2 characters"
+    },
+    "email": {
+      "regex": "^[^\\s@]+@[^\\s@]+\\.[A-Za-z]{2,}$",
+      "error": "Invalid email format"
+    },
+    "address": {
+      "regex": "^[A-Za-z0-9À-ÿ ,.'#\\-/]{5,100}$",
+      "error": "Address must be at least 5 characters"
+    },
+    "linkedin": {
+      "regex": "^https:\\/\\/(www\\.)?linkedin\\.com\\/(in|pub|company)\\/[-a-zA-Z0-9@:%_+.~#?&//=]{3,}$",
+      "error": "LinkedIn URL must be valid and start with https://www.linkedin.com/"
+    },
+    "company": {
+      "regex": "^[A-Za-z0-9À-ÿ .,&'()\\-]{2,100}$",
+      "error": "Company name must be at least 2 characters"
+    },
+    "jobTitle": {
+      "regex": "^[A-Za-z0-9À-ÿ ,.'\\-/]{2,100}$",
+      "error": "Job title must be at least 2 characters"
+    },
+    "country": {
+      "regex": "^[A-Za-zÀ-ÿ .,'-]{2,50}$",
+      "error": "Invalid country name"
+    }
+  },
+  "valueRules": [
+    {
+      "mode": "inclusion",
+      "fieldNames": [
+        "country"
+      ],
+      "values": [
+        "Germany"
+      ],
+      "source": { "type": "Internal", "link": "#", "fileType": "none", "valueField": 0, "fieldType": "#" },
+      "error": "Country is not valid"
+    },
+    {
+      "mode": "contactsPerCompany",
+      "fieldNames": [
+        "email"
+      ],
+      "values": [20],
+      "source": { "type": "Internal", "link": "#", "fileType": "none", "valueField": 0, "fieldType": "#" },
+      "error": "Max per contact per company reached"
+    },
+    {
+      "mode": "inclusion",
+      "fieldNames": [
+        "email"
+      ],
+      "values": [],
+      "source": {
+        "type": "External",
+        "link": "https://www.dropbox.com/scl/fi/ybwqk17q8vtqg7uugpcqv/DE-Self-Service-TAL-Com-ent-domains.xlsx?rlkey=ivywe2pe68gl73i4wdjkuo66f&st=ewaxbect&raw=1",
+        "fileType": "xlsx",
+        "valueField": 0,
+        "fieldType": "domain"
+      },
+      "error": "Domain not in Tal"
+    }
+  ]
+}
+

@@ -1,0 +1,453 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id               Int                  @id @default(autoincrement())
+  email            String               @unique
+  name             String?
+  password         String
+  created_at       DateTime             @default(now())
+  updated_at       DateTime             @updatedAt
+  uploads          leadsUpload[]
+  roles            userrole[]
+  leaves           UserLeave[] // leaves applied by this user
+  approvedLeaves   UserLeave[]          @relation("LeaveApproval") // leaves this user approved
+  sentMessages     message[]            @relation("SentMessages")
+  receivedMessages message[]            @relation("ReceivedMessages")
+  groups           userGroups[]
+  sentMessage      groupMessage[]
+  tasks            UserTask[]           @relation("UserTasks")
+  breaks           UserBreak[]
+  assignedTasks    UserTask[]           @relation("AssignedTasks")
+  sessions         Session[]
+  deliveries       campaignDeliveries[]
+  attendance       Attendance[]
+}
+
+model Attendance {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      user      @relation(fields: [userId], references: [id])
+  date      DateTime  @default(now()) // The attendance day
+  checkIn   DateTime  @default(now()) // Storing login time
+  checkOut  DateTime?
+  createdAt DateTime  @default(now())
+
+  @@unique([userId, date]) // Prevent multiple attendance entries per day
+}
+
+model UserLeave {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         user          @relation(fields: [userId], references: [id])
+  leaveType    LeaveType
+  fromDate     DateTime
+  toDate       DateTime
+  duration     LeaveDuration
+  reason       String
+  status       LeaveStatus   @default(PENDING)
+  approvedById Int?
+  approvedBy   user?         @relation("LeaveApproval", fields: [approvedById], references: [id])
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+}
+
+enum LeaveType {
+  CASUAL
+  SICK
+  EARNED
+  UNPAID
+}
+
+enum LeaveDuration {
+  FULL_DAY
+  HALF_DAY
+  MULTI_DAY
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model Session {
+  id           Int         @id @default(autoincrement())
+  type         SessionType // either TASK or BREAK
+  startTime    DateTime
+  latestLogged DateTime    @default(now())
+  endTime      DateTime?
+
+  // foreign keys
+  userId Int
+  user   user @relation(fields: [userId], references: [id])
+
+  taskId Int?
+  task   UserTask? @relation(fields: [taskId], references: [id])
+
+  breakId Int?
+  break   UserBreak? @relation(fields: [breakId], references: [id])
+}
+
+model UserTask {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  taskId       Int
+  totalTime    Int // accumulated total (e.g., in seconds or minutes)
+  user         user      @relation("UserTasks", fields: [userId], references: [id])
+  task         Task      @relation(fields: [taskId], references: [id])
+  sessions     Session[] // all individual task sessions for this user
+  assignedById Int
+  assignee     user      @relation("AssignedTasks", fields: [assignedById], references: [id])
+}
+
+model UserBreak {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  breakId   Int
+  totalTime Int
+
+  user     user      @relation(fields: [userId], references: [id])
+  break    Break     @relation(fields: [breakId], references: [id])
+  sessions Session[] // all individual break sessions for this user
+}
+
+model Task {
+  id         Int        @id @default(autoincrement())
+  name       String
+  type       TaskType // e.g. "Campaign"
+  typeId     Int?
+  users      UserTask[] // many users can work on same task
+  status     String
+  level      TaskLevel
+  remark     String
+  reassigned Boolean    @default(false)
+}
+
+model Break {
+  id    Int         @id @default(autoincrement())
+  name  String
+  users UserBreak[]
+}
+
+enum SessionType {
+  TASK
+  BREAK
+}
+
+enum TaskType {
+  Campaign
+  Breif
+}
+
+enum TaskLevel {
+  URGENT
+  VERY_URGENT
+}
+
+model message {
+  id          Int       @id @default(autoincrement())
+  body        String
+  senderId    Int
+  sender      user      @relation("SentMessages", fields: [senderId], references: [id])
+  recipientId Int
+  recipient   user      @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  created_at  DateTime  @default(now())
+  read_at     DateTime?
+}
+
+model groupMessage {
+  id         Int       @id @default(autoincrement())
+  groupId    Int
+  group      group     @relation(fields: [groupId], references: [id])
+  body       String
+  senderId   Int
+  sender     user      @relation(fields: [senderId], references: [id])
+  created_at DateTime  @default(now())
+  read_at    DateTime?
+}
+
+model group {
+  id            Int            @id @default(autoincrement())
+  members       userGroups[]
+  name          String
+  groupMessages groupMessage[]
+}
+
+model userGroups {
+  userId     Int
+  groupId    Int
+  user       user     @relation(fields: [userId], references: [id])
+  group      group    @relation(fields: [groupId], references: [id])
+  assignedAt DateTime @default(now())
+
+  @@id([userId, groupId]) // composite primary key
+}
+
+model notification {
+  id                     Int                  @id @default(autoincrement())
+  message                String
+  notificationPriorityId Int
+  notificationPriority   notificationPriority @relation(fields: [notificationPriorityId], references: [id])
+  createdAt              DateTime             @default(now())
+  url                    String
+  type                   String
+  roleNotifications      roleNotification[] // 👈 Link to join table
+}
+
+model notificationPriority {
+  id            Int            @id @default(autoincrement())
+  level         Int
+  notifications notification[]
+}
+
+model role {
+  id                Int                @id @default(autoincrement())
+  name              String             @unique @default("user")
+  users             userrole[]
+  roleNotifications roleNotification[] // 👈 Link to join table
+}
+
+model roleNotification {
+  roleId         Int
+  notificationId Int
+  role           role         @relation(fields: [roleId], references: [id])
+  notification   notification @relation(fields: [notificationId], references: [id])
+
+  @@id([roleId, notificationId]) // Composite primary key
+}
+
+model userrole {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  roleId Int  @default(1)
+  role   role @relation(fields: [roleId], references: [id])
+  user   user @relation(fields: [userId], references: [id])
+}
+
+model client {
+  id         Int        @id @default(autoincrement())
+  name       String
+  campaigns  campaign[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+}
+
+model campaign {
+  id                 Int                  @id @default(autoincrement()) // id is same as code if there is no code generate a 8 digit hash
+  name               String
+  code               String
+  clientId           Int
+  client             client               @relation(fields: [clientId], references: [id])
+  leadgoal           Int                  @default(0)
+  volumes            volume[]
+  completed          Int
+  pending            Int
+  duedate            DateTime             @default(now())
+  leads              lead[]
+  info               Json
+  content            Json
+  filesInfo          Json
+  updates            Json
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+  status             String               @default("Active")
+  campaignDeliveries campaignDeliveries[]
+}
+
+model campaignDeliveries {
+  id         Int      @id @default(autoincrement())
+  campaignId Int      @default(6)
+  campaign   campaign @relation(fields: [campaignId], references: [id])
+  date       DateTime @default(now())
+  fileName   String   @default("default_delivery_file.xlsx")
+  submitted  Int      @default(0)
+  accepted   Int      @default(0)
+  errors     Int      @default(0)
+  rejections Int      @default(0)
+  uploaderId Int?
+  uploader   user?    @relation(fields: [uploaderId], references: [id])
+  data       String   @default("data")
+  leads      lead[]
+}
+
+model campaignType {
+  id         Int    @id @default(autoincrement())
+  name       String
+  campaignId Int
+}
+
+model volume {
+  id                Int          @id @default(autoincrement())
+  name              String
+  campaignId        Int
+  campaign          campaign     @relation(fields: [campaignId], references: [id])
+  leadGoal          Int
+  completed         Int
+  pending           Int
+  status            VolumeStatus @default(PENDING_APPROVAL)
+  pacings           pacing[]
+  leads             lead[]
+  validationProfile Json
+  headers           Json
+  leadTemplate      String       @default("template")
+  externalRules     String       @default("externalRules")
+}
+
+enum VolumeStatus {
+  PENDING_APPROVAL
+  IN_PROGRESS
+  IN_REVIEW
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+model Brief {
+  id                 Int            @id @default(autoincrement())
+  name               String
+  arrivedOn          DateTime
+  arrivedOnTime      String         @default("HH:MM")
+  dueTime            String         @default("HH:MM")
+  due                DateTime
+  status             BriefStatus    @default(New)
+  leadDetails        Json?
+  leadDetailsSection String         @default("section")
+  type               BriefType      @default(LEADGEN)
+  quotes             Json? // ✅ changed from String to Json
+  campaignId         Int?
+  remark             String?
+  briefHyperlink     String?
+  briefUpdates       BriefUpdates[]
+
+  @@index([campaignId])
+}
+
+model BriefUpdates {
+  id             Int         @id @default(autoincrement())
+  briefId        Int
+  breif          Brief       @relation(fields: [briefId], references: [id])
+  arrivedOn      DateTime
+  due            DateTime
+  status         BriefStatus @default(New)
+  leadDetails    Json?
+  type           BriefType   @default(LEADGEN)
+  quotes         Json? // ✅ changed from String to Json
+  campaignId     Int?
+  remark         String?
+  briefHyperlink String?
+
+  @@index([campaignId])
+}
+
+enum BriefType {
+  LEADGEN
+  HTML
+}
+
+enum BriefStatus {
+  New
+  InProgress
+  Pending
+  Quoted
+  NewUpdate
+}
+
+model pacing {
+  id           Int           @id @default(autoincrement())
+  volumeId     Int
+  volume       volume        @relation(fields: [volumeId], references: [id])
+  leads        lead[]
+  scheduledFor DateTime
+  leadGoal     Int
+  status       String        @default("scheduled") // scheduled | active | completed | paused
+  actualLeads  Int           @default(0) // Optional denormalized counter
+  uploads      leadsUpload[]
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+}
+
+model lead {
+  id                     Int                 @id @default(autoincrement())
+  data                   Json
+  email                  String
+  campaignId             Int
+  campaign               campaign            @relation(fields: [campaignId], references: [id])
+  pacingId               Int
+  pacing                 pacing              @relation(fields: [pacingId], references: [id])
+  volumeId               Int
+  volume                 volume              @relation(fields: [volumeId], references: [id])
+  uploadId               Int?
+  upload                 leadsUpload?        @relation(fields: [uploadId], references: [id])
+  uploadType             String              @default("manual")
+  created_at             DateTime            @default(now())
+  updated_at             DateTime            @updatedAt
+  phase1Validation       Boolean             @default(false)
+  leadTemplateValidation Boolean             @default(false)
+  campaignDeliveryId     Int?
+  campaignDelivery       campaignDeliveries? @relation(fields: [campaignDeliveryId], references: [id])
+  accepted               Boolean             @default(false)
+  pending                Boolean             @default(false)
+  rejected               Boolean             @default(false)
+  rejectedReason         String              @default("Reason")
+
+  @@unique([campaignId, email])
+  @@index([uploadId])
+}
+
+model leadsUpload {
+  id         Int      @id @default(autoincrement())
+  pacingId   Int
+  pacing     pacing   @relation(fields: [pacingId], references: [id])
+  leads      lead[]
+  uploadedBy Int? // Now refers to User ID
+  uploader   user?    @relation(fields: [uploadedBy], references: [id])
+  filename   String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  results    Json
+}
+
+model pacingReport {
+  id            Int           @id @default(autoincrement())
+  type          reportType
+  data          Json
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+  generatedType generatedType
+  // data= all the pacing data in single array
+}
+
+model campaignReport {
+  id            Int           @id @default(autoincrement())
+  type          reportType
+  data          Json
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+  generatedType generatedType
+  // Ex->  data=[{campaignId:1,campaignName:"xyz",leadGoal:262,currentLeads:200,dueLeads:62,dueDate:'25-02-2025'}]
+}
+
+enum reportType {
+  TODAY
+  OVERDUE
+  PAUSED
+  COMPLETED
+  ALL
+}
+
+enum generatedType {
+  AUTO
+  ADMIN
+}
