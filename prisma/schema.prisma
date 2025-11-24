@@ -42,7 +42,7 @@ model Attendance {
   checkIn   DateTime @default(now())  // Storing login time
   checkOut  DateTime? 
   createdAt DateTime @default(now())
-
+  remark    String @default("default")
   @@unique([userId, date]) // Prevent multiple attendance entries per day
 }
 
@@ -86,13 +86,13 @@ enum LeaveStatus {
 model Session {
   id        Int          @id @default(autoincrement())
   type      SessionType  // either TASK or BREAK
-  startTime DateTime
+  date      DateTime     @default(now())
+  startTime String      @default("startTime")  
   latestLogged DateTime  @default(now())
-  endTime   DateTime?
-  
+  endTime   String      @default("endTime")
   // foreign keys
   userId    Int
-  user      user         @relation(fields: [userId], references: [id])
+  user      user       @relation(fields: [userId], references: [id])
   
   taskId    Int?         
   task      UserTask?    @relation(fields: [taskId], references: [id])
@@ -263,6 +263,8 @@ model campaign {
   duedate                   DateTime                   @default(now())
   leads                     lead[]
   info                      Json
+  additionalInfo            String  @default("default info")
+  descriptionOfFilesAttached   String @default("default des")
   content                   Json
   filesInfo                 Json
   updates                   Json

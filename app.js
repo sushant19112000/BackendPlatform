@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
 
+const sessions = {};
+
 
 const onlineUsers = new Map(); // or use an object {}
 const HOST = '0.0.0.0'; // Bind to IP
@@ -43,7 +45,7 @@ const taskRouter=require('./routes/tasks')
 const CampaignNotificationManager = require('./socketIo/campaignNotificationManager.js');
 const CleintNotificationManager = require('./socketIo/clientNotificationManager.js');
 const leaveRouter= require('./routes/leave.js')
-
+const createCampaignRouter= require('./routes/createCampaign.js')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -85,6 +87,7 @@ app.use('/session',sessionRouter)
 app.use('/tasks',taskRouter)
 app.use('/briefs',briefRouter)
 app.use('/leaves',leaveRouter)
+app.use('/create-campaign',createCampaignRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -150,13 +153,16 @@ io.on("connection", (socket) => {
     clientNotifier.sendNotification('deleted', data);
   });
   
-  // socket.on('session-start',(data)=>{
+  socket.on('session-start',(data)=>{
       
-  // })
+  })
   // socket.emit('session-log',(data)=>{
   //    // emit heartbeat
      
   // })
+
+
+
   // socket.on('session-end',(data)=>{
 
   // })
@@ -204,6 +210,18 @@ io.on("connection", (socket) => {
   // });
 
 });
+
+
+// check every 20 seconds
+setInterval(() => {
+  for (const [id, s] of Object.entries(sessions)) {
+    if (Date.now() - s.lastPing > 30000) {
+      console.log("Session died:", id);
+      
+      delete sessions[id];
+    }
+  }
+}, 5000);
 
 
 server.listen(3000, '0.0.0.0', () => {

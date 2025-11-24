@@ -42,6 +42,7 @@ model Attendance {
   checkIn   DateTime  @default(now()) // Storing login time
   checkOut  DateTime?
   createdAt DateTime  @default(now())
+  remark    String    @default("default")
 
   @@unique([userId, date]) // Prevent multiple attendance entries per day
 }
@@ -85,13 +86,13 @@ enum LeaveStatus {
 model Session {
   id           Int         @id @default(autoincrement())
   type         SessionType // either TASK or BREAK
-  startTime    DateTime
+  date         DateTime    @default(now())
+  startTime    String      @default("startTime")
   latestLogged DateTime    @default(now())
-  endTime      DateTime?
-
+  endTime      String      @default("endTime")
   // foreign keys
-  userId Int
-  user   user @relation(fields: [userId], references: [id])
+  userId       Int
+  user         user        @relation(fields: [userId], references: [id])
 
   taskId Int?
   task   UserTask? @relation(fields: [taskId], references: [id])
@@ -245,25 +246,27 @@ model client {
 }
 
 model campaign {
-  id                 Int                  @id @default(autoincrement()) // id is same as code if there is no code generate a 8 digit hash
-  name               String
-  code               String
-  clientId           Int
-  client             client               @relation(fields: [clientId], references: [id])
-  leadgoal           Int                  @default(0)
-  volumes            volume[]
-  completed          Int
-  pending            Int
-  duedate            DateTime             @default(now())
-  leads              lead[]
-  info               Json
-  content            Json
-  filesInfo          Json
-  updates            Json
-  created_at         DateTime             @default(now())
-  updated_at         DateTime             @updatedAt
-  status             String               @default("Active")
-  campaignDeliveries campaignDeliveries[]
+  id                         Int                  @id @default(autoincrement()) // id is same as code if there is no code generate a 8 digit hash
+  name                       String
+  code                       String
+  clientId                   Int
+  client                     client               @relation(fields: [clientId], references: [id])
+  leadgoal                   Int                  @default(0)
+  volumes                    volume[]
+  completed                  Int
+  pending                    Int
+  duedate                    DateTime             @default(now())
+  leads                      lead[]
+  info                       Json
+  additionalInfo             String               @default("default info")
+  descriptionOfFilesAttached String               @default("default des")
+  content                    Json
+  filesInfo                  Json
+  updates                    Json
+  created_at                 DateTime             @default(now())
+  updated_at                 DateTime             @updatedAt
+  status                     String               @default("Active")
+  campaignDeliveries         campaignDeliveries[]
 }
 
 model campaignDeliveries {

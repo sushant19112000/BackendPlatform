@@ -263,7 +263,7 @@ const addCampaign = async (data) => {
         });
 
         // Create volumes
-        for (let v of data.volumeGoals) {
+        for (let v of data.volumes) {
             let vExists = newCampaign.volumes.find((e) => e.name === v.name);
             if (vExists) {
                 continue;

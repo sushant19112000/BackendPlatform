@@ -1,6 +1,6 @@
 const prisma = require("../../db/dbConnection");
 
-const createSession = async (userId, type, typeId) => {
+const createSession = async (userId, type, typeId,date,startTime) => {
     try {
         let newSession;
         if (type === "TASK") {
@@ -9,7 +9,8 @@ const createSession = async (userId, type, typeId) => {
                 data: {
                     userId: userId,
                     taskId: taskId,
-                    startTime: new Date(), // corrected
+                    date:date,
+                    startTime: startTime, // corrected
                     type:"TASK"
                 }
             });
@@ -19,7 +20,7 @@ const createSession = async (userId, type, typeId) => {
                 data: {
                     userId: userId,
                     breakId: breakId,
-                    startTime: new Date(), // corrected
+                    startTime: startTime, // corrected
                     type:"BREAK"
                 }
             });
@@ -31,7 +32,7 @@ const createSession = async (userId, type, typeId) => {
     }
 }
 
-const endSession = async (userId, sessionId) => {
+const endSession = async (sessionId,endTime) => {
     try {
         const session = await prisma.session.findFirst({
             where: {
@@ -46,7 +47,7 @@ const endSession = async (userId, sessionId) => {
         const updatedSession = await prisma.session.update({
             where: { id: sessionId },
             data: {
-                endTime: new Date() // corrected
+                endTime:endTime
             }
         });
 

@@ -5730,6 +5730,7 @@ export namespace Prisma {
     checkIn: Date | null
     checkOut: Date | null
     createdAt: Date | null
+    remark: string | null
   }
 
   export type AttendanceMaxAggregateOutputType = {
@@ -5739,6 +5740,7 @@ export namespace Prisma {
     checkIn: Date | null
     checkOut: Date | null
     createdAt: Date | null
+    remark: string | null
   }
 
   export type AttendanceCountAggregateOutputType = {
@@ -5748,6 +5750,7 @@ export namespace Prisma {
     checkIn: number
     checkOut: number
     createdAt: number
+    remark: number
     _all: number
   }
 
@@ -5769,6 +5772,7 @@ export namespace Prisma {
     checkIn?: true
     checkOut?: true
     createdAt?: true
+    remark?: true
   }
 
   export type AttendanceMaxAggregateInputType = {
@@ -5778,6 +5782,7 @@ export namespace Prisma {
     checkIn?: true
     checkOut?: true
     createdAt?: true
+    remark?: true
   }
 
   export type AttendanceCountAggregateInputType = {
@@ -5787,6 +5792,7 @@ export namespace Prisma {
     checkIn?: true
     checkOut?: true
     createdAt?: true
+    remark?: true
     _all?: true
   }
 
@@ -5883,6 +5889,7 @@ export namespace Prisma {
     checkIn: Date
     checkOut: Date | null
     createdAt: Date
+    remark: string
     _count: AttendanceCountAggregateOutputType | null
     _avg: AttendanceAvgAggregateOutputType | null
     _sum: AttendanceSumAggregateOutputType | null
@@ -5911,6 +5918,7 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     createdAt?: boolean
+    remark?: boolean
     user?: boolean | userDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
 
@@ -5921,6 +5929,7 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     createdAt?: boolean
+    remark?: boolean
     user?: boolean | userDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
 
@@ -5931,6 +5940,7 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     createdAt?: boolean
+    remark?: boolean
     user?: boolean | userDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
 
@@ -5941,9 +5951,10 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     createdAt?: boolean
+    remark?: boolean
   }
 
-  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "date" | "checkIn" | "checkOut" | "createdAt", ExtArgs["result"]["attendance"]>
+  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "date" | "checkIn" | "checkOut" | "createdAt" | "remark", ExtArgs["result"]["attendance"]>
   export type AttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | userDefaultArgs<ExtArgs>
   }
@@ -5966,6 +5977,7 @@ export namespace Prisma {
       checkIn: Date
       checkOut: Date | null
       createdAt: Date
+      remark: string
     }, ExtArgs["result"]["attendance"]>
     composites: {}
   }
@@ -6396,6 +6408,7 @@ export namespace Prisma {
     readonly checkIn: FieldRef<"Attendance", 'DateTime'>
     readonly checkOut: FieldRef<"Attendance", 'DateTime'>
     readonly createdAt: FieldRef<"Attendance", 'DateTime'>
+    readonly remark: FieldRef<"Attendance", 'String'>
   }
     
 
@@ -8040,9 +8053,10 @@ export namespace Prisma {
   export type SessionMinAggregateOutputType = {
     id: number | null
     type: $Enums.SessionType | null
-    startTime: Date | null
+    date: Date | null
+    startTime: string | null
     latestLogged: Date | null
-    endTime: Date | null
+    endTime: string | null
     userId: number | null
     taskId: number | null
     breakId: number | null
@@ -8051,9 +8065,10 @@ export namespace Prisma {
   export type SessionMaxAggregateOutputType = {
     id: number | null
     type: $Enums.SessionType | null
-    startTime: Date | null
+    date: Date | null
+    startTime: string | null
     latestLogged: Date | null
-    endTime: Date | null
+    endTime: string | null
     userId: number | null
     taskId: number | null
     breakId: number | null
@@ -8062,6 +8077,7 @@ export namespace Prisma {
   export type SessionCountAggregateOutputType = {
     id: number
     type: number
+    date: number
     startTime: number
     latestLogged: number
     endTime: number
@@ -8089,6 +8105,7 @@ export namespace Prisma {
   export type SessionMinAggregateInputType = {
     id?: true
     type?: true
+    date?: true
     startTime?: true
     latestLogged?: true
     endTime?: true
@@ -8100,6 +8117,7 @@ export namespace Prisma {
   export type SessionMaxAggregateInputType = {
     id?: true
     type?: true
+    date?: true
     startTime?: true
     latestLogged?: true
     endTime?: true
@@ -8111,6 +8129,7 @@ export namespace Prisma {
   export type SessionCountAggregateInputType = {
     id?: true
     type?: true
+    date?: true
     startTime?: true
     latestLogged?: true
     endTime?: true
@@ -8209,9 +8228,10 @@ export namespace Prisma {
   export type SessionGroupByOutputType = {
     id: number
     type: $Enums.SessionType
-    startTime: Date
+    date: Date
+    startTime: string
     latestLogged: Date
-    endTime: Date | null
+    endTime: string
     userId: number
     taskId: number | null
     breakId: number | null
@@ -8239,6 +8259,7 @@ export namespace Prisma {
   export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
+    date?: boolean
     startTime?: boolean
     latestLogged?: boolean
     endTime?: boolean
@@ -8253,6 +8274,7 @@ export namespace Prisma {
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
+    date?: boolean
     startTime?: boolean
     latestLogged?: boolean
     endTime?: boolean
@@ -8267,6 +8289,7 @@ export namespace Prisma {
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
+    date?: boolean
     startTime?: boolean
     latestLogged?: boolean
     endTime?: boolean
@@ -8281,6 +8304,7 @@ export namespace Prisma {
   export type SessionSelectScalar = {
     id?: boolean
     type?: boolean
+    date?: boolean
     startTime?: boolean
     latestLogged?: boolean
     endTime?: boolean
@@ -8289,7 +8313,7 @@ export namespace Prisma {
     breakId?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "startTime" | "latestLogged" | "endTime" | "userId" | "taskId" | "breakId", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "date" | "startTime" | "latestLogged" | "endTime" | "userId" | "taskId" | "breakId", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | userDefaultArgs<ExtArgs>
     task?: boolean | Session$taskArgs<ExtArgs>
@@ -8316,9 +8340,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       type: $Enums.SessionType
-      startTime: Date
+      date: Date
+      startTime: string
       latestLogged: Date
-      endTime: Date | null
+      endTime: string
       userId: number
       taskId: number | null
       breakId: number | null
@@ -8750,9 +8775,10 @@ export namespace Prisma {
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'Int'>
     readonly type: FieldRef<"Session", 'SessionType'>
-    readonly startTime: FieldRef<"Session", 'DateTime'>
+    readonly date: FieldRef<"Session", 'DateTime'>
+    readonly startTime: FieldRef<"Session", 'String'>
     readonly latestLogged: FieldRef<"Session", 'DateTime'>
-    readonly endTime: FieldRef<"Session", 'DateTime'>
+    readonly endTime: FieldRef<"Session", 'String'>
     readonly userId: FieldRef<"Session", 'Int'>
     readonly taskId: FieldRef<"Session", 'Int'>
     readonly breakId: FieldRef<"Session", 'Int'>
@@ -24662,6 +24688,8 @@ export namespace Prisma {
     completed: number | null
     pending: number | null
     duedate: Date | null
+    additionalInfo: string | null
+    descriptionOfFilesAttached: string | null
     created_at: Date | null
     updated_at: Date | null
     status: string | null
@@ -24676,6 +24704,8 @@ export namespace Prisma {
     completed: number | null
     pending: number | null
     duedate: Date | null
+    additionalInfo: string | null
+    descriptionOfFilesAttached: string | null
     created_at: Date | null
     updated_at: Date | null
     status: string | null
@@ -24691,6 +24721,8 @@ export namespace Prisma {
     pending: number
     duedate: number
     info: number
+    additionalInfo: number
+    descriptionOfFilesAttached: number
     content: number
     filesInfo: number
     updates: number
@@ -24726,6 +24758,8 @@ export namespace Prisma {
     completed?: true
     pending?: true
     duedate?: true
+    additionalInfo?: true
+    descriptionOfFilesAttached?: true
     created_at?: true
     updated_at?: true
     status?: true
@@ -24740,6 +24774,8 @@ export namespace Prisma {
     completed?: true
     pending?: true
     duedate?: true
+    additionalInfo?: true
+    descriptionOfFilesAttached?: true
     created_at?: true
     updated_at?: true
     status?: true
@@ -24755,6 +24791,8 @@ export namespace Prisma {
     pending?: true
     duedate?: true
     info?: true
+    additionalInfo?: true
+    descriptionOfFilesAttached?: true
     content?: true
     filesInfo?: true
     updates?: true
@@ -24860,6 +24898,8 @@ export namespace Prisma {
     pending: number
     duedate: Date
     info: JsonValue
+    additionalInfo: string
+    descriptionOfFilesAttached: string
     content: JsonValue
     filesInfo: JsonValue
     updates: JsonValue
@@ -24897,6 +24937,8 @@ export namespace Prisma {
     pending?: boolean
     duedate?: boolean
     info?: boolean
+    additionalInfo?: boolean
+    descriptionOfFilesAttached?: boolean
     content?: boolean
     filesInfo?: boolean
     updates?: boolean
@@ -24920,6 +24962,8 @@ export namespace Prisma {
     pending?: boolean
     duedate?: boolean
     info?: boolean
+    additionalInfo?: boolean
+    descriptionOfFilesAttached?: boolean
     content?: boolean
     filesInfo?: boolean
     updates?: boolean
@@ -24939,6 +24983,8 @@ export namespace Prisma {
     pending?: boolean
     duedate?: boolean
     info?: boolean
+    additionalInfo?: boolean
+    descriptionOfFilesAttached?: boolean
     content?: boolean
     filesInfo?: boolean
     updates?: boolean
@@ -24958,6 +25004,8 @@ export namespace Prisma {
     pending?: boolean
     duedate?: boolean
     info?: boolean
+    additionalInfo?: boolean
+    descriptionOfFilesAttached?: boolean
     content?: boolean
     filesInfo?: boolean
     updates?: boolean
@@ -24966,7 +25014,7 @@ export namespace Prisma {
     status?: boolean
   }
 
-  export type campaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "clientId" | "leadgoal" | "completed" | "pending" | "duedate" | "info" | "content" | "filesInfo" | "updates" | "created_at" | "updated_at" | "status", ExtArgs["result"]["campaign"]>
+  export type campaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "clientId" | "leadgoal" | "completed" | "pending" | "duedate" | "info" | "additionalInfo" | "descriptionOfFilesAttached" | "content" | "filesInfo" | "updates" | "created_at" | "updated_at" | "status", ExtArgs["result"]["campaign"]>
   export type campaignInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | clientDefaultArgs<ExtArgs>
     volumes?: boolean | campaign$volumesArgs<ExtArgs>
@@ -24999,6 +25047,8 @@ export namespace Prisma {
       pending: number
       duedate: Date
       info: Prisma.JsonValue
+      additionalInfo: string
+      descriptionOfFilesAttached: string
       content: Prisma.JsonValue
       filesInfo: Prisma.JsonValue
       updates: Prisma.JsonValue
@@ -25441,6 +25491,8 @@ export namespace Prisma {
     readonly pending: FieldRef<"campaign", 'Int'>
     readonly duedate: FieldRef<"campaign", 'DateTime'>
     readonly info: FieldRef<"campaign", 'Json'>
+    readonly additionalInfo: FieldRef<"campaign", 'String'>
+    readonly descriptionOfFilesAttached: FieldRef<"campaign", 'String'>
     readonly content: FieldRef<"campaign", 'Json'>
     readonly filesInfo: FieldRef<"campaign", 'Json'>
     readonly updates: FieldRef<"campaign", 'Json'>
@@ -37598,7 +37650,8 @@ export namespace Prisma {
     date: 'date',
     checkIn: 'checkIn',
     checkOut: 'checkOut',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    remark: 'remark'
   };
 
   export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
@@ -37624,6 +37677,7 @@ export namespace Prisma {
   export const SessionScalarFieldEnum: {
     id: 'id',
     type: 'type',
+    date: 'date',
     startTime: 'startTime',
     latestLogged: 'latestLogged',
     endTime: 'endTime',
@@ -37784,6 +37838,8 @@ export namespace Prisma {
     pending: 'pending',
     duedate: 'duedate',
     info: 'info',
+    additionalInfo: 'additionalInfo',
+    descriptionOfFilesAttached: 'descriptionOfFilesAttached',
     content: 'content',
     filesInfo: 'filesInfo',
     updates: 'updates',
@@ -38241,6 +38297,7 @@ export namespace Prisma {
     checkIn?: DateTimeFilter<"Attendance"> | Date | string
     checkOut?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
+    remark?: StringFilter<"Attendance"> | string
     user?: XOR<UserScalarRelationFilter, userWhereInput>
   }
 
@@ -38251,6 +38308,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    remark?: SortOrder
     user?: userOrderByWithRelationInput
   }
 
@@ -38265,6 +38323,7 @@ export namespace Prisma {
     checkIn?: DateTimeFilter<"Attendance"> | Date | string
     checkOut?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
+    remark?: StringFilter<"Attendance"> | string
     user?: XOR<UserScalarRelationFilter, userWhereInput>
   }, "id" | "userId_date">
 
@@ -38275,6 +38334,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    remark?: SortOrder
     _count?: AttendanceCountOrderByAggregateInput
     _avg?: AttendanceAvgOrderByAggregateInput
     _max?: AttendanceMaxOrderByAggregateInput
@@ -38292,6 +38352,7 @@ export namespace Prisma {
     checkIn?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
     checkOut?: DateTimeNullableWithAggregatesFilter<"Attendance"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
+    remark?: StringWithAggregatesFilter<"Attendance"> | string
   }
 
   export type UserLeaveWhereInput = {
@@ -38390,9 +38451,10 @@ export namespace Prisma {
     NOT?: SessionWhereInput | SessionWhereInput[]
     id?: IntFilter<"Session"> | number
     type?: EnumSessionTypeFilter<"Session"> | $Enums.SessionType
-    startTime?: DateTimeFilter<"Session"> | Date | string
+    date?: DateTimeFilter<"Session"> | Date | string
+    startTime?: StringFilter<"Session"> | string
     latestLogged?: DateTimeFilter<"Session"> | Date | string
-    endTime?: DateTimeNullableFilter<"Session"> | Date | string | null
+    endTime?: StringFilter<"Session"> | string
     userId?: IntFilter<"Session"> | number
     taskId?: IntNullableFilter<"Session"> | number | null
     breakId?: IntNullableFilter<"Session"> | number | null
@@ -38404,9 +38466,10 @@ export namespace Prisma {
   export type SessionOrderByWithRelationInput = {
     id?: SortOrder
     type?: SortOrder
+    date?: SortOrder
     startTime?: SortOrder
     latestLogged?: SortOrder
-    endTime?: SortOrderInput | SortOrder
+    endTime?: SortOrder
     userId?: SortOrder
     taskId?: SortOrderInput | SortOrder
     breakId?: SortOrderInput | SortOrder
@@ -38421,9 +38484,10 @@ export namespace Prisma {
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     type?: EnumSessionTypeFilter<"Session"> | $Enums.SessionType
-    startTime?: DateTimeFilter<"Session"> | Date | string
+    date?: DateTimeFilter<"Session"> | Date | string
+    startTime?: StringFilter<"Session"> | string
     latestLogged?: DateTimeFilter<"Session"> | Date | string
-    endTime?: DateTimeNullableFilter<"Session"> | Date | string | null
+    endTime?: StringFilter<"Session"> | string
     userId?: IntFilter<"Session"> | number
     taskId?: IntNullableFilter<"Session"> | number | null
     breakId?: IntNullableFilter<"Session"> | number | null
@@ -38435,9 +38499,10 @@ export namespace Prisma {
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder
     type?: SortOrder
+    date?: SortOrder
     startTime?: SortOrder
     latestLogged?: SortOrder
-    endTime?: SortOrderInput | SortOrder
+    endTime?: SortOrder
     userId?: SortOrder
     taskId?: SortOrderInput | SortOrder
     breakId?: SortOrderInput | SortOrder
@@ -38454,9 +38519,10 @@ export namespace Prisma {
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Session"> | number
     type?: EnumSessionTypeWithAggregatesFilter<"Session"> | $Enums.SessionType
-    startTime?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    date?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    startTime?: StringWithAggregatesFilter<"Session"> | string
     latestLogged?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    endTime?: DateTimeNullableWithAggregatesFilter<"Session"> | Date | string | null
+    endTime?: StringWithAggregatesFilter<"Session"> | string
     userId?: IntWithAggregatesFilter<"Session"> | number
     taskId?: IntNullableWithAggregatesFilter<"Session"> | number | null
     breakId?: IntNullableWithAggregatesFilter<"Session"> | number | null
@@ -39239,6 +39305,8 @@ export namespace Prisma {
     pending?: IntFilter<"campaign"> | number
     duedate?: DateTimeFilter<"campaign"> | Date | string
     info?: JsonFilter<"campaign">
+    additionalInfo?: StringFilter<"campaign"> | string
+    descriptionOfFilesAttached?: StringFilter<"campaign"> | string
     content?: JsonFilter<"campaign">
     filesInfo?: JsonFilter<"campaign">
     updates?: JsonFilter<"campaign">
@@ -39261,6 +39329,8 @@ export namespace Prisma {
     pending?: SortOrder
     duedate?: SortOrder
     info?: SortOrder
+    additionalInfo?: SortOrder
+    descriptionOfFilesAttached?: SortOrder
     content?: SortOrder
     filesInfo?: SortOrder
     updates?: SortOrder
@@ -39286,6 +39356,8 @@ export namespace Prisma {
     pending?: IntFilter<"campaign"> | number
     duedate?: DateTimeFilter<"campaign"> | Date | string
     info?: JsonFilter<"campaign">
+    additionalInfo?: StringFilter<"campaign"> | string
+    descriptionOfFilesAttached?: StringFilter<"campaign"> | string
     content?: JsonFilter<"campaign">
     filesInfo?: JsonFilter<"campaign">
     updates?: JsonFilter<"campaign">
@@ -39308,6 +39380,8 @@ export namespace Prisma {
     pending?: SortOrder
     duedate?: SortOrder
     info?: SortOrder
+    additionalInfo?: SortOrder
+    descriptionOfFilesAttached?: SortOrder
     content?: SortOrder
     filesInfo?: SortOrder
     updates?: SortOrder
@@ -39334,6 +39408,8 @@ export namespace Prisma {
     pending?: IntWithAggregatesFilter<"campaign"> | number
     duedate?: DateTimeWithAggregatesFilter<"campaign"> | Date | string
     info?: JsonWithAggregatesFilter<"campaign">
+    additionalInfo?: StringWithAggregatesFilter<"campaign"> | string
+    descriptionOfFilesAttached?: StringWithAggregatesFilter<"campaign"> | string
     content?: JsonWithAggregatesFilter<"campaign">
     filesInfo?: JsonWithAggregatesFilter<"campaign">
     updates?: JsonWithAggregatesFilter<"campaign">
@@ -40276,6 +40352,7 @@ export namespace Prisma {
     checkIn?: Date | string
     checkOut?: Date | string | null
     createdAt?: Date | string
+    remark?: string
     user: userCreateNestedOneWithoutAttendanceInput
   }
 
@@ -40286,6 +40363,7 @@ export namespace Prisma {
     checkIn?: Date | string
     checkOut?: Date | string | null
     createdAt?: Date | string
+    remark?: string
   }
 
   export type AttendanceUpdateInput = {
@@ -40293,6 +40371,7 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
     user?: userUpdateOneRequiredWithoutAttendanceNestedInput
   }
 
@@ -40303,6 +40382,7 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttendanceCreateManyInput = {
@@ -40312,6 +40392,7 @@ export namespace Prisma {
     checkIn?: Date | string
     checkOut?: Date | string | null
     createdAt?: Date | string
+    remark?: string
   }
 
   export type AttendanceUpdateManyMutationInput = {
@@ -40319,6 +40400,7 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttendanceUncheckedUpdateManyInput = {
@@ -40328,6 +40410,7 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserLeaveCreateInput = {
@@ -40425,9 +40508,10 @@ export namespace Prisma {
 
   export type SessionCreateInput = {
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     user: userCreateNestedOneWithoutSessionsInput
     task?: UserTaskCreateNestedOneWithoutSessionsInput
     break?: UserBreakCreateNestedOneWithoutSessionsInput
@@ -40436,9 +40520,10 @@ export namespace Prisma {
   export type SessionUncheckedCreateInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     userId: number
     taskId?: number | null
     breakId?: number | null
@@ -40446,9 +40531,10 @@ export namespace Prisma {
 
   export type SessionUpdateInput = {
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     user?: userUpdateOneRequiredWithoutSessionsNestedInput
     task?: UserTaskUpdateOneWithoutSessionsNestedInput
     break?: UserBreakUpdateOneWithoutSessionsNestedInput
@@ -40457,9 +40543,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     taskId?: NullableIntFieldUpdateOperationsInput | number | null
     breakId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -40468,9 +40555,10 @@ export namespace Prisma {
   export type SessionCreateManyInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     userId: number
     taskId?: number | null
     breakId?: number | null
@@ -40478,17 +40566,19 @@ export namespace Prisma {
 
   export type SessionUpdateManyMutationInput = {
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
   }
 
   export type SessionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     taskId?: NullableIntFieldUpdateOperationsInput | number | null
     breakId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -41175,6 +41265,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -41197,6 +41289,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -41216,6 +41310,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -41238,6 +41334,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -41259,6 +41357,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -41275,6 +41375,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -41293,6 +41395,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -42440,6 +42544,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrder
     createdAt?: SortOrder
+    remark?: SortOrder
   }
 
   export type AttendanceAvgOrderByAggregateInput = {
@@ -42454,6 +42559,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrder
     createdAt?: SortOrder
+    remark?: SortOrder
   }
 
   export type AttendanceMinOrderByAggregateInput = {
@@ -42463,6 +42569,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrder
     createdAt?: SortOrder
+    remark?: SortOrder
   }
 
   export type AttendanceSumOrderByAggregateInput = {
@@ -42641,6 +42748,7 @@ export namespace Prisma {
   export type SessionCountOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
+    date?: SortOrder
     startTime?: SortOrder
     latestLogged?: SortOrder
     endTime?: SortOrder
@@ -42659,6 +42767,7 @@ export namespace Prisma {
   export type SessionMaxOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
+    date?: SortOrder
     startTime?: SortOrder
     latestLogged?: SortOrder
     endTime?: SortOrder
@@ -42670,6 +42779,7 @@ export namespace Prisma {
   export type SessionMinOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
+    date?: SortOrder
     startTime?: SortOrder
     latestLogged?: SortOrder
     endTime?: SortOrder
@@ -43304,6 +43414,8 @@ export namespace Prisma {
     pending?: SortOrder
     duedate?: SortOrder
     info?: SortOrder
+    additionalInfo?: SortOrder
+    descriptionOfFilesAttached?: SortOrder
     content?: SortOrder
     filesInfo?: SortOrder
     updates?: SortOrder
@@ -43329,6 +43441,8 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    additionalInfo?: SortOrder
+    descriptionOfFilesAttached?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
@@ -43343,6 +43457,8 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    additionalInfo?: SortOrder
+    descriptionOfFilesAttached?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
@@ -46788,9 +46904,10 @@ export namespace Prisma {
 
   export type SessionCreateWithoutUserInput = {
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     task?: UserTaskCreateNestedOneWithoutSessionsInput
     break?: UserBreakCreateNestedOneWithoutSessionsInput
   }
@@ -46798,9 +46915,10 @@ export namespace Prisma {
   export type SessionUncheckedCreateWithoutUserInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     taskId?: number | null
     breakId?: number | null
   }
@@ -46853,6 +46971,7 @@ export namespace Prisma {
     checkIn?: Date | string
     checkOut?: Date | string | null
     createdAt?: Date | string
+    remark?: string
   }
 
   export type AttendanceUncheckedCreateWithoutUserInput = {
@@ -46861,6 +46980,7 @@ export namespace Prisma {
     checkIn?: Date | string
     checkOut?: Date | string | null
     createdAt?: Date | string
+    remark?: string
   }
 
   export type AttendanceCreateOrConnectWithoutUserInput = {
@@ -47163,9 +47283,10 @@ export namespace Prisma {
     NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
     id?: IntFilter<"Session"> | number
     type?: EnumSessionTypeFilter<"Session"> | $Enums.SessionType
-    startTime?: DateTimeFilter<"Session"> | Date | string
+    date?: DateTimeFilter<"Session"> | Date | string
+    startTime?: StringFilter<"Session"> | string
     latestLogged?: DateTimeFilter<"Session"> | Date | string
-    endTime?: DateTimeNullableFilter<"Session"> | Date | string | null
+    endTime?: StringFilter<"Session"> | string
     userId?: IntFilter<"Session"> | number
     taskId?: IntNullableFilter<"Session"> | number | null
     breakId?: IntNullableFilter<"Session"> | number | null
@@ -47229,6 +47350,7 @@ export namespace Prisma {
     checkIn?: DateTimeFilter<"Attendance"> | Date | string
     checkOut?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
+    remark?: StringFilter<"Attendance"> | string
   }
 
   export type userCreateWithoutAttendanceInput = {
@@ -47803,9 +47925,10 @@ export namespace Prisma {
 
   export type SessionCreateWithoutTaskInput = {
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     user: userCreateNestedOneWithoutSessionsInput
     break?: UserBreakCreateNestedOneWithoutSessionsInput
   }
@@ -47813,9 +47936,10 @@ export namespace Prisma {
   export type SessionUncheckedCreateWithoutTaskInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     userId: number
     breakId?: number | null
   }
@@ -48097,9 +48221,10 @@ export namespace Prisma {
 
   export type SessionCreateWithoutBreakInput = {
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     user: userCreateNestedOneWithoutSessionsInput
     task?: UserTaskCreateNestedOneWithoutSessionsInput
   }
@@ -48107,9 +48232,10 @@ export namespace Prisma {
   export type SessionUncheckedCreateWithoutBreakInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     userId: number
     taskId?: number | null
   }
@@ -49282,6 +49408,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -49302,6 +49430,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -49351,6 +49481,8 @@ export namespace Prisma {
     pending?: IntFilter<"campaign"> | number
     duedate?: DateTimeFilter<"campaign"> | Date | string
     info?: JsonFilter<"campaign">
+    additionalInfo?: StringFilter<"campaign"> | string
+    descriptionOfFilesAttached?: StringFilter<"campaign"> | string
     content?: JsonFilter<"campaign">
     filesInfo?: JsonFilter<"campaign">
     updates?: JsonFilter<"campaign">
@@ -49615,6 +49747,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -49636,6 +49770,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -49764,6 +49900,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -49785,6 +49923,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -49873,6 +50013,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -49894,6 +50036,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -50006,6 +50150,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -50027,6 +50173,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -50420,6 +50568,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -50441,6 +50591,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -50591,6 +50743,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -50612,6 +50766,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -51080,9 +51236,10 @@ export namespace Prisma {
   export type SessionCreateManyUserInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     taskId?: number | null
     breakId?: number | null
   }
@@ -51105,6 +51262,7 @@ export namespace Prisma {
     checkIn?: Date | string
     checkOut?: Date | string | null
     createdAt?: Date | string
+    remark?: string
   }
 
   export type leadsUploadUpdateWithoutUploaderInput = {
@@ -51374,9 +51532,10 @@ export namespace Prisma {
 
   export type SessionUpdateWithoutUserInput = {
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     task?: UserTaskUpdateOneWithoutSessionsNestedInput
     break?: UserBreakUpdateOneWithoutSessionsNestedInput
   }
@@ -51384,9 +51543,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     taskId?: NullableIntFieldUpdateOperationsInput | number | null
     breakId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -51394,9 +51554,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     taskId?: NullableIntFieldUpdateOperationsInput | number | null
     breakId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -51443,6 +51604,7 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttendanceUncheckedUpdateWithoutUserInput = {
@@ -51451,6 +51613,7 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttendanceUncheckedUpdateManyWithoutUserInput = {
@@ -51459,23 +51622,26 @@ export namespace Prisma {
     checkIn?: DateTimeFieldUpdateOperationsInput | Date | string
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remark?: StringFieldUpdateOperationsInput | string
   }
 
   export type SessionCreateManyTaskInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     userId: number
     breakId?: number | null
   }
 
   export type SessionUpdateWithoutTaskInput = {
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     user?: userUpdateOneRequiredWithoutSessionsNestedInput
     break?: UserBreakUpdateOneWithoutSessionsNestedInput
   }
@@ -51483,9 +51649,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateWithoutTaskInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     breakId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -51493,9 +51660,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateManyWithoutTaskInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     breakId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -51503,18 +51671,20 @@ export namespace Prisma {
   export type SessionCreateManyBreakInput = {
     id?: number
     type: $Enums.SessionType
-    startTime: Date | string
+    date?: Date | string
+    startTime?: string
     latestLogged?: Date | string
-    endTime?: Date | string | null
+    endTime?: string
     userId: number
     taskId?: number | null
   }
 
   export type SessionUpdateWithoutBreakInput = {
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     user?: userUpdateOneRequiredWithoutSessionsNestedInput
     task?: UserTaskUpdateOneWithoutSessionsNestedInput
   }
@@ -51522,9 +51692,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateWithoutBreakInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     taskId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -51532,9 +51703,10 @@ export namespace Prisma {
   export type SessionUncheckedUpdateManyWithoutBreakInput = {
     id?: IntFieldUpdateOperationsInput | number
     type?: EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
     latestLogged?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     taskId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -51737,6 +51909,8 @@ export namespace Prisma {
     pending: number
     duedate?: Date | string
     info: JsonNullValueInput | InputJsonValue
+    additionalInfo?: string
+    descriptionOfFilesAttached?: string
     content: JsonNullValueInput | InputJsonValue
     filesInfo: JsonNullValueInput | InputJsonValue
     updates: JsonNullValueInput | InputJsonValue
@@ -51753,6 +51927,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -51773,6 +51949,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue
@@ -51793,6 +51971,8 @@ export namespace Prisma {
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
     info?: JsonNullValueInput | InputJsonValue
+    additionalInfo?: StringFieldUpdateOperationsInput | string
+    descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
     content?: JsonNullValueInput | InputJsonValue
     filesInfo?: JsonNullValueInput | InputJsonValue
     updates?: JsonNullValueInput | InputJsonValue

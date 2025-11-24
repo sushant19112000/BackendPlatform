@@ -20,12 +20,15 @@ const assignTask = async (userId, taskId, assignedById) => {
     }
 }
 
-const multiUserTaskAssign = async (users, taskId, assignedById) => {
+const multiUserTaskAssign = async (users, assignedById, taskId) => {
     try {
+        console.log(users, 'users')
         let taskAssignedData = { users: [], taskId, assignedById }
         for (let user of users) {
             try {
                 let newUserTask = await assignTask(user, taskId, assignedById);
+                console.log(taskId, 'taskId')
+                console.log(newUserTask, 'task assigned')
                 taskAssignedData.users.push(user)
             }
             catch (e) {
@@ -78,7 +81,33 @@ const reassignTask = async (taskId, status, remark, level, userId, assignedById)
 const getTasksAssignedBy = async (userId) => {
     try {
         const assignedTasks = await prisma.userTask.findMany({ where: { assignedById: userId }, include: { user: true, task: true } })
-        return assignedTasks;
+        const groupedTasks = assignedTasks.reduce((acc, userTask) => {
+            const taskId = userTask.taskId;
+
+            // Extract the task details and the current user's info
+            const { task, user } = userTask;
+
+            // The user object only needs id and name
+            const assignedUser = { id: user.id, name: user.name };
+
+            // Initialize the entry for this taskId if it doesn't exist
+            if (!acc[taskId]) {
+                // Start with all the task details and an empty array for users
+                acc[taskId] = {
+                    ...task,
+                    assignedUsers: []
+                };
+            }
+
+            // Add the current assigned user to the array
+            acc[taskId].assignedUsers.push(assignedUser);
+
+            return acc;
+        }, {});
+
+        // If you want the final result as an array of tasks (instead of an object keyed by taskId)
+        const finalResult = Object.values(groupedTasks);
+        return finalResult;
     }
     catch (e) {
         console.log(e);
@@ -89,12 +118,12 @@ const getTasksAssignedBy = async (userId) => {
 const getUserTasks = async (userId) => {
     try {
         console.log(userId, 'in tasks')
-        const tasks = await prisma.userTask.findMany({ where: { userId: userId }, select: { task: true, assignee: {select:{name:true}} } })
+        const tasks = await prisma.userTask.findMany({ where: { userId: userId }, select: { task: true, assignee: { select: { name: true } } } })
 
         console.log(tasks, 'tasks')
         const newData = tasks.map(({ task, assignee }) => ({
             ...task,
-            assignedBy:assignee.name// flatten or merge as needed
+            assignedBy: assignee.name// flatten or merge as needed
         }));
 
         return newData;

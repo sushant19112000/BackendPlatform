@@ -132,7 +132,8 @@ exports.Prisma.AttendanceScalarFieldEnum = {
   date: 'date',
   checkIn: 'checkIn',
   checkOut: 'checkOut',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  remark: 'remark'
 };
 
 exports.Prisma.UserLeaveScalarFieldEnum = {
@@ -152,6 +153,7 @@ exports.Prisma.UserLeaveScalarFieldEnum = {
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   type: 'type',
+  date: 'date',
   startTime: 'startTime',
   latestLogged: 'latestLogged',
   endTime: 'endTime',
@@ -267,6 +269,8 @@ exports.Prisma.CampaignScalarFieldEnum = {
   pending: 'pending',
   duedate: 'duedate',
   info: 'info',
+  additionalInfo: 'additionalInfo',
+  descriptionOfFilesAttached: 'descriptionOfFilesAttached',
   content: 'content',
   filesInfo: 'filesInfo',
   updates: 'updates',

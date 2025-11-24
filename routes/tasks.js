@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 // const { getUserTasks, getTasksAssignedBy } = require('../services/tasks/userTasks');
-const { getAllTasks, createTask, getTask } = require('../services/tasks/tasks');
-const { multiUserTaskAssign, getUserTasks, getUserTask } = require('../services/tasks/userTasks');
+const { getAllTasks, createTask, getTask, getAllUnassignedTasks } = require('../services/tasks/tasks');
+const { multiUserTaskAssign, getUserTasks, getUserTask, getTasksAssignedBy } = require('../services/tasks/userTasks');
 const prisma = require('../db/dbConnection');
 
 
@@ -16,6 +16,19 @@ router.get('/', async (req, res) => {
    }
 })
 
+
+router.get('/unassigned', async (req, res) => {
+   try {
+      const tasks = await getAllUnassignedTasks();
+      return res.status(200).json({ message: "Data fetched successfully", data: tasks });
+   }
+   catch (e) {
+      console.log(e);
+   }
+})
+
+
+
 router.get('/user-tasks', async (req, res) => {
    try {
       const userId = Number(req.query.userId) || -1;
@@ -24,10 +37,12 @@ router.get('/user-tasks', async (req, res) => {
 
       if (userId != -1 && taskId != -1) {
          const task = await getUserTask(userId, taskId);
+         
          return res.status(200).json({ message: "Data fetched successfully", data: task });
       }
       if (userId != -1 && taskId == -1) {
          const tasks = await getUserTasks(userId);
+         console.log(tasks)
          return res.status(200).json({ message: "Data fetched successfully", data: tasks });
       }
 
@@ -94,8 +109,6 @@ router.put('/update-status', async (req, res) => {
 router.get('/:id', async (req, res) => {
    try {
       const taskId = Number(req.params.id);
-
-
       const task = await getTask(taskId);
       return res.status(200).json({ message: "Data fetched successfully", data: task });
    }
@@ -108,9 +121,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
    try {
       const data = req.body;
-      console.log('api called')
+    
       const newTask = await createTask(data.type, data.typeId, data.name, data.status, data.remark, data.level);
-      return res.status(200).json({ task: newTask });
+     
+      return res.status(200).json({ message:"Task created successfully",data: newTask });
    }
    catch (e) {
       console.log(e);
@@ -145,16 +159,16 @@ router.delete('/:id', async (req, res) => {
 
 
 
-// router.get('/assignedBy/:id', async(req,res)=>{
-//    try{
-//       const id = Number(req.params.id);
-//       const tasks= await getTasksAssignedBy(userId);
-//       return res.status(200).json({ message: "Data fetched successfully", data: tasks });
-//    }
-//    catch(e){
-//     console.log(e);
-//    }
-// })
+router.get('/assignedBy/:id', async(req,res)=>{
+   try{
+      const id = Number(req.params.id);
+      const tasks= await getTasksAssignedBy(id);
+      return res.status(200).json({ message: "Data fetched successfully", data: tasks });
+   }
+   catch(e){
+    console.log(e);
+   }
+})
 
 
 
@@ -167,7 +181,9 @@ router.post('/:id/assign', async (req, res) => {
       }
 
       const data = req.body;
+      console.log(data,'assigned data')
       const { users, assignedById } = data;
+      console.log(taskId,'taskid')
       const taskAssignedData = await multiUserTaskAssign(users, assignedById, taskId);
       return res.status(201).json({ data: taskAssignedData })
    }

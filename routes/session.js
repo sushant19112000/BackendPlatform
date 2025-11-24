@@ -1,6 +1,6 @@
 var express = require('express');
 const prisma = require('../db/dbConnection');
-const { createSession } = require('../services/tasks/sessions');
+const { createSession, endSession } = require('../services/tasks/sessions');
 var router = express.Router();
 
 
@@ -8,10 +8,14 @@ var router = express.Router();
 router.post('/', async (req, res) => {
     try {
         const data = req.body;
-        const taskId = data.taskId;
-        const userId = data.userId;
+        const date= new Date(data.date)
+        const taskId = Number(data.taskId);
+        const userId = Number(data.userId);
+        const startTime= data.startTime;
+
+        console.log(data,'session')
         const type="TASK"
-        const newSession= await createSession(userId, type, taskId)
+        const newSession= await createSession(userId, type, taskId,date,startTime)
         return res.status(200).json({ sessionId: newSession.id });
           
     }
@@ -23,6 +27,25 @@ router.post('/', async (req, res) => {
 
 })
 
+
+
+router.put('/:id', async (req, res) => {
+    try {
+        const data = req.body;
+        const sessionId= Number(req.params.id)
+        const endTime= data.endTime;
+        const sessionEnd= await endSession(sessionId, endTime)
+        return res.status(200).json({ message:"Session ended",session: sessionEnd });
+          
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({message:"Failed to add session data"});
+
+        
+    }
+
+})
 router.post('/session-activity', async (req, res) => {
     try {
         const data = req.body;
