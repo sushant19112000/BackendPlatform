@@ -44,34 +44,23 @@ const multiUserTaskAssign = async (users, assignedById, taskId) => {
 }
 
 // automatically created when a campaign or brief is added 
-const reassignTask = async (taskId, status, remark, level, userId, assignedById) => {
+const reassignTask = async (users, assignedById, taskId) => {
     try {
-        const existingTask = await prisma.task.findFirst({ where: { id: taskId } })
-        if (existingTask) {
-            return false;
-        }
+        console.log(users, 'users')
+        let taskAssignedData = { users: [], taskId, assignedById }
+        for (let user of users) {
+            try {
+                let newUserTask = await assignTask(user, taskId, assignedById);
+                console.log(taskId, 'taskId')
+                console.log(newUserTask, 'task assigned')
+                taskAssignedData.users.push(user)
+            }
+            catch (e) {
+                console.log(e, `failed to assign task ${taskId} to the user ${user}`)
+            }
 
-        const updateTask = await prisma.task.update({
-            where: {
-                id: taskId
-            },
-            data: {
-                status: status,
-                remark: remark,
-                level: level,
-                reassigned: true
-            }
-        })
-        const userTask = await prisma.userTask.update({
-            where: {
-                taskId: taskId
-            },
-            data: {
-                userId: userId,
-                assignedById: assignedById
-            }
-        })
-        return newTask;
+        }
+        return taskAssignedData;
     }
     catch (e) {
         console.log(e);

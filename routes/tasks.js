@@ -27,6 +27,15 @@ router.get('/unassigned', async (req, res) => {
    }
 })
 
+router.get('/reassign', async (req, res) => {
+   try {
+      const tasks = await getAllUnassignedTasks();
+      return res.status(200).json({ message: "Data fetched successfully", data: tasks });
+   }
+   catch (e) {
+      console.log(e);
+   }
+})
 
 
 router.get('/user-tasks', async (req, res) => {
@@ -121,9 +130,12 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
    try {
       const data = req.body;
-    
+      console.log(data,'task data')
       const newTask = await createTask(data.type, data.typeId, data.name, data.status, data.remark, data.level);
-     
+    
+      if(!newTask){
+          return res.status(400).json({ message:"Error Creating Task"});
+      }
       return res.status(200).json({ message:"Task created successfully",data: newTask });
    }
    catch (e) {
@@ -131,31 +143,6 @@ router.post('/', async (req, res) => {
       return res.status(500).json({ message: "Internal server error" });
    }
 })
-
-
-
-
-router.put('/:id', async (req, res) => {
-   try {
-      const data = req.body;
-      //  const updatedTask= updateTask();
-   }
-   catch (e) {
-
-   }
-})
-
-
-router.delete('/:id', async (req, res) => {
-   try {
-
-   }
-   catch (e) {
-      console.log(e);
-   }
-})
-
-
 
 
 
@@ -174,6 +161,25 @@ router.get('/assignedBy/:id', async(req,res)=>{
 
 
 router.post('/:id/assign', async (req, res) => {
+   try {
+      const taskId = Number(req.params.id) || -1;
+      if (taskId == -1) {
+         return res.status(404).json({ message: "Task not found" })
+      }
+
+      const data = req.body;
+      const { users, assignedById } = data;
+    
+      const taskAssignedData = await multiUserTaskAssign(users, assignedById, taskId);
+      return res.status(201).json({ data: taskAssignedData })
+   }
+   catch (e) {
+      console.log(e);
+      return res.status(500).json({ message: "Internal server error" });
+   }
+})
+
+router.post('/:id/reassign', async (req, res) => {
    try {
       const taskId = Number(req.params.id) || -1;
       if (taskId == -1) {

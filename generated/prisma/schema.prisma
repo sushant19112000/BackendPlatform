@@ -257,6 +257,9 @@ model campaign {
   pending                    Int
   duedate                    DateTime             @default(now())
   leads                      lead[]
+  firstUploadDate            DateTime             @default(now())
+  weeklyUploadDays           String               @default("Default")
+  cpc                        Int                  @default(0)
   info                       Json
   additionalInfo             String               @default("default info")
   descriptionOfFilesAttached String               @default("default des")
@@ -267,6 +270,7 @@ model campaign {
   updated_at                 DateTime             @updatedAt
   status                     String               @default("Active")
   campaignDeliveries         campaignDeliveries[]
+  campaignType               campaignType         @default(SINGLE_TOUCH)
 }
 
 model campaignDeliveries {
@@ -285,10 +289,10 @@ model campaignDeliveries {
   leads      lead[]
 }
 
-model campaignType {
-  id         Int    @id @default(autoincrement())
-  name       String
-  campaignId Int
+enum campaignType {
+  DOUBLE_TOUCH
+  SINGLE_TOUCH
+  RANDOM
 }
 
 model volume {
@@ -333,6 +337,7 @@ model Brief {
   remark             String?
   briefHyperlink     String?
   briefUpdates       BriefUpdates[]
+  files              Json?
 
   @@index([campaignId])
 }
@@ -342,6 +347,7 @@ model BriefUpdates {
   briefId        Int
   breif          Brief       @relation(fields: [briefId], references: [id])
   arrivedOn      DateTime
+  clientCode     String      @default("PH")
   due            DateTime
   status         BriefStatus @default(New)
   leadDetails    Json?
@@ -350,6 +356,7 @@ model BriefUpdates {
   campaignId     Int?
   remark         String?
   briefHyperlink String?
+  files          Json?
 
   @@index([campaignId])
 }
@@ -365,6 +372,7 @@ enum BriefStatus {
   Pending
   Quoted
   NewUpdate
+  Completed
 }
 
 model pacing {

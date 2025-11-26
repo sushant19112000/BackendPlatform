@@ -7,10 +7,13 @@ var router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const campaignId= await req.params.campaignId;
-        const campaignDeliveries = await getCampaignDeliveries(ca);
+        const campaignDeliveries = await getCampaignDeliveries(campaignId);
+        if(!campaignDeliveries){
+            return res.status(400).json({   message: "Error fetching campaign deliveriels"})
+        }
         res.status(200).json({
             message: "Data fetched successfully",
-            data: briefs
+            data: campaignDeliveries
         });
     } catch (error) {
         console.error("Error fetching briefs:", error);

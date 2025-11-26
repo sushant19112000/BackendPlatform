@@ -173,7 +173,10 @@ const addCampaign = async (data) => {
                 completed: 0,
                 pending: 0,
                 additionalInfo: data.additionalInfo,
-                descriptionOfFilesAttached: data.descriptionOfFilesAttached
+                descriptionOfFilesAttached: data.descriptionOfFilesAttached,
+                firstUploadDate:data.firstUploadDate,
+                weeklyUploadDays:JSON.stringify(data.weeklyUploadDay),
+                cpc:data.cpc
             },
             include: {
                 volumes: true,
@@ -285,7 +288,8 @@ router.post("/", async (req, res) => {
             volumeGoals: body.Volumes.map((v) => ({
                 name: v.key,
                 leadGoal: Number(v.value)
-            }))
+            })),
+            cpc:Number(body['ContactsPerCompany']) || 0
         };
 
 

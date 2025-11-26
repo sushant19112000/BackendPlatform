@@ -114,11 +114,6 @@ export type campaign = $Result.DefaultSelection<Prisma.$campaignPayload>
  */
 export type campaignDeliveries = $Result.DefaultSelection<Prisma.$campaignDeliveriesPayload>
 /**
- * Model campaignType
- * 
- */
-export type campaignType = $Result.DefaultSelection<Prisma.$campaignTypePayload>
-/**
  * Model volume
  * 
  */
@@ -216,6 +211,15 @@ export const TaskLevel: {
 export type TaskLevel = (typeof TaskLevel)[keyof typeof TaskLevel]
 
 
+export const campaignType: {
+  DOUBLE_TOUCH: 'DOUBLE_TOUCH',
+  SINGLE_TOUCH: 'SINGLE_TOUCH',
+  RANDOM: 'RANDOM'
+};
+
+export type campaignType = (typeof campaignType)[keyof typeof campaignType]
+
+
 export const VolumeStatus: {
   PENDING_APPROVAL: 'PENDING_APPROVAL',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -241,7 +245,8 @@ export const BriefStatus: {
   InProgress: 'InProgress',
   Pending: 'Pending',
   Quoted: 'Quoted',
-  NewUpdate: 'NewUpdate'
+  NewUpdate: 'NewUpdate',
+  Completed: 'Completed'
 };
 
 export type BriefStatus = (typeof BriefStatus)[keyof typeof BriefStatus]
@@ -290,6 +295,10 @@ export const TaskType: typeof $Enums.TaskType
 export type TaskLevel = $Enums.TaskLevel
 
 export const TaskLevel: typeof $Enums.TaskLevel
+
+export type campaignType = $Enums.campaignType
+
+export const campaignType: typeof $Enums.campaignType
 
 export type VolumeStatus = $Enums.VolumeStatus
 
@@ -628,16 +637,6 @@ export class PrismaClient<
     * ```
     */
   get campaignDeliveries(): Prisma.campaignDeliveriesDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.campaignType`: Exposes CRUD operations for the **campaignType** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more CampaignTypes
-    * const campaignTypes = await prisma.campaignType.findMany()
-    * ```
-    */
-  get campaignType(): Prisma.campaignTypeDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.volume`: Exposes CRUD operations for the **volume** model.
@@ -1178,7 +1177,6 @@ export namespace Prisma {
     client: 'client',
     campaign: 'campaign',
     campaignDeliveries: 'campaignDeliveries',
-    campaignType: 'campaignType',
     volume: 'volume',
     Brief: 'Brief',
     BriefUpdates: 'BriefUpdates',
@@ -1205,7 +1203,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "attendance" | "userLeave" | "session" | "userTask" | "userBreak" | "task" | "break" | "message" | "groupMessage" | "group" | "userGroups" | "notification" | "notificationPriority" | "role" | "roleNotification" | "userrole" | "client" | "campaign" | "campaignDeliveries" | "campaignType" | "volume" | "brief" | "briefUpdates" | "pacing" | "lead" | "leadsUpload" | "pacingReport" | "campaignReport"
+      modelProps: "user" | "attendance" | "userLeave" | "session" | "userTask" | "userBreak" | "task" | "break" | "message" | "groupMessage" | "group" | "userGroups" | "notification" | "notificationPriority" | "role" | "roleNotification" | "userrole" | "client" | "campaign" | "campaignDeliveries" | "volume" | "brief" | "briefUpdates" | "pacing" | "lead" | "leadsUpload" | "pacingReport" | "campaignReport"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2689,80 +2687,6 @@ export namespace Prisma {
           }
         }
       }
-      campaignType: {
-        payload: Prisma.$campaignTypePayload<ExtArgs>
-        fields: Prisma.campaignTypeFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.campaignTypeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.campaignTypeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>
-          }
-          findFirst: {
-            args: Prisma.campaignTypeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.campaignTypeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>
-          }
-          findMany: {
-            args: Prisma.campaignTypeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>[]
-          }
-          create: {
-            args: Prisma.campaignTypeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>
-          }
-          createMany: {
-            args: Prisma.campaignTypeCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.campaignTypeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>[]
-          }
-          delete: {
-            args: Prisma.campaignTypeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>
-          }
-          update: {
-            args: Prisma.campaignTypeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>
-          }
-          deleteMany: {
-            args: Prisma.campaignTypeDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.campaignTypeUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.campaignTypeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>[]
-          }
-          upsert: {
-            args: Prisma.campaignTypeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$campaignTypePayload>
-          }
-          aggregate: {
-            args: Prisma.CampaignTypeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCampaignType>
-          }
-          groupBy: {
-            args: Prisma.campaignTypeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CampaignTypeGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.campaignTypeCountArgs<ExtArgs>
-            result: $Utils.Optional<CampaignTypeCountAggregateOutputType> | number
-          }
-        }
-      }
       volume: {
         payload: Prisma.$volumePayload<ExtArgs>
         fields: Prisma.volumeFieldRefs
@@ -3467,7 +3391,6 @@ export namespace Prisma {
     client?: clientOmit
     campaign?: campaignOmit
     campaignDeliveries?: campaignDeliveriesOmit
-    campaignType?: campaignTypeOmit
     volume?: volumeOmit
     brief?: BriefOmit
     briefUpdates?: BriefUpdatesOmit
@@ -24669,6 +24592,7 @@ export namespace Prisma {
     leadgoal: number | null
     completed: number | null
     pending: number | null
+    cpc: number | null
   }
 
   export type CampaignSumAggregateOutputType = {
@@ -24677,6 +24601,7 @@ export namespace Prisma {
     leadgoal: number | null
     completed: number | null
     pending: number | null
+    cpc: number | null
   }
 
   export type CampaignMinAggregateOutputType = {
@@ -24688,11 +24613,15 @@ export namespace Prisma {
     completed: number | null
     pending: number | null
     duedate: Date | null
+    firstUploadDate: Date | null
+    weeklyUploadDays: string | null
+    cpc: number | null
     additionalInfo: string | null
     descriptionOfFilesAttached: string | null
     created_at: Date | null
     updated_at: Date | null
     status: string | null
+    campaignType: $Enums.campaignType | null
   }
 
   export type CampaignMaxAggregateOutputType = {
@@ -24704,11 +24633,15 @@ export namespace Prisma {
     completed: number | null
     pending: number | null
     duedate: Date | null
+    firstUploadDate: Date | null
+    weeklyUploadDays: string | null
+    cpc: number | null
     additionalInfo: string | null
     descriptionOfFilesAttached: string | null
     created_at: Date | null
     updated_at: Date | null
     status: string | null
+    campaignType: $Enums.campaignType | null
   }
 
   export type CampaignCountAggregateOutputType = {
@@ -24720,6 +24653,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate: number
+    firstUploadDate: number
+    weeklyUploadDays: number
+    cpc: number
     info: number
     additionalInfo: number
     descriptionOfFilesAttached: number
@@ -24729,6 +24665,7 @@ export namespace Prisma {
     created_at: number
     updated_at: number
     status: number
+    campaignType: number
     _all: number
   }
 
@@ -24739,6 +24676,7 @@ export namespace Prisma {
     leadgoal?: true
     completed?: true
     pending?: true
+    cpc?: true
   }
 
   export type CampaignSumAggregateInputType = {
@@ -24747,6 +24685,7 @@ export namespace Prisma {
     leadgoal?: true
     completed?: true
     pending?: true
+    cpc?: true
   }
 
   export type CampaignMinAggregateInputType = {
@@ -24758,11 +24697,15 @@ export namespace Prisma {
     completed?: true
     pending?: true
     duedate?: true
+    firstUploadDate?: true
+    weeklyUploadDays?: true
+    cpc?: true
     additionalInfo?: true
     descriptionOfFilesAttached?: true
     created_at?: true
     updated_at?: true
     status?: true
+    campaignType?: true
   }
 
   export type CampaignMaxAggregateInputType = {
@@ -24774,11 +24717,15 @@ export namespace Prisma {
     completed?: true
     pending?: true
     duedate?: true
+    firstUploadDate?: true
+    weeklyUploadDays?: true
+    cpc?: true
     additionalInfo?: true
     descriptionOfFilesAttached?: true
     created_at?: true
     updated_at?: true
     status?: true
+    campaignType?: true
   }
 
   export type CampaignCountAggregateInputType = {
@@ -24790,6 +24737,9 @@ export namespace Prisma {
     completed?: true
     pending?: true
     duedate?: true
+    firstUploadDate?: true
+    weeklyUploadDays?: true
+    cpc?: true
     info?: true
     additionalInfo?: true
     descriptionOfFilesAttached?: true
@@ -24799,6 +24749,7 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     status?: true
+    campaignType?: true
     _all?: true
   }
 
@@ -24897,6 +24848,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate: Date
+    firstUploadDate: Date
+    weeklyUploadDays: string
+    cpc: number
     info: JsonValue
     additionalInfo: string
     descriptionOfFilesAttached: string
@@ -24906,6 +24860,7 @@ export namespace Prisma {
     created_at: Date
     updated_at: Date
     status: string
+    campaignType: $Enums.campaignType
     _count: CampaignCountAggregateOutputType | null
     _avg: CampaignAvgAggregateOutputType | null
     _sum: CampaignSumAggregateOutputType | null
@@ -24936,6 +24891,9 @@ export namespace Prisma {
     completed?: boolean
     pending?: boolean
     duedate?: boolean
+    firstUploadDate?: boolean
+    weeklyUploadDays?: boolean
+    cpc?: boolean
     info?: boolean
     additionalInfo?: boolean
     descriptionOfFilesAttached?: boolean
@@ -24945,6 +24903,7 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     status?: boolean
+    campaignType?: boolean
     client?: boolean | clientDefaultArgs<ExtArgs>
     volumes?: boolean | campaign$volumesArgs<ExtArgs>
     leads?: boolean | campaign$leadsArgs<ExtArgs>
@@ -24961,6 +24920,9 @@ export namespace Prisma {
     completed?: boolean
     pending?: boolean
     duedate?: boolean
+    firstUploadDate?: boolean
+    weeklyUploadDays?: boolean
+    cpc?: boolean
     info?: boolean
     additionalInfo?: boolean
     descriptionOfFilesAttached?: boolean
@@ -24970,6 +24932,7 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     status?: boolean
+    campaignType?: boolean
     client?: boolean | clientDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["campaign"]>
 
@@ -24982,6 +24945,9 @@ export namespace Prisma {
     completed?: boolean
     pending?: boolean
     duedate?: boolean
+    firstUploadDate?: boolean
+    weeklyUploadDays?: boolean
+    cpc?: boolean
     info?: boolean
     additionalInfo?: boolean
     descriptionOfFilesAttached?: boolean
@@ -24991,6 +24957,7 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     status?: boolean
+    campaignType?: boolean
     client?: boolean | clientDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["campaign"]>
 
@@ -25003,6 +24970,9 @@ export namespace Prisma {
     completed?: boolean
     pending?: boolean
     duedate?: boolean
+    firstUploadDate?: boolean
+    weeklyUploadDays?: boolean
+    cpc?: boolean
     info?: boolean
     additionalInfo?: boolean
     descriptionOfFilesAttached?: boolean
@@ -25012,9 +24982,10 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     status?: boolean
+    campaignType?: boolean
   }
 
-  export type campaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "clientId" | "leadgoal" | "completed" | "pending" | "duedate" | "info" | "additionalInfo" | "descriptionOfFilesAttached" | "content" | "filesInfo" | "updates" | "created_at" | "updated_at" | "status", ExtArgs["result"]["campaign"]>
+  export type campaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "clientId" | "leadgoal" | "completed" | "pending" | "duedate" | "firstUploadDate" | "weeklyUploadDays" | "cpc" | "info" | "additionalInfo" | "descriptionOfFilesAttached" | "content" | "filesInfo" | "updates" | "created_at" | "updated_at" | "status" | "campaignType", ExtArgs["result"]["campaign"]>
   export type campaignInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | clientDefaultArgs<ExtArgs>
     volumes?: boolean | campaign$volumesArgs<ExtArgs>
@@ -25046,6 +25017,9 @@ export namespace Prisma {
       completed: number
       pending: number
       duedate: Date
+      firstUploadDate: Date
+      weeklyUploadDays: string
+      cpc: number
       info: Prisma.JsonValue
       additionalInfo: string
       descriptionOfFilesAttached: string
@@ -25055,6 +25029,7 @@ export namespace Prisma {
       created_at: Date
       updated_at: Date
       status: string
+      campaignType: $Enums.campaignType
     }, ExtArgs["result"]["campaign"]>
     composites: {}
   }
@@ -25490,6 +25465,9 @@ export namespace Prisma {
     readonly completed: FieldRef<"campaign", 'Int'>
     readonly pending: FieldRef<"campaign", 'Int'>
     readonly duedate: FieldRef<"campaign", 'DateTime'>
+    readonly firstUploadDate: FieldRef<"campaign", 'DateTime'>
+    readonly weeklyUploadDays: FieldRef<"campaign", 'String'>
+    readonly cpc: FieldRef<"campaign", 'Int'>
     readonly info: FieldRef<"campaign", 'Json'>
     readonly additionalInfo: FieldRef<"campaign", 'String'>
     readonly descriptionOfFilesAttached: FieldRef<"campaign", 'String'>
@@ -25499,6 +25477,7 @@ export namespace Prisma {
     readonly created_at: FieldRef<"campaign", 'DateTime'>
     readonly updated_at: FieldRef<"campaign", 'DateTime'>
     readonly status: FieldRef<"campaign", 'String'>
+    readonly campaignType: FieldRef<"campaign", 'campaignType'>
   }
     
 
@@ -27220,1011 +27199,6 @@ export namespace Prisma {
 
 
   /**
-   * Model campaignType
-   */
-
-  export type AggregateCampaignType = {
-    _count: CampaignTypeCountAggregateOutputType | null
-    _avg: CampaignTypeAvgAggregateOutputType | null
-    _sum: CampaignTypeSumAggregateOutputType | null
-    _min: CampaignTypeMinAggregateOutputType | null
-    _max: CampaignTypeMaxAggregateOutputType | null
-  }
-
-  export type CampaignTypeAvgAggregateOutputType = {
-    id: number | null
-    campaignId: number | null
-  }
-
-  export type CampaignTypeSumAggregateOutputType = {
-    id: number | null
-    campaignId: number | null
-  }
-
-  export type CampaignTypeMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    campaignId: number | null
-  }
-
-  export type CampaignTypeMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    campaignId: number | null
-  }
-
-  export type CampaignTypeCountAggregateOutputType = {
-    id: number
-    name: number
-    campaignId: number
-    _all: number
-  }
-
-
-  export type CampaignTypeAvgAggregateInputType = {
-    id?: true
-    campaignId?: true
-  }
-
-  export type CampaignTypeSumAggregateInputType = {
-    id?: true
-    campaignId?: true
-  }
-
-  export type CampaignTypeMinAggregateInputType = {
-    id?: true
-    name?: true
-    campaignId?: true
-  }
-
-  export type CampaignTypeMaxAggregateInputType = {
-    id?: true
-    name?: true
-    campaignId?: true
-  }
-
-  export type CampaignTypeCountAggregateInputType = {
-    id?: true
-    name?: true
-    campaignId?: true
-    _all?: true
-  }
-
-  export type CampaignTypeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which campaignType to aggregate.
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of campaignTypes to fetch.
-     */
-    orderBy?: campaignTypeOrderByWithRelationInput | campaignTypeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: campaignTypeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` campaignTypes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` campaignTypes.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned campaignTypes
-    **/
-    _count?: true | CampaignTypeCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: CampaignTypeAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: CampaignTypeSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CampaignTypeMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CampaignTypeMaxAggregateInputType
-  }
-
-  export type GetCampaignTypeAggregateType<T extends CampaignTypeAggregateArgs> = {
-        [P in keyof T & keyof AggregateCampaignType]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCampaignType[P]>
-      : GetScalarType<T[P], AggregateCampaignType[P]>
-  }
-
-
-
-
-  export type campaignTypeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: campaignTypeWhereInput
-    orderBy?: campaignTypeOrderByWithAggregationInput | campaignTypeOrderByWithAggregationInput[]
-    by: CampaignTypeScalarFieldEnum[] | CampaignTypeScalarFieldEnum
-    having?: campaignTypeScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CampaignTypeCountAggregateInputType | true
-    _avg?: CampaignTypeAvgAggregateInputType
-    _sum?: CampaignTypeSumAggregateInputType
-    _min?: CampaignTypeMinAggregateInputType
-    _max?: CampaignTypeMaxAggregateInputType
-  }
-
-  export type CampaignTypeGroupByOutputType = {
-    id: number
-    name: string
-    campaignId: number
-    _count: CampaignTypeCountAggregateOutputType | null
-    _avg: CampaignTypeAvgAggregateOutputType | null
-    _sum: CampaignTypeSumAggregateOutputType | null
-    _min: CampaignTypeMinAggregateOutputType | null
-    _max: CampaignTypeMaxAggregateOutputType | null
-  }
-
-  type GetCampaignTypeGroupByPayload<T extends campaignTypeGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<CampaignTypeGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CampaignTypeGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CampaignTypeGroupByOutputType[P]>
-            : GetScalarType<T[P], CampaignTypeGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type campaignTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    campaignId?: boolean
-  }, ExtArgs["result"]["campaignType"]>
-
-  export type campaignTypeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    campaignId?: boolean
-  }, ExtArgs["result"]["campaignType"]>
-
-  export type campaignTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    campaignId?: boolean
-  }, ExtArgs["result"]["campaignType"]>
-
-  export type campaignTypeSelectScalar = {
-    id?: boolean
-    name?: boolean
-    campaignId?: boolean
-  }
-
-  export type campaignTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "campaignId", ExtArgs["result"]["campaignType"]>
-
-  export type $campaignTypePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "campaignType"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      campaignId: number
-    }, ExtArgs["result"]["campaignType"]>
-    composites: {}
-  }
-
-  type campaignTypeGetPayload<S extends boolean | null | undefined | campaignTypeDefaultArgs> = $Result.GetResult<Prisma.$campaignTypePayload, S>
-
-  type campaignTypeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<campaignTypeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CampaignTypeCountAggregateInputType | true
-    }
-
-  export interface campaignTypeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['campaignType'], meta: { name: 'campaignType' } }
-    /**
-     * Find zero or one CampaignType that matches the filter.
-     * @param {campaignTypeFindUniqueArgs} args - Arguments to find a CampaignType
-     * @example
-     * // Get one CampaignType
-     * const campaignType = await prisma.campaignType.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends campaignTypeFindUniqueArgs>(args: SelectSubset<T, campaignTypeFindUniqueArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one CampaignType that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {campaignTypeFindUniqueOrThrowArgs} args - Arguments to find a CampaignType
-     * @example
-     * // Get one CampaignType
-     * const campaignType = await prisma.campaignType.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends campaignTypeFindUniqueOrThrowArgs>(args: SelectSubset<T, campaignTypeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first CampaignType that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {campaignTypeFindFirstArgs} args - Arguments to find a CampaignType
-     * @example
-     * // Get one CampaignType
-     * const campaignType = await prisma.campaignType.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends campaignTypeFindFirstArgs>(args?: SelectSubset<T, campaignTypeFindFirstArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first CampaignType that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {campaignTypeFindFirstOrThrowArgs} args - Arguments to find a CampaignType
-     * @example
-     * // Get one CampaignType
-     * const campaignType = await prisma.campaignType.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends campaignTypeFindFirstOrThrowArgs>(args?: SelectSubset<T, campaignTypeFindFirstOrThrowArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more CampaignTypes that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {campaignTypeFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all CampaignTypes
-     * const campaignTypes = await prisma.campaignType.findMany()
-     * 
-     * // Get first 10 CampaignTypes
-     * const campaignTypes = await prisma.campaignType.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const campaignTypeWithIdOnly = await prisma.campaignType.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends campaignTypeFindManyArgs>(args?: SelectSubset<T, campaignTypeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a CampaignType.
-     * @param {campaignTypeCreateArgs} args - Arguments to create a CampaignType.
-     * @example
-     * // Create one CampaignType
-     * const CampaignType = await prisma.campaignType.create({
-     *   data: {
-     *     // ... data to create a CampaignType
-     *   }
-     * })
-     * 
-     */
-    create<T extends campaignTypeCreateArgs>(args: SelectSubset<T, campaignTypeCreateArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many CampaignTypes.
-     * @param {campaignTypeCreateManyArgs} args - Arguments to create many CampaignTypes.
-     * @example
-     * // Create many CampaignTypes
-     * const campaignType = await prisma.campaignType.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends campaignTypeCreateManyArgs>(args?: SelectSubset<T, campaignTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many CampaignTypes and returns the data saved in the database.
-     * @param {campaignTypeCreateManyAndReturnArgs} args - Arguments to create many CampaignTypes.
-     * @example
-     * // Create many CampaignTypes
-     * const campaignType = await prisma.campaignType.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many CampaignTypes and only return the `id`
-     * const campaignTypeWithIdOnly = await prisma.campaignType.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends campaignTypeCreateManyAndReturnArgs>(args?: SelectSubset<T, campaignTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a CampaignType.
-     * @param {campaignTypeDeleteArgs} args - Arguments to delete one CampaignType.
-     * @example
-     * // Delete one CampaignType
-     * const CampaignType = await prisma.campaignType.delete({
-     *   where: {
-     *     // ... filter to delete one CampaignType
-     *   }
-     * })
-     * 
-     */
-    delete<T extends campaignTypeDeleteArgs>(args: SelectSubset<T, campaignTypeDeleteArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one CampaignType.
-     * @param {campaignTypeUpdateArgs} args - Arguments to update one CampaignType.
-     * @example
-     * // Update one CampaignType
-     * const campaignType = await prisma.campaignType.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends campaignTypeUpdateArgs>(args: SelectSubset<T, campaignTypeUpdateArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more CampaignTypes.
-     * @param {campaignTypeDeleteManyArgs} args - Arguments to filter CampaignTypes to delete.
-     * @example
-     * // Delete a few CampaignTypes
-     * const { count } = await prisma.campaignType.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends campaignTypeDeleteManyArgs>(args?: SelectSubset<T, campaignTypeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CampaignTypes.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {campaignTypeUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many CampaignTypes
-     * const campaignType = await prisma.campaignType.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends campaignTypeUpdateManyArgs>(args: SelectSubset<T, campaignTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CampaignTypes and returns the data updated in the database.
-     * @param {campaignTypeUpdateManyAndReturnArgs} args - Arguments to update many CampaignTypes.
-     * @example
-     * // Update many CampaignTypes
-     * const campaignType = await prisma.campaignType.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more CampaignTypes and only return the `id`
-     * const campaignTypeWithIdOnly = await prisma.campaignType.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends campaignTypeUpdateManyAndReturnArgs>(args: SelectSubset<T, campaignTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one CampaignType.
-     * @param {campaignTypeUpsertArgs} args - Arguments to update or create a CampaignType.
-     * @example
-     * // Update or create a CampaignType
-     * const campaignType = await prisma.campaignType.upsert({
-     *   create: {
-     *     // ... data to create a CampaignType
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the CampaignType we want to update
-     *   }
-     * })
-     */
-    upsert<T extends campaignTypeUpsertArgs>(args: SelectSubset<T, campaignTypeUpsertArgs<ExtArgs>>): Prisma__campaignTypeClient<$Result.GetResult<Prisma.$campaignTypePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of CampaignTypes.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {campaignTypeCountArgs} args - Arguments to filter CampaignTypes to count.
-     * @example
-     * // Count the number of CampaignTypes
-     * const count = await prisma.campaignType.count({
-     *   where: {
-     *     // ... the filter for the CampaignTypes we want to count
-     *   }
-     * })
-    **/
-    count<T extends campaignTypeCountArgs>(
-      args?: Subset<T, campaignTypeCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CampaignTypeCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a CampaignType.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CampaignTypeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CampaignTypeAggregateArgs>(args: Subset<T, CampaignTypeAggregateArgs>): Prisma.PrismaPromise<GetCampaignTypeAggregateType<T>>
-
-    /**
-     * Group by CampaignType.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {campaignTypeGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends campaignTypeGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: campaignTypeGroupByArgs['orderBy'] }
-        : { orderBy?: campaignTypeGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, campaignTypeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCampaignTypeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the campaignType model
-   */
-  readonly fields: campaignTypeFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for campaignType.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__campaignTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the campaignType model
-   */
-  interface campaignTypeFieldRefs {
-    readonly id: FieldRef<"campaignType", 'Int'>
-    readonly name: FieldRef<"campaignType", 'String'>
-    readonly campaignId: FieldRef<"campaignType", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * campaignType findUnique
-   */
-  export type campaignTypeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * Filter, which campaignType to fetch.
-     */
-    where: campaignTypeWhereUniqueInput
-  }
-
-  /**
-   * campaignType findUniqueOrThrow
-   */
-  export type campaignTypeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * Filter, which campaignType to fetch.
-     */
-    where: campaignTypeWhereUniqueInput
-  }
-
-  /**
-   * campaignType findFirst
-   */
-  export type campaignTypeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * Filter, which campaignType to fetch.
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of campaignTypes to fetch.
-     */
-    orderBy?: campaignTypeOrderByWithRelationInput | campaignTypeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for campaignTypes.
-     */
-    cursor?: campaignTypeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` campaignTypes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` campaignTypes.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of campaignTypes.
-     */
-    distinct?: CampaignTypeScalarFieldEnum | CampaignTypeScalarFieldEnum[]
-  }
-
-  /**
-   * campaignType findFirstOrThrow
-   */
-  export type campaignTypeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * Filter, which campaignType to fetch.
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of campaignTypes to fetch.
-     */
-    orderBy?: campaignTypeOrderByWithRelationInput | campaignTypeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for campaignTypes.
-     */
-    cursor?: campaignTypeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` campaignTypes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` campaignTypes.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of campaignTypes.
-     */
-    distinct?: CampaignTypeScalarFieldEnum | CampaignTypeScalarFieldEnum[]
-  }
-
-  /**
-   * campaignType findMany
-   */
-  export type campaignTypeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * Filter, which campaignTypes to fetch.
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of campaignTypes to fetch.
-     */
-    orderBy?: campaignTypeOrderByWithRelationInput | campaignTypeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing campaignTypes.
-     */
-    cursor?: campaignTypeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` campaignTypes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` campaignTypes.
-     */
-    skip?: number
-    distinct?: CampaignTypeScalarFieldEnum | CampaignTypeScalarFieldEnum[]
-  }
-
-  /**
-   * campaignType create
-   */
-  export type campaignTypeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * The data needed to create a campaignType.
-     */
-    data: XOR<campaignTypeCreateInput, campaignTypeUncheckedCreateInput>
-  }
-
-  /**
-   * campaignType createMany
-   */
-  export type campaignTypeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many campaignTypes.
-     */
-    data: campaignTypeCreateManyInput | campaignTypeCreateManyInput[]
-  }
-
-  /**
-   * campaignType createManyAndReturn
-   */
-  export type campaignTypeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * The data used to create many campaignTypes.
-     */
-    data: campaignTypeCreateManyInput | campaignTypeCreateManyInput[]
-  }
-
-  /**
-   * campaignType update
-   */
-  export type campaignTypeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * The data needed to update a campaignType.
-     */
-    data: XOR<campaignTypeUpdateInput, campaignTypeUncheckedUpdateInput>
-    /**
-     * Choose, which campaignType to update.
-     */
-    where: campaignTypeWhereUniqueInput
-  }
-
-  /**
-   * campaignType updateMany
-   */
-  export type campaignTypeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update campaignTypes.
-     */
-    data: XOR<campaignTypeUpdateManyMutationInput, campaignTypeUncheckedUpdateManyInput>
-    /**
-     * Filter which campaignTypes to update
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * Limit how many campaignTypes to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * campaignType updateManyAndReturn
-   */
-  export type campaignTypeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * The data used to update campaignTypes.
-     */
-    data: XOR<campaignTypeUpdateManyMutationInput, campaignTypeUncheckedUpdateManyInput>
-    /**
-     * Filter which campaignTypes to update
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * Limit how many campaignTypes to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * campaignType upsert
-   */
-  export type campaignTypeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * The filter to search for the campaignType to update in case it exists.
-     */
-    where: campaignTypeWhereUniqueInput
-    /**
-     * In case the campaignType found by the `where` argument doesn't exist, create a new campaignType with this data.
-     */
-    create: XOR<campaignTypeCreateInput, campaignTypeUncheckedCreateInput>
-    /**
-     * In case the campaignType was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<campaignTypeUpdateInput, campaignTypeUncheckedUpdateInput>
-  }
-
-  /**
-   * campaignType delete
-   */
-  export type campaignTypeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-    /**
-     * Filter which campaignType to delete.
-     */
-    where: campaignTypeWhereUniqueInput
-  }
-
-  /**
-   * campaignType deleteMany
-   */
-  export type campaignTypeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which campaignTypes to delete
-     */
-    where?: campaignTypeWhereInput
-    /**
-     * Limit how many campaignTypes to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * campaignType without action
-   */
-  export type campaignTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the campaignType
-     */
-    select?: campaignTypeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the campaignType
-     */
-    omit?: campaignTypeOmit<ExtArgs> | null
-  }
-
-
-  /**
    * Model volume
    */
 
@@ -29525,6 +28499,7 @@ export namespace Prisma {
     campaignId: number
     remark: number
     briefHyperlink: number
+    files: number
     _all: number
   }
 
@@ -29584,6 +28559,7 @@ export namespace Prisma {
     campaignId?: true
     remark?: true
     briefHyperlink?: true
+    files?: true
     _all?: true
   }
 
@@ -29688,6 +28664,7 @@ export namespace Prisma {
     campaignId: number | null
     remark: string | null
     briefHyperlink: string | null
+    files: JsonValue | null
     _count: BriefCountAggregateOutputType | null
     _avg: BriefAvgAggregateOutputType | null
     _sum: BriefSumAggregateOutputType | null
@@ -29724,6 +28701,7 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
     briefUpdates?: boolean | Brief$briefUpdatesArgs<ExtArgs>
     _count?: boolean | BriefCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["brief"]>
@@ -29743,6 +28721,7 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
   }, ExtArgs["result"]["brief"]>
 
   export type BriefSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29760,6 +28739,7 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
   }, ExtArgs["result"]["brief"]>
 
   export type BriefSelectScalar = {
@@ -29777,9 +28757,10 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
   }
 
-  export type BriefOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "arrivedOn" | "arrivedOnTime" | "dueTime" | "due" | "status" | "leadDetails" | "leadDetailsSection" | "type" | "quotes" | "campaignId" | "remark" | "briefHyperlink", ExtArgs["result"]["brief"]>
+  export type BriefOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "arrivedOn" | "arrivedOnTime" | "dueTime" | "due" | "status" | "leadDetails" | "leadDetailsSection" | "type" | "quotes" | "campaignId" | "remark" | "briefHyperlink" | "files", ExtArgs["result"]["brief"]>
   export type BriefInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     briefUpdates?: boolean | Brief$briefUpdatesArgs<ExtArgs>
     _count?: boolean | BriefCountOutputTypeDefaultArgs<ExtArgs>
@@ -29807,6 +28788,7 @@ export namespace Prisma {
       campaignId: number | null
       remark: string | null
       briefHyperlink: string | null
+      files: Prisma.JsonValue | null
     }, ExtArgs["result"]["brief"]>
     composites: {}
   }
@@ -30245,6 +29227,7 @@ export namespace Prisma {
     readonly campaignId: FieldRef<"Brief", 'Int'>
     readonly remark: FieldRef<"Brief", 'String'>
     readonly briefHyperlink: FieldRef<"Brief", 'String'>
+    readonly files: FieldRef<"Brief", 'Json'>
   }
     
 
@@ -30701,6 +29684,7 @@ export namespace Prisma {
     id: number | null
     briefId: number | null
     arrivedOn: Date | null
+    clientCode: string | null
     due: Date | null
     status: $Enums.BriefStatus | null
     type: $Enums.BriefType | null
@@ -30713,6 +29697,7 @@ export namespace Prisma {
     id: number | null
     briefId: number | null
     arrivedOn: Date | null
+    clientCode: string | null
     due: Date | null
     status: $Enums.BriefStatus | null
     type: $Enums.BriefType | null
@@ -30725,6 +29710,7 @@ export namespace Prisma {
     id: number
     briefId: number
     arrivedOn: number
+    clientCode: number
     due: number
     status: number
     leadDetails: number
@@ -30733,6 +29719,7 @@ export namespace Prisma {
     campaignId: number
     remark: number
     briefHyperlink: number
+    files: number
     _all: number
   }
 
@@ -30753,6 +29740,7 @@ export namespace Prisma {
     id?: true
     briefId?: true
     arrivedOn?: true
+    clientCode?: true
     due?: true
     status?: true
     type?: true
@@ -30765,6 +29753,7 @@ export namespace Prisma {
     id?: true
     briefId?: true
     arrivedOn?: true
+    clientCode?: true
     due?: true
     status?: true
     type?: true
@@ -30777,6 +29766,7 @@ export namespace Prisma {
     id?: true
     briefId?: true
     arrivedOn?: true
+    clientCode?: true
     due?: true
     status?: true
     leadDetails?: true
@@ -30785,6 +29775,7 @@ export namespace Prisma {
     campaignId?: true
     remark?: true
     briefHyperlink?: true
+    files?: true
     _all?: true
   }
 
@@ -30878,6 +29869,7 @@ export namespace Prisma {
     id: number
     briefId: number
     arrivedOn: Date
+    clientCode: string
     due: Date
     status: $Enums.BriefStatus
     leadDetails: JsonValue | null
@@ -30886,6 +29878,7 @@ export namespace Prisma {
     campaignId: number | null
     remark: string | null
     briefHyperlink: string | null
+    files: JsonValue | null
     _count: BriefUpdatesCountAggregateOutputType | null
     _avg: BriefUpdatesAvgAggregateOutputType | null
     _sum: BriefUpdatesSumAggregateOutputType | null
@@ -30911,6 +29904,7 @@ export namespace Prisma {
     id?: boolean
     briefId?: boolean
     arrivedOn?: boolean
+    clientCode?: boolean
     due?: boolean
     status?: boolean
     leadDetails?: boolean
@@ -30919,6 +29913,7 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
     breif?: boolean | BriefDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["briefUpdates"]>
 
@@ -30926,6 +29921,7 @@ export namespace Prisma {
     id?: boolean
     briefId?: boolean
     arrivedOn?: boolean
+    clientCode?: boolean
     due?: boolean
     status?: boolean
     leadDetails?: boolean
@@ -30934,6 +29930,7 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
     breif?: boolean | BriefDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["briefUpdates"]>
 
@@ -30941,6 +29938,7 @@ export namespace Prisma {
     id?: boolean
     briefId?: boolean
     arrivedOn?: boolean
+    clientCode?: boolean
     due?: boolean
     status?: boolean
     leadDetails?: boolean
@@ -30949,6 +29947,7 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
     breif?: boolean | BriefDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["briefUpdates"]>
 
@@ -30956,6 +29955,7 @@ export namespace Prisma {
     id?: boolean
     briefId?: boolean
     arrivedOn?: boolean
+    clientCode?: boolean
     due?: boolean
     status?: boolean
     leadDetails?: boolean
@@ -30964,9 +29964,10 @@ export namespace Prisma {
     campaignId?: boolean
     remark?: boolean
     briefHyperlink?: boolean
+    files?: boolean
   }
 
-  export type BriefUpdatesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "briefId" | "arrivedOn" | "due" | "status" | "leadDetails" | "type" | "quotes" | "campaignId" | "remark" | "briefHyperlink", ExtArgs["result"]["briefUpdates"]>
+  export type BriefUpdatesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "briefId" | "arrivedOn" | "clientCode" | "due" | "status" | "leadDetails" | "type" | "quotes" | "campaignId" | "remark" | "briefHyperlink" | "files", ExtArgs["result"]["briefUpdates"]>
   export type BriefUpdatesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     breif?: boolean | BriefDefaultArgs<ExtArgs>
   }
@@ -30986,6 +29987,7 @@ export namespace Prisma {
       id: number
       briefId: number
       arrivedOn: Date
+      clientCode: string
       due: Date
       status: $Enums.BriefStatus
       leadDetails: Prisma.JsonValue | null
@@ -30994,6 +29996,7 @@ export namespace Prisma {
       campaignId: number | null
       remark: string | null
       briefHyperlink: string | null
+      files: Prisma.JsonValue | null
     }, ExtArgs["result"]["briefUpdates"]>
     composites: {}
   }
@@ -31421,6 +30424,7 @@ export namespace Prisma {
     readonly id: FieldRef<"BriefUpdates", 'Int'>
     readonly briefId: FieldRef<"BriefUpdates", 'Int'>
     readonly arrivedOn: FieldRef<"BriefUpdates", 'DateTime'>
+    readonly clientCode: FieldRef<"BriefUpdates", 'String'>
     readonly due: FieldRef<"BriefUpdates", 'DateTime'>
     readonly status: FieldRef<"BriefUpdates", 'BriefStatus'>
     readonly leadDetails: FieldRef<"BriefUpdates", 'Json'>
@@ -31429,6 +30433,7 @@ export namespace Prisma {
     readonly campaignId: FieldRef<"BriefUpdates", 'Int'>
     readonly remark: FieldRef<"BriefUpdates", 'String'>
     readonly briefHyperlink: FieldRef<"BriefUpdates", 'String'>
+    readonly files: FieldRef<"BriefUpdates", 'Json'>
   }
     
 
@@ -37837,6 +36842,9 @@ export namespace Prisma {
     completed: 'completed',
     pending: 'pending',
     duedate: 'duedate',
+    firstUploadDate: 'firstUploadDate',
+    weeklyUploadDays: 'weeklyUploadDays',
+    cpc: 'cpc',
     info: 'info',
     additionalInfo: 'additionalInfo',
     descriptionOfFilesAttached: 'descriptionOfFilesAttached',
@@ -37845,7 +36853,8 @@ export namespace Prisma {
     updates: 'updates',
     created_at: 'created_at',
     updated_at: 'updated_at',
-    status: 'status'
+    status: 'status',
+    campaignType: 'campaignType'
   };
 
   export type CampaignScalarFieldEnum = (typeof CampaignScalarFieldEnum)[keyof typeof CampaignScalarFieldEnum]
@@ -37865,15 +36874,6 @@ export namespace Prisma {
   };
 
   export type CampaignDeliveriesScalarFieldEnum = (typeof CampaignDeliveriesScalarFieldEnum)[keyof typeof CampaignDeliveriesScalarFieldEnum]
-
-
-  export const CampaignTypeScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    campaignId: 'campaignId'
-  };
-
-  export type CampaignTypeScalarFieldEnum = (typeof CampaignTypeScalarFieldEnum)[keyof typeof CampaignTypeScalarFieldEnum]
 
 
   export const VolumeScalarFieldEnum: {
@@ -37907,7 +36907,8 @@ export namespace Prisma {
     quotes: 'quotes',
     campaignId: 'campaignId',
     remark: 'remark',
-    briefHyperlink: 'briefHyperlink'
+    briefHyperlink: 'briefHyperlink',
+    files: 'files'
   };
 
   export type BriefScalarFieldEnum = (typeof BriefScalarFieldEnum)[keyof typeof BriefScalarFieldEnum]
@@ -37917,6 +36918,7 @@ export namespace Prisma {
     id: 'id',
     briefId: 'briefId',
     arrivedOn: 'arrivedOn',
+    clientCode: 'clientCode',
     due: 'due',
     status: 'status',
     leadDetails: 'leadDetails',
@@ -37924,7 +36926,8 @@ export namespace Prisma {
     quotes: 'quotes',
     campaignId: 'campaignId',
     remark: 'remark',
-    briefHyperlink: 'briefHyperlink'
+    briefHyperlink: 'briefHyperlink',
+    files: 'files'
   };
 
   export type BriefUpdatesScalarFieldEnum = (typeof BriefUpdatesScalarFieldEnum)[keyof typeof BriefUpdatesScalarFieldEnum]
@@ -38138,6 +37141,13 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'campaignType'
+   */
+  export type EnumcampaignTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'campaignType'>
     
 
 
@@ -39304,6 +38314,9 @@ export namespace Prisma {
     completed?: IntFilter<"campaign"> | number
     pending?: IntFilter<"campaign"> | number
     duedate?: DateTimeFilter<"campaign"> | Date | string
+    firstUploadDate?: DateTimeFilter<"campaign"> | Date | string
+    weeklyUploadDays?: StringFilter<"campaign"> | string
+    cpc?: IntFilter<"campaign"> | number
     info?: JsonFilter<"campaign">
     additionalInfo?: StringFilter<"campaign"> | string
     descriptionOfFilesAttached?: StringFilter<"campaign"> | string
@@ -39313,6 +38326,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"campaign"> | Date | string
     updated_at?: DateTimeFilter<"campaign"> | Date | string
     status?: StringFilter<"campaign"> | string
+    campaignType?: EnumcampaignTypeFilter<"campaign"> | $Enums.campaignType
     client?: XOR<ClientScalarRelationFilter, clientWhereInput>
     volumes?: VolumeListRelationFilter
     leads?: LeadListRelationFilter
@@ -39328,6 +38342,9 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    firstUploadDate?: SortOrder
+    weeklyUploadDays?: SortOrder
+    cpc?: SortOrder
     info?: SortOrder
     additionalInfo?: SortOrder
     descriptionOfFilesAttached?: SortOrder
@@ -39337,6 +38354,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
+    campaignType?: SortOrder
     client?: clientOrderByWithRelationInput
     volumes?: volumeOrderByRelationAggregateInput
     leads?: leadOrderByRelationAggregateInput
@@ -39355,6 +38373,9 @@ export namespace Prisma {
     completed?: IntFilter<"campaign"> | number
     pending?: IntFilter<"campaign"> | number
     duedate?: DateTimeFilter<"campaign"> | Date | string
+    firstUploadDate?: DateTimeFilter<"campaign"> | Date | string
+    weeklyUploadDays?: StringFilter<"campaign"> | string
+    cpc?: IntFilter<"campaign"> | number
     info?: JsonFilter<"campaign">
     additionalInfo?: StringFilter<"campaign"> | string
     descriptionOfFilesAttached?: StringFilter<"campaign"> | string
@@ -39364,6 +38385,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"campaign"> | Date | string
     updated_at?: DateTimeFilter<"campaign"> | Date | string
     status?: StringFilter<"campaign"> | string
+    campaignType?: EnumcampaignTypeFilter<"campaign"> | $Enums.campaignType
     client?: XOR<ClientScalarRelationFilter, clientWhereInput>
     volumes?: VolumeListRelationFilter
     leads?: LeadListRelationFilter
@@ -39379,6 +38401,9 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    firstUploadDate?: SortOrder
+    weeklyUploadDays?: SortOrder
+    cpc?: SortOrder
     info?: SortOrder
     additionalInfo?: SortOrder
     descriptionOfFilesAttached?: SortOrder
@@ -39388,6 +38413,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
+    campaignType?: SortOrder
     _count?: campaignCountOrderByAggregateInput
     _avg?: campaignAvgOrderByAggregateInput
     _max?: campaignMaxOrderByAggregateInput
@@ -39407,6 +38433,9 @@ export namespace Prisma {
     completed?: IntWithAggregatesFilter<"campaign"> | number
     pending?: IntWithAggregatesFilter<"campaign"> | number
     duedate?: DateTimeWithAggregatesFilter<"campaign"> | Date | string
+    firstUploadDate?: DateTimeWithAggregatesFilter<"campaign"> | Date | string
+    weeklyUploadDays?: StringWithAggregatesFilter<"campaign"> | string
+    cpc?: IntWithAggregatesFilter<"campaign"> | number
     info?: JsonWithAggregatesFilter<"campaign">
     additionalInfo?: StringWithAggregatesFilter<"campaign"> | string
     descriptionOfFilesAttached?: StringWithAggregatesFilter<"campaign"> | string
@@ -39416,6 +38445,7 @@ export namespace Prisma {
     created_at?: DateTimeWithAggregatesFilter<"campaign"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"campaign"> | Date | string
     status?: StringWithAggregatesFilter<"campaign"> | string
+    campaignType?: EnumcampaignTypeWithAggregatesFilter<"campaign"> | $Enums.campaignType
   }
 
   export type campaignDeliveriesWhereInput = {
@@ -39504,50 +38534,6 @@ export namespace Prisma {
     rejections?: IntWithAggregatesFilter<"campaignDeliveries"> | number
     uploaderId?: IntNullableWithAggregatesFilter<"campaignDeliveries"> | number | null
     data?: StringWithAggregatesFilter<"campaignDeliveries"> | string
-  }
-
-  export type campaignTypeWhereInput = {
-    AND?: campaignTypeWhereInput | campaignTypeWhereInput[]
-    OR?: campaignTypeWhereInput[]
-    NOT?: campaignTypeWhereInput | campaignTypeWhereInput[]
-    id?: IntFilter<"campaignType"> | number
-    name?: StringFilter<"campaignType"> | string
-    campaignId?: IntFilter<"campaignType"> | number
-  }
-
-  export type campaignTypeOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    campaignId?: SortOrder
-  }
-
-  export type campaignTypeWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: campaignTypeWhereInput | campaignTypeWhereInput[]
-    OR?: campaignTypeWhereInput[]
-    NOT?: campaignTypeWhereInput | campaignTypeWhereInput[]
-    name?: StringFilter<"campaignType"> | string
-    campaignId?: IntFilter<"campaignType"> | number
-  }, "id">
-
-  export type campaignTypeOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    campaignId?: SortOrder
-    _count?: campaignTypeCountOrderByAggregateInput
-    _avg?: campaignTypeAvgOrderByAggregateInput
-    _max?: campaignTypeMaxOrderByAggregateInput
-    _min?: campaignTypeMinOrderByAggregateInput
-    _sum?: campaignTypeSumOrderByAggregateInput
-  }
-
-  export type campaignTypeScalarWhereWithAggregatesInput = {
-    AND?: campaignTypeScalarWhereWithAggregatesInput | campaignTypeScalarWhereWithAggregatesInput[]
-    OR?: campaignTypeScalarWhereWithAggregatesInput[]
-    NOT?: campaignTypeScalarWhereWithAggregatesInput | campaignTypeScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"campaignType"> | number
-    name?: StringWithAggregatesFilter<"campaignType"> | string
-    campaignId?: IntWithAggregatesFilter<"campaignType"> | number
   }
 
   export type volumeWhereInput = {
@@ -39661,6 +38647,7 @@ export namespace Prisma {
     campaignId?: IntNullableFilter<"Brief"> | number | null
     remark?: StringNullableFilter<"Brief"> | string | null
     briefHyperlink?: StringNullableFilter<"Brief"> | string | null
+    files?: JsonNullableFilter<"Brief">
     briefUpdates?: BriefUpdatesListRelationFilter
   }
 
@@ -39679,6 +38666,7 @@ export namespace Prisma {
     campaignId?: SortOrderInput | SortOrder
     remark?: SortOrderInput | SortOrder
     briefHyperlink?: SortOrderInput | SortOrder
+    files?: SortOrderInput | SortOrder
     briefUpdates?: BriefUpdatesOrderByRelationAggregateInput
   }
 
@@ -39700,6 +38688,7 @@ export namespace Prisma {
     campaignId?: IntNullableFilter<"Brief"> | number | null
     remark?: StringNullableFilter<"Brief"> | string | null
     briefHyperlink?: StringNullableFilter<"Brief"> | string | null
+    files?: JsonNullableFilter<"Brief">
     briefUpdates?: BriefUpdatesListRelationFilter
   }, "id">
 
@@ -39718,6 +38707,7 @@ export namespace Prisma {
     campaignId?: SortOrderInput | SortOrder
     remark?: SortOrderInput | SortOrder
     briefHyperlink?: SortOrderInput | SortOrder
+    files?: SortOrderInput | SortOrder
     _count?: BriefCountOrderByAggregateInput
     _avg?: BriefAvgOrderByAggregateInput
     _max?: BriefMaxOrderByAggregateInput
@@ -39743,6 +38733,7 @@ export namespace Prisma {
     campaignId?: IntNullableWithAggregatesFilter<"Brief"> | number | null
     remark?: StringNullableWithAggregatesFilter<"Brief"> | string | null
     briefHyperlink?: StringNullableWithAggregatesFilter<"Brief"> | string | null
+    files?: JsonNullableWithAggregatesFilter<"Brief">
   }
 
   export type BriefUpdatesWhereInput = {
@@ -39752,6 +38743,7 @@ export namespace Prisma {
     id?: IntFilter<"BriefUpdates"> | number
     briefId?: IntFilter<"BriefUpdates"> | number
     arrivedOn?: DateTimeFilter<"BriefUpdates"> | Date | string
+    clientCode?: StringFilter<"BriefUpdates"> | string
     due?: DateTimeFilter<"BriefUpdates"> | Date | string
     status?: EnumBriefStatusFilter<"BriefUpdates"> | $Enums.BriefStatus
     leadDetails?: JsonNullableFilter<"BriefUpdates">
@@ -39760,6 +38752,7 @@ export namespace Prisma {
     campaignId?: IntNullableFilter<"BriefUpdates"> | number | null
     remark?: StringNullableFilter<"BriefUpdates"> | string | null
     briefHyperlink?: StringNullableFilter<"BriefUpdates"> | string | null
+    files?: JsonNullableFilter<"BriefUpdates">
     breif?: XOR<BriefScalarRelationFilter, BriefWhereInput>
   }
 
@@ -39767,6 +38760,7 @@ export namespace Prisma {
     id?: SortOrder
     briefId?: SortOrder
     arrivedOn?: SortOrder
+    clientCode?: SortOrder
     due?: SortOrder
     status?: SortOrder
     leadDetails?: SortOrderInput | SortOrder
@@ -39775,6 +38769,7 @@ export namespace Prisma {
     campaignId?: SortOrderInput | SortOrder
     remark?: SortOrderInput | SortOrder
     briefHyperlink?: SortOrderInput | SortOrder
+    files?: SortOrderInput | SortOrder
     breif?: BriefOrderByWithRelationInput
   }
 
@@ -39785,6 +38780,7 @@ export namespace Prisma {
     NOT?: BriefUpdatesWhereInput | BriefUpdatesWhereInput[]
     briefId?: IntFilter<"BriefUpdates"> | number
     arrivedOn?: DateTimeFilter<"BriefUpdates"> | Date | string
+    clientCode?: StringFilter<"BriefUpdates"> | string
     due?: DateTimeFilter<"BriefUpdates"> | Date | string
     status?: EnumBriefStatusFilter<"BriefUpdates"> | $Enums.BriefStatus
     leadDetails?: JsonNullableFilter<"BriefUpdates">
@@ -39793,6 +38789,7 @@ export namespace Prisma {
     campaignId?: IntNullableFilter<"BriefUpdates"> | number | null
     remark?: StringNullableFilter<"BriefUpdates"> | string | null
     briefHyperlink?: StringNullableFilter<"BriefUpdates"> | string | null
+    files?: JsonNullableFilter<"BriefUpdates">
     breif?: XOR<BriefScalarRelationFilter, BriefWhereInput>
   }, "id">
 
@@ -39800,6 +38797,7 @@ export namespace Prisma {
     id?: SortOrder
     briefId?: SortOrder
     arrivedOn?: SortOrder
+    clientCode?: SortOrder
     due?: SortOrder
     status?: SortOrder
     leadDetails?: SortOrderInput | SortOrder
@@ -39808,6 +38806,7 @@ export namespace Prisma {
     campaignId?: SortOrderInput | SortOrder
     remark?: SortOrderInput | SortOrder
     briefHyperlink?: SortOrderInput | SortOrder
+    files?: SortOrderInput | SortOrder
     _count?: BriefUpdatesCountOrderByAggregateInput
     _avg?: BriefUpdatesAvgOrderByAggregateInput
     _max?: BriefUpdatesMaxOrderByAggregateInput
@@ -39822,6 +38821,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"BriefUpdates"> | number
     briefId?: IntWithAggregatesFilter<"BriefUpdates"> | number
     arrivedOn?: DateTimeWithAggregatesFilter<"BriefUpdates"> | Date | string
+    clientCode?: StringWithAggregatesFilter<"BriefUpdates"> | string
     due?: DateTimeWithAggregatesFilter<"BriefUpdates"> | Date | string
     status?: EnumBriefStatusWithAggregatesFilter<"BriefUpdates"> | $Enums.BriefStatus
     leadDetails?: JsonNullableWithAggregatesFilter<"BriefUpdates">
@@ -39830,6 +38830,7 @@ export namespace Prisma {
     campaignId?: IntNullableWithAggregatesFilter<"BriefUpdates"> | number | null
     remark?: StringNullableWithAggregatesFilter<"BriefUpdates"> | string | null
     briefHyperlink?: StringNullableWithAggregatesFilter<"BriefUpdates"> | string | null
+    files?: JsonNullableWithAggregatesFilter<"BriefUpdates">
   }
 
   export type pacingWhereInput = {
@@ -41264,6 +40265,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -41273,6 +40277,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     client: clientCreateNestedOneWithoutCampaignsInput
     volumes?: volumeCreateNestedManyWithoutCampaignInput
     leads?: leadCreateNestedManyWithoutCampaignInput
@@ -41288,6 +40293,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -41297,6 +40305,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     volumes?: volumeUncheckedCreateNestedManyWithoutCampaignInput
     leads?: leadUncheckedCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesUncheckedCreateNestedManyWithoutCampaignInput
@@ -41309,6 +40318,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -41318,6 +40330,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     client?: clientUpdateOneRequiredWithoutCampaignsNestedInput
     volumes?: volumeUpdateManyWithoutCampaignNestedInput
     leads?: leadUpdateManyWithoutCampaignNestedInput
@@ -41333,6 +40346,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -41342,6 +40358,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     volumes?: volumeUncheckedUpdateManyWithoutCampaignNestedInput
     leads?: leadUncheckedUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUncheckedUpdateManyWithoutCampaignNestedInput
@@ -41356,6 +40373,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -41365,6 +40385,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
   }
 
   export type campaignUpdateManyMutationInput = {
@@ -41374,6 +40395,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -41383,6 +40407,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
   }
 
   export type campaignUncheckedUpdateManyInput = {
@@ -41394,6 +40419,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -41403,6 +40431,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
   }
 
   export type campaignDeliveriesCreateInput = {
@@ -41493,45 +40522,6 @@ export namespace Prisma {
     rejections?: IntFieldUpdateOperationsInput | number
     uploaderId?: NullableIntFieldUpdateOperationsInput | number | null
     data?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type campaignTypeCreateInput = {
-    name: string
-    campaignId: number
-  }
-
-  export type campaignTypeUncheckedCreateInput = {
-    id?: number
-    name: string
-    campaignId: number
-  }
-
-  export type campaignTypeUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    campaignId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type campaignTypeUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    campaignId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type campaignTypeCreateManyInput = {
-    id?: number
-    name: string
-    campaignId: number
-  }
-
-  export type campaignTypeUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    campaignId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type campaignTypeUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    campaignId?: IntFieldUpdateOperationsInput | number
   }
 
   export type volumeCreateInput = {
@@ -41650,6 +40640,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
     briefUpdates?: BriefUpdatesCreateNestedManyWithoutBreifInput
   }
 
@@ -41668,6 +40659,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
     briefUpdates?: BriefUpdatesUncheckedCreateNestedManyWithoutBreifInput
   }
 
@@ -41685,6 +40677,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
     briefUpdates?: BriefUpdatesUpdateManyWithoutBreifNestedInput
   }
 
@@ -41703,6 +40696,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
     briefUpdates?: BriefUpdatesUncheckedUpdateManyWithoutBreifNestedInput
   }
 
@@ -41721,6 +40715,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdateManyMutationInput = {
@@ -41737,6 +40732,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUncheckedUpdateManyInput = {
@@ -41754,10 +40750,12 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesCreateInput = {
     arrivedOn: Date | string
+    clientCode?: string
     due: Date | string
     status?: $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41766,6 +40764,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
     breif: BriefCreateNestedOneWithoutBriefUpdatesInput
   }
 
@@ -41773,6 +40772,7 @@ export namespace Prisma {
     id?: number
     briefId: number
     arrivedOn: Date | string
+    clientCode?: string
     due: Date | string
     status?: $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41781,10 +40781,12 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUpdateInput = {
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41793,6 +40795,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
     breif?: BriefUpdateOneRequiredWithoutBriefUpdatesNestedInput
   }
 
@@ -41800,6 +40803,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     briefId?: IntFieldUpdateOperationsInput | number
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41808,12 +40812,14 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesCreateManyInput = {
     id?: number
     briefId: number
     arrivedOn: Date | string
+    clientCode?: string
     due: Date | string
     status?: $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41822,10 +40828,12 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUpdateManyMutationInput = {
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41834,12 +40842,14 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     briefId?: IntFieldUpdateOperationsInput | number
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -41848,6 +40858,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type pacingCreateInput = {
@@ -43379,6 +42390,13 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type EnumcampaignTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.campaignType | EnumcampaignTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.campaignType[]
+    notIn?: $Enums.campaignType[]
+    not?: NestedEnumcampaignTypeFilter<$PrismaModel> | $Enums.campaignType
+  }
+
   export type ClientScalarRelationFilter = {
     is?: clientWhereInput
     isNot?: clientWhereInput
@@ -43413,6 +42431,9 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    firstUploadDate?: SortOrder
+    weeklyUploadDays?: SortOrder
+    cpc?: SortOrder
     info?: SortOrder
     additionalInfo?: SortOrder
     descriptionOfFilesAttached?: SortOrder
@@ -43422,6 +42443,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
+    campaignType?: SortOrder
   }
 
   export type campaignAvgOrderByAggregateInput = {
@@ -43430,6 +42452,7 @@ export namespace Prisma {
     leadgoal?: SortOrder
     completed?: SortOrder
     pending?: SortOrder
+    cpc?: SortOrder
   }
 
   export type campaignMaxOrderByAggregateInput = {
@@ -43441,11 +42464,15 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    firstUploadDate?: SortOrder
+    weeklyUploadDays?: SortOrder
+    cpc?: SortOrder
     additionalInfo?: SortOrder
     descriptionOfFilesAttached?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
+    campaignType?: SortOrder
   }
 
   export type campaignMinOrderByAggregateInput = {
@@ -43457,11 +42484,15 @@ export namespace Prisma {
     completed?: SortOrder
     pending?: SortOrder
     duedate?: SortOrder
+    firstUploadDate?: SortOrder
+    weeklyUploadDays?: SortOrder
+    cpc?: SortOrder
     additionalInfo?: SortOrder
     descriptionOfFilesAttached?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     status?: SortOrder
+    campaignType?: SortOrder
   }
 
   export type campaignSumOrderByAggregateInput = {
@@ -43470,6 +42501,7 @@ export namespace Prisma {
     leadgoal?: SortOrder
     completed?: SortOrder
     pending?: SortOrder
+    cpc?: SortOrder
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -43491,6 +42523,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type EnumcampaignTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.campaignType | EnumcampaignTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.campaignType[]
+    notIn?: $Enums.campaignType[]
+    not?: NestedEnumcampaignTypeWithAggregatesFilter<$PrismaModel> | $Enums.campaignType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumcampaignTypeFilter<$PrismaModel>
+    _max?: NestedEnumcampaignTypeFilter<$PrismaModel>
   }
 
   export type CampaignScalarRelationFilter = {
@@ -43555,34 +42597,6 @@ export namespace Prisma {
     errors?: SortOrder
     rejections?: SortOrder
     uploaderId?: SortOrder
-  }
-
-  export type campaignTypeCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    campaignId?: SortOrder
-  }
-
-  export type campaignTypeAvgOrderByAggregateInput = {
-    id?: SortOrder
-    campaignId?: SortOrder
-  }
-
-  export type campaignTypeMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    campaignId?: SortOrder
-  }
-
-  export type campaignTypeMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    campaignId?: SortOrder
-  }
-
-  export type campaignTypeSumOrderByAggregateInput = {
-    id?: SortOrder
-    campaignId?: SortOrder
   }
 
   export type EnumVolumeStatusFilter<$PrismaModel = never> = {
@@ -43723,6 +42737,7 @@ export namespace Prisma {
     campaignId?: SortOrder
     remark?: SortOrder
     briefHyperlink?: SortOrder
+    files?: SortOrder
   }
 
   export type BriefAvgOrderByAggregateInput = {
@@ -43815,6 +42830,7 @@ export namespace Prisma {
     id?: SortOrder
     briefId?: SortOrder
     arrivedOn?: SortOrder
+    clientCode?: SortOrder
     due?: SortOrder
     status?: SortOrder
     leadDetails?: SortOrder
@@ -43823,6 +42839,7 @@ export namespace Prisma {
     campaignId?: SortOrder
     remark?: SortOrder
     briefHyperlink?: SortOrder
+    files?: SortOrder
   }
 
   export type BriefUpdatesAvgOrderByAggregateInput = {
@@ -43835,6 +42852,7 @@ export namespace Prisma {
     id?: SortOrder
     briefId?: SortOrder
     arrivedOn?: SortOrder
+    clientCode?: SortOrder
     due?: SortOrder
     status?: SortOrder
     type?: SortOrder
@@ -43847,6 +42865,7 @@ export namespace Prisma {
     id?: SortOrder
     briefId?: SortOrder
     arrivedOn?: SortOrder
+    clientCode?: SortOrder
     due?: SortOrder
     status?: SortOrder
     type?: SortOrder
@@ -45621,6 +44640,10 @@ export namespace Prisma {
     connect?: campaignDeliveriesWhereUniqueInput | campaignDeliveriesWhereUniqueInput[]
   }
 
+  export type EnumcampaignTypeFieldUpdateOperationsInput = {
+    set?: $Enums.campaignType
+  }
+
   export type clientUpdateOneRequiredWithoutCampaignsNestedInput = {
     create?: XOR<clientCreateWithoutCampaignsInput, clientUncheckedCreateWithoutCampaignsInput>
     connectOrCreate?: clientCreateOrConnectWithoutCampaignsInput
@@ -46505,6 +45528,13 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+
+  export type NestedEnumcampaignTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.campaignType | EnumcampaignTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.campaignType[]
+    notIn?: $Enums.campaignType[]
+    not?: NestedEnumcampaignTypeFilter<$PrismaModel> | $Enums.campaignType
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -46522,6 +45552,16 @@ export namespace Prisma {
     array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
     array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumcampaignTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.campaignType | EnumcampaignTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.campaignType[]
+    notIn?: $Enums.campaignType[]
+    not?: NestedEnumcampaignTypeWithAggregatesFilter<$PrismaModel> | $Enums.campaignType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumcampaignTypeFilter<$PrismaModel>
+    _max?: NestedEnumcampaignTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumVolumeStatusFilter<$PrismaModel = never> = {
@@ -49407,6 +48447,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -49416,6 +48459,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     volumes?: volumeCreateNestedManyWithoutCampaignInput
     leads?: leadCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesCreateNestedManyWithoutCampaignInput
@@ -49429,6 +48473,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -49438,6 +48485,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     volumes?: volumeUncheckedCreateNestedManyWithoutCampaignInput
     leads?: leadUncheckedCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesUncheckedCreateNestedManyWithoutCampaignInput
@@ -49480,6 +48528,9 @@ export namespace Prisma {
     completed?: IntFilter<"campaign"> | number
     pending?: IntFilter<"campaign"> | number
     duedate?: DateTimeFilter<"campaign"> | Date | string
+    firstUploadDate?: DateTimeFilter<"campaign"> | Date | string
+    weeklyUploadDays?: StringFilter<"campaign"> | string
+    cpc?: IntFilter<"campaign"> | number
     info?: JsonFilter<"campaign">
     additionalInfo?: StringFilter<"campaign"> | string
     descriptionOfFilesAttached?: StringFilter<"campaign"> | string
@@ -49489,6 +48540,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"campaign"> | Date | string
     updated_at?: DateTimeFilter<"campaign"> | Date | string
     status?: StringFilter<"campaign"> | string
+    campaignType?: EnumcampaignTypeFilter<"campaign"> | $Enums.campaignType
   }
 
   export type clientCreateWithoutCampaignsInput = {
@@ -49746,6 +48798,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -49755,6 +48810,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     client: clientCreateNestedOneWithoutCampaignsInput
     volumes?: volumeCreateNestedManyWithoutCampaignInput
     leads?: leadCreateNestedManyWithoutCampaignInput
@@ -49769,6 +48825,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -49778,6 +48837,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     volumes?: volumeUncheckedCreateNestedManyWithoutCampaignInput
     leads?: leadUncheckedCreateNestedManyWithoutCampaignInput
   }
@@ -49899,6 +48959,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -49908,6 +48971,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     client?: clientUpdateOneRequiredWithoutCampaignsNestedInput
     volumes?: volumeUpdateManyWithoutCampaignNestedInput
     leads?: leadUpdateManyWithoutCampaignNestedInput
@@ -49922,6 +48986,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -49931,6 +48998,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     volumes?: volumeUncheckedUpdateManyWithoutCampaignNestedInput
     leads?: leadUncheckedUpdateManyWithoutCampaignNestedInput
   }
@@ -50012,6 +49080,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -50021,6 +49092,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     client: clientCreateNestedOneWithoutCampaignsInput
     leads?: leadCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesCreateNestedManyWithoutCampaignInput
@@ -50035,6 +49107,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -50044,6 +49119,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     leads?: leadUncheckedCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesUncheckedCreateNestedManyWithoutCampaignInput
   }
@@ -50149,6 +49225,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -50158,6 +49237,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     client?: clientUpdateOneRequiredWithoutCampaignsNestedInput
     leads?: leadUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUpdateManyWithoutCampaignNestedInput
@@ -50172,6 +49252,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -50181,6 +49264,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     leads?: leadUncheckedUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUncheckedUpdateManyWithoutCampaignNestedInput
   }
@@ -50233,6 +49317,7 @@ export namespace Prisma {
 
   export type BriefUpdatesCreateWithoutBreifInput = {
     arrivedOn: Date | string
+    clientCode?: string
     due: Date | string
     status?: $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -50241,11 +49326,13 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUncheckedCreateWithoutBreifInput = {
     id?: number
     arrivedOn: Date | string
+    clientCode?: string
     due: Date | string
     status?: $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -50254,6 +49341,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesCreateOrConnectWithoutBreifInput = {
@@ -50288,6 +49376,7 @@ export namespace Prisma {
     id?: IntFilter<"BriefUpdates"> | number
     briefId?: IntFilter<"BriefUpdates"> | number
     arrivedOn?: DateTimeFilter<"BriefUpdates"> | Date | string
+    clientCode?: StringFilter<"BriefUpdates"> | string
     due?: DateTimeFilter<"BriefUpdates"> | Date | string
     status?: EnumBriefStatusFilter<"BriefUpdates"> | $Enums.BriefStatus
     leadDetails?: JsonNullableFilter<"BriefUpdates">
@@ -50296,6 +49385,7 @@ export namespace Prisma {
     campaignId?: IntNullableFilter<"BriefUpdates"> | number | null
     remark?: StringNullableFilter<"BriefUpdates"> | string | null
     briefHyperlink?: StringNullableFilter<"BriefUpdates"> | string | null
+    files?: JsonNullableFilter<"BriefUpdates">
   }
 
   export type BriefCreateWithoutBriefUpdatesInput = {
@@ -50312,6 +49402,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUncheckedCreateWithoutBriefUpdatesInput = {
@@ -50329,6 +49420,7 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefCreateOrConnectWithoutBriefUpdatesInput = {
@@ -50361,6 +49453,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUncheckedUpdateWithoutBriefUpdatesInput = {
@@ -50378,6 +49471,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type volumeCreateWithoutPacingsInput = {
@@ -50567,6 +49661,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -50576,6 +49673,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     client: clientCreateNestedOneWithoutCampaignsInput
     volumes?: volumeCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesCreateNestedManyWithoutCampaignInput
@@ -50590,6 +49688,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -50599,6 +49700,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
     volumes?: volumeUncheckedCreateNestedManyWithoutCampaignInput
     campaignDeliveries?: campaignDeliveriesUncheckedCreateNestedManyWithoutCampaignInput
   }
@@ -50742,6 +49844,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -50751,6 +49856,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     client?: clientUpdateOneRequiredWithoutCampaignsNestedInput
     volumes?: volumeUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUpdateManyWithoutCampaignNestedInput
@@ -50765,6 +49871,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -50774,6 +49883,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     volumes?: volumeUncheckedUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUncheckedUpdateManyWithoutCampaignNestedInput
   }
@@ -51908,6 +51018,9 @@ export namespace Prisma {
     completed: number
     pending: number
     duedate?: Date | string
+    firstUploadDate?: Date | string
+    weeklyUploadDays?: string
+    cpc?: number
     info: JsonNullValueInput | InputJsonValue
     additionalInfo?: string
     descriptionOfFilesAttached?: string
@@ -51917,6 +51030,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     status?: string
+    campaignType?: $Enums.campaignType
   }
 
   export type campaignUpdateWithoutClientInput = {
@@ -51926,6 +51040,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -51935,6 +51052,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     volumes?: volumeUpdateManyWithoutCampaignNestedInput
     leads?: leadUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUpdateManyWithoutCampaignNestedInput
@@ -51948,6 +51066,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -51957,6 +51078,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
     volumes?: volumeUncheckedUpdateManyWithoutCampaignNestedInput
     leads?: leadUncheckedUpdateManyWithoutCampaignNestedInput
     campaignDeliveries?: campaignDeliveriesUncheckedUpdateManyWithoutCampaignNestedInput
@@ -51970,6 +51092,9 @@ export namespace Prisma {
     completed?: IntFieldUpdateOperationsInput | number
     pending?: IntFieldUpdateOperationsInput | number
     duedate?: DateTimeFieldUpdateOperationsInput | Date | string
+    firstUploadDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    weeklyUploadDays?: StringFieldUpdateOperationsInput | string
+    cpc?: IntFieldUpdateOperationsInput | number
     info?: JsonNullValueInput | InputJsonValue
     additionalInfo?: StringFieldUpdateOperationsInput | string
     descriptionOfFilesAttached?: StringFieldUpdateOperationsInput | string
@@ -51979,6 +51104,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    campaignType?: EnumcampaignTypeFieldUpdateOperationsInput | $Enums.campaignType
   }
 
   export type volumeCreateManyCampaignInput = {
@@ -52356,6 +51482,7 @@ export namespace Prisma {
   export type BriefUpdatesCreateManyBreifInput = {
     id?: number
     arrivedOn: Date | string
+    clientCode?: string
     due: Date | string
     status?: $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -52364,10 +51491,12 @@ export namespace Prisma {
     campaignId?: number | null
     remark?: string | null
     briefHyperlink?: string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUpdateWithoutBreifInput = {
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -52376,11 +51505,13 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUncheckedUpdateWithoutBreifInput = {
     id?: IntFieldUpdateOperationsInput | number
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -52389,11 +51520,13 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type BriefUpdatesUncheckedUpdateManyWithoutBreifInput = {
     id?: IntFieldUpdateOperationsInput | number
     arrivedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    clientCode?: StringFieldUpdateOperationsInput | string
     due?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBriefStatusFieldUpdateOperationsInput | $Enums.BriefStatus
     leadDetails?: NullableJsonNullValueInput | InputJsonValue
@@ -52402,6 +51535,7 @@ export namespace Prisma {
     campaignId?: NullableIntFieldUpdateOperationsInput | number | null
     remark?: NullableStringFieldUpdateOperationsInput | string | null
     briefHyperlink?: NullableStringFieldUpdateOperationsInput | string | null
+    files?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type leadCreateManyPacingInput = {

@@ -268,6 +268,9 @@ exports.Prisma.CampaignScalarFieldEnum = {
   completed: 'completed',
   pending: 'pending',
   duedate: 'duedate',
+  firstUploadDate: 'firstUploadDate',
+  weeklyUploadDays: 'weeklyUploadDays',
+  cpc: 'cpc',
   info: 'info',
   additionalInfo: 'additionalInfo',
   descriptionOfFilesAttached: 'descriptionOfFilesAttached',
@@ -276,7 +279,8 @@ exports.Prisma.CampaignScalarFieldEnum = {
   updates: 'updates',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  status: 'status'
+  status: 'status',
+  campaignType: 'campaignType'
 };
 
 exports.Prisma.CampaignDeliveriesScalarFieldEnum = {
@@ -290,12 +294,6 @@ exports.Prisma.CampaignDeliveriesScalarFieldEnum = {
   rejections: 'rejections',
   uploaderId: 'uploaderId',
   data: 'data'
-};
-
-exports.Prisma.CampaignTypeScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  campaignId: 'campaignId'
 };
 
 exports.Prisma.VolumeScalarFieldEnum = {
@@ -326,13 +324,15 @@ exports.Prisma.BriefScalarFieldEnum = {
   quotes: 'quotes',
   campaignId: 'campaignId',
   remark: 'remark',
-  briefHyperlink: 'briefHyperlink'
+  briefHyperlink: 'briefHyperlink',
+  files: 'files'
 };
 
 exports.Prisma.BriefUpdatesScalarFieldEnum = {
   id: 'id',
   briefId: 'briefId',
   arrivedOn: 'arrivedOn',
+  clientCode: 'clientCode',
   due: 'due',
   status: 'status',
   leadDetails: 'leadDetails',
@@ -340,7 +340,8 @@ exports.Prisma.BriefUpdatesScalarFieldEnum = {
   quotes: 'quotes',
   campaignId: 'campaignId',
   remark: 'remark',
-  briefHyperlink: 'briefHyperlink'
+  briefHyperlink: 'briefHyperlink',
+  files: 'files'
 };
 
 exports.Prisma.PacingScalarFieldEnum = {
@@ -466,6 +467,12 @@ exports.TaskLevel = exports.$Enums.TaskLevel = {
   VERY_URGENT: 'VERY_URGENT'
 };
 
+exports.campaignType = exports.$Enums.campaignType = {
+  DOUBLE_TOUCH: 'DOUBLE_TOUCH',
+  SINGLE_TOUCH: 'SINGLE_TOUCH',
+  RANDOM: 'RANDOM'
+};
+
 exports.VolumeStatus = exports.$Enums.VolumeStatus = {
   PENDING_APPROVAL: 'PENDING_APPROVAL',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -480,7 +487,8 @@ exports.BriefStatus = exports.$Enums.BriefStatus = {
   InProgress: 'InProgress',
   Pending: 'Pending',
   Quoted: 'Quoted',
-  NewUpdate: 'NewUpdate'
+  NewUpdate: 'NewUpdate',
+  Completed: 'Completed'
 };
 
 exports.BriefType = exports.$Enums.BriefType = {
@@ -522,7 +530,6 @@ exports.Prisma.ModelName = {
   client: 'client',
   campaign: 'campaign',
   campaignDeliveries: 'campaignDeliveries',
-  campaignType: 'campaignType',
   volume: 'volume',
   Brief: 'Brief',
   BriefUpdates: 'BriefUpdates',

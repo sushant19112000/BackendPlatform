@@ -2,8 +2,8 @@ const prisma = require("../../db/dbConnection");
 
 const getAllTasks = async () => {
     try {
-        const tasks = await prisma.task.findMany({ 
-            include: { 
+        const tasks = await prisma.task.findMany({
+            include: {
                 users: {
                     // Assuming 'users' relation is the UserTask model
                     include: {
@@ -15,30 +15,30 @@ const getAllTasks = async () => {
                             }
                         },
                         // 2. Fetch the ASSIGNING user's ID and Name (Corrected relation name)
-                        assignee:true
+                        assignee: true
                     }
-                } 
-            } 
+                }
+            }
         });
 
         // Map over the tasks fetched from the database
         const transformedTasks = tasks.map(task => {
-            
+
             // Extract the ASSIGNED user's ID and Name
             const assignedUsers = task.users.map(userTask => ({
                 id: userTask.user.id,
                 name: userTask.user.name,
             }));
-            
+
             // Extract the ASSIGNING user's ID and Name 
             // The assignedBy user is the same for all UserTask records related to this Task.
-            const assignedBy = task.users.length > 0 
+            const assignedBy = task.users.length > 0
                 ? {
                     id: task.users[0].assignee.id,
                     name: task.users[0].assignee.name,
-                  }
+                }
                 : null; // Handle tasks with no assignments
-          //  const assignedBy={name:"sushant",id:1}
+            //  const assignedBy={name:"sushant",id:1}
             // Destructure the task object to exclude the raw 'users' array 
             const { users, ...taskDetails } = task;
 
@@ -62,7 +62,7 @@ const getAllTasks = async () => {
 
 const getAllUnassignedTasks = async () => {
     try {
-        const unassignedTasks = await prisma.task.findMany({ 
+        const unassignedTasks = await prisma.task.findMany({
             where: {
                 // Filter to find tasks where the 'users' relation (UserTask records) is empty.
                 users: {
@@ -86,7 +86,7 @@ const getAllUnassignedTasks = async () => {
                 assignedUsers: [],
             };
         });
-        
+
         return transformedTasks;
     }
     catch (e) {
@@ -98,32 +98,32 @@ const getAllUnassignedTasks = async () => {
 
 
 const getTask = async (taskId) => {
-  try {
-    const task = await prisma.task.findFirst({
-      where: { id: taskId },
-      include: {
-        users: {
-          // 👇 select fields from the "users" relation itself
-          select: {
-            totalTime: true,
-            user:{select:{name:true}},
-            assignee: {
-              select: {
-                name: true
-              }
-            },
-            sessions:{select:{startTime:true,endTime:true}},
-           
-          }
-        }
-      }
-    });
+    try {
+        const task = await prisma.task.findFirst({
+            where: { id: taskId },
+            include: {
+                users: {
+                    // 👇 select fields from the "users" relation itself
+                    select: {
+                        totalTime: true,
+                        user: { select: { name: true } },
+                        assignee: {
+                            select: {
+                                name: true
+                            }
+                        },
+                        sessions: { select: { startTime: true, endTime: true } },
 
-    return task; // includes assigned users + their assignee details
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
+                    }
+                }
+            }
+        });
+
+        return task; // includes assigned users + their assignee details
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
 };
 
 
@@ -132,22 +132,30 @@ const getTask = async (taskId) => {
 // automatically created when a campaign or brief is added 
 const createTask = async (type, typeId, name, status, remark, level) => {
     try {
-        const existingTask = await prisma.task.findFirst({ where: { typeId: typeId } })
-        console.log(typeId,name,'brief')
+
+        const existingTask = await prisma.task.findFirst({ where: { typeId: typeId, type: type } })
         if (existingTask) {
             return false;
         }
-        const newTask = await prisma.task.create({
-            data: {
-                type: type,
-                typeId: typeId,
-                name: name,
-                status: status,
-                remark: remark,
-                level: level
-            }
-        })
-        return newTask;
+        try {
+            const newTask = await prisma.task.create({
+                data: {
+                    type: type,
+                    typeId: typeId,
+                    name: name,
+                    status: status,
+                    remark: remark,
+                    level: level
+                }
+
+            })
+            return newTask;
+        }
+        catch (e) {
+            console.log(e)
+            return false
+
+        }
     }
     catch (e) {
         console.log(e);
@@ -175,7 +183,7 @@ const deleteTask = async (taskId) => {
 }
 
 
-module.exports = { createTask, deleteTask, getAllTasks, getTask,getAllUnassignedTasks }
+module.exports = { createTask, deleteTask, getAllTasks, getTask, getAllUnassignedTasks }
 
 
 

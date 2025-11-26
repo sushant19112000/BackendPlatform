@@ -1,0 +1,54 @@
+[
+    {
+        "quotedOn": "26/11/2025, 6:06:44 pm",
+        "updatedOn": "26/11/2025, 6:06:44 pm",
+        "quotedBy": "Rupesh",
+        "updatedBy": "Rupesh",
+        "data": [
+            {
+                "region": "sdf",
+                "details": {
+                    "sdf": "fgdfg",
+                    "dfsdfsf": "fgdfg",
+                    "sdfsdfsd": "dfgdf",
+                    "fsdfs": "df"
+                }
+            },
+            {
+                "region": "sdfsdf",
+                "details": {
+                    "sdf": "dfg",
+                    "dfsdfsf": "gdfgd",
+                    "sdfsdfsd": "dfgdfg",
+                    "fsdfs": "dfg"
+                }
+            }
+        ],
+        "id": 1
+    },
+    {
+        "quotedOn": "26/11/2025, 6:10:21 pm",
+        "updatedOn": "26/11/2025, 6:10:21 pm",
+        "quotedBy": "Rupesh",
+        "updatedBy": "Rupesh",
+        "data": [
+            {
+                "region": "ert",
+                "details": {
+                    "re": "fgdfg",
+                    "rtert": "fgdfg",
+                    "ertert": "df"
+                }
+            },
+            {
+                "region": "ert",
+                "details": {
+                    "re": "ertertert",
+                    "rtert": "erter",
+                    "ertert": "dfg"
+                }
+            }
+        ],
+        "id": 2
+    }
+]

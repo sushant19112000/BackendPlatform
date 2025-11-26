@@ -1,17 +1,37 @@
 var express = require('express');
 var router = express.Router();
-var { addBrief, getBriefs, getBrief, editBrief } = require('../services/leadService/brief');
+var { addBrief, getBriefs, getBrief, editBrief, addQuote, getBriefsFilterCounts } = require('../services/leadService/brief');
+const { message } = require('../db/dbConnection');
 
 // Fetch all briefs
 router.get('/', async (req, res) => {
     try {
         const briefs = await getBriefs();
+        if(!briefs){
+            return res.status(400).json({message:"Error fetching Briefs"})
+        }
         res.status(200).json({
             message: "Data fetched successfully",
             data: briefs
         });
     } catch (error) {
         console.error("Error fetching briefs:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get('/counts', async (req, res) => {
+    try {
+        const briefsFilterCounts = await getBriefsFilterCounts();
+        if(!briefsFilterCounts){
+            return res.status(400).json({message:"Error fetching briefs counts"})
+        }
+        res.status(200).json({
+            message: "Data fetched successfully",
+            data: briefsFilterCounts
+        });
+    } catch (error) {
+        console.error("Error fetching briefs Counts:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
@@ -58,6 +78,27 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.post('/:id/quotes', async (req, res) => {
+    try {
+        const  id  = req.params.id;
+
+        const updatedBrief = await addQuote(id, req.body);
+    //   console.log(id,req.body,'bre')
+        if (!updatedBrief) {
+            return res.status(400).json({ message: "Failed to update brief" });
+        }
+
+        res.status(200).json({
+            message: "Brief updated successfully",
+            data: updatedBrief
+        });
+
+    } catch (error) {
+        console.error("Error updating brief:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 // Edit an existing brief
 router.put('/:id', async (req, res) => {
     try {
@@ -79,6 +120,9 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
+
 
 // // Update an existing client
 // router.put('/:id', async (req, res) => {
