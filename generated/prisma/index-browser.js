@@ -304,7 +304,6 @@ exports.Prisma.VolumeScalarFieldEnum = {
   completed: 'completed',
   pending: 'pending',
   status: 'status',
-  validationProfile: 'validationProfile',
   headers: 'headers',
   leadTemplate: 'leadTemplate',
   externalRules: 'externalRules'
@@ -313,6 +312,7 @@ exports.Prisma.VolumeScalarFieldEnum = {
 exports.Prisma.BriefScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  clientCode: 'clientCode',
   arrivedOn: 'arrivedOn',
   arrivedOnTime: 'arrivedOnTime',
   dueTime: 'dueTime',
@@ -366,8 +366,8 @@ exports.Prisma.LeadScalarFieldEnum = {
   uploadType: 'uploadType',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  phase1Validation: 'phase1Validation',
-  leadTemplateValidation: 'leadTemplateValidation',
+  qcResult: 'qcResult',
+  qcReason: 'qcReason',
   campaignDeliveryId: 'campaignDeliveryId',
   accepted: 'accepted',
   pending: 'pending',
@@ -480,6 +480,11 @@ exports.VolumeStatus = exports.$Enums.VolumeStatus = {
   COMPLETED: 'COMPLETED',
   ON_HOLD: 'ON_HOLD',
   CANCELLED: 'CANCELLED'
+};
+
+exports.ClientCode = exports.$Enums.ClientCode = {
+  PH: 'PH',
+  LPM: 'LPM'
 };
 
 exports.BriefStatus = exports.$Enums.BriefStatus = {

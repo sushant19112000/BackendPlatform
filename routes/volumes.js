@@ -59,6 +59,43 @@ router.put('/:id/unassigned', async (req, res) => {
 });
 
 // Update an existing client
+router.put('/:id/validation/internal-rules', async (req, res) => {
+    try {
+        const volumeId = Number(req.params.id);
+        if (isNaN(volumeId)) return res.status(400).json({ message: "Invalid Volume ID" });
+
+        const vExists= await prisma.volume.findFirst({where:{id:volumeId}})
+        const lt=req.body;
+    
+        if (!vExists) return res.status(404).json({ message: "Volume not found or update failed" });
+        const updateVolume= await prisma.volume.update({where:{id:volumeId},data:{leadTemplate:lt}})
+        res.status(200).json({ message: "Volume updated successfully", data: updateVolume });
+    } catch (error) {
+        console.error("Error updating client:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
+// Update an existing client
+router.put('/:id/validation/external-rules', async (req, res) => {
+    try {
+        const volumeId = Number(req.params.id);
+        if (isNaN(volumeId)) return res.status(400).json({ message: "Invalid Volume ID" });
+
+        const vExists= await prisma.volume.findFirst({where:{id:volumeId}})
+        const externalRules=req.body;
+    
+        if (!vExists) return res.status(404).json({ message: "Volume not found or update failed" });
+        const updateVolume= await prisma.volume.update({where:{id:volumeId},data:{externalRules:externalRules}})
+        res.status(200).json({ message: "Volume updated successfully", data: updateVolume });
+    } catch (error) {
+        console.error("Error updating client:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Update an existing client
 router.put('/:id/assigned', async (req, res) => {
     try {
         const volumeId = Number(req.params.id);
@@ -75,6 +112,8 @@ router.put('/:id/assigned', async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
 
 router.get('/available-validations', async (req, res) => {
     try {  

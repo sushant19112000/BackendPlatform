@@ -296,20 +296,19 @@ enum campaignType {
 }
 
 model volume {
-  id                Int          @id @default(autoincrement())
-  name              String
-  campaignId        Int
-  campaign          campaign     @relation(fields: [campaignId], references: [id])
-  leadGoal          Int
-  completed         Int
-  pending           Int
-  status            VolumeStatus @default(PENDING_APPROVAL)
-  pacings           pacing[]
-  leads             lead[]
-  validationProfile Json
-  headers           Json
-  leadTemplate      String       @default("template")
-  externalRules     String       @default("externalRules")
+  id            Int          @id @default(autoincrement())
+  name          String
+  campaignId    Int
+  campaign      campaign     @relation(fields: [campaignId], references: [id])
+  leadGoal      Int
+  completed     Int
+  pending       Int
+  status        VolumeStatus @default(PENDING_APPROVAL)
+  pacings       pacing[]
+  leads         lead[]
+  headers       Json
+  leadTemplate  Json?
+  externalRules Json?
 }
 
 enum VolumeStatus {
@@ -324,6 +323,7 @@ enum VolumeStatus {
 model Brief {
   id                 Int            @id @default(autoincrement())
   name               String
+  clientCode         ClientCode     @default(PH)
   arrivedOn          DateTime
   arrivedOnTime      String         @default("HH:MM")
   dueTime            String         @default("HH:MM")
@@ -340,6 +340,11 @@ model Brief {
   files              Json?
 
   @@index([campaignId])
+}
+
+enum ClientCode {
+  PH
+  LPM
 }
 
 model BriefUpdates {
@@ -390,28 +395,28 @@ model pacing {
 }
 
 model lead {
-  id                     Int                 @id @default(autoincrement())
-  data                   Json
-  email                  String
-  campaignId             Int
-  campaign               campaign            @relation(fields: [campaignId], references: [id])
-  pacingId               Int
-  pacing                 pacing              @relation(fields: [pacingId], references: [id])
-  volumeId               Int
-  volume                 volume              @relation(fields: [volumeId], references: [id])
-  uploadId               Int?
-  upload                 leadsUpload?        @relation(fields: [uploadId], references: [id])
-  uploadType             String              @default("manual")
-  created_at             DateTime            @default(now())
-  updated_at             DateTime            @updatedAt
-  phase1Validation       Boolean             @default(false)
-  leadTemplateValidation Boolean             @default(false)
-  campaignDeliveryId     Int?
-  campaignDelivery       campaignDeliveries? @relation(fields: [campaignDeliveryId], references: [id])
-  accepted               Boolean             @default(false)
-  pending                Boolean             @default(false)
-  rejected               Boolean             @default(false)
-  rejectedReason         String              @default("Reason")
+  id                 Int                 @id @default(autoincrement())
+  data               Json
+  email              String
+  campaignId         Int
+  campaign           campaign            @relation(fields: [campaignId], references: [id])
+  pacingId           Int
+  pacing             pacing              @relation(fields: [pacingId], references: [id])
+  volumeId           Int
+  volume             volume              @relation(fields: [volumeId], references: [id])
+  uploadId           Int?
+  upload             leadsUpload?        @relation(fields: [uploadId], references: [id])
+  uploadType         String              @default("manual")
+  created_at         DateTime            @default(now())
+  updated_at         DateTime            @updatedAt
+  qcResult           Boolean?
+  qcReason           String?
+  campaignDeliveryId Int?
+  campaignDelivery   campaignDeliveries? @relation(fields: [campaignDeliveryId], references: [id])
+  accepted           Boolean             @default(false)
+  pending            Boolean             @default(false)
+  rejected           Boolean             @default(false)
+  rejectedReason     String              @default("Reason")
 
   @@unique([campaignId, email])
   @@index([uploadId])

@@ -313,12 +313,10 @@ model volume {
     status       VolumeStatus  @default(PENDING_APPROVAL)
     pacings                   pacing[]
     leads                     lead[]
-    validationProfile  Json 
     headers            Json
-    leadTemplate       String @default("template")
-    externalRules      String @default("externalRules")
+    leadTemplate       Json?
+    externalRules      Json?
 }
-
 enum VolumeStatus {
   PENDING_APPROVAL
   IN_PROGRESS
@@ -331,6 +329,7 @@ enum VolumeStatus {
 model Brief {
   id              Int              @id @default(autoincrement())
   name            String
+  clientCode      ClientCode @default(PH)
   arrivedOn       DateTime 
   arrivedOnTime   String    @default("HH:MM")
   dueTime         String     @default("HH:MM")
@@ -348,6 +347,11 @@ model Brief {
   @@index([campaignId])
 }
 
+
+enum ClientCode{
+  PH
+  LPM
+}
 
 model BriefUpdates {
   id              Int              @id @default(autoincrement())
@@ -416,8 +420,8 @@ model lead {
   uploadType String       @default("manual")
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
-  phase1Validation   Boolean @default(false)
-  leadTemplateValidation   Boolean @default(false)
+  qcResult Boolean?
+  qcReason String?
   campaignDeliveryId Int?
   campaignDelivery   campaignDeliveries? @relation(fields: [campaignDeliveryId], references: [id])
   accepted  Boolean @default(false)

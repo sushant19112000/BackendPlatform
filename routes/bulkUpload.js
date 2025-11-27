@@ -179,4 +179,68 @@ router.post('/assigned-template', upload.single('file'), async (req, res) => {
     }
 });
 
+
+
+
+router.post('/leads', upload.single('file'), async (req, res) => {
+    try {
+        const file = req.file;
+        const { pacingId, uploadedBy } = req.body;
+        console.log(req.body,'body')
+        if (!file || !pacingId || !uploadedBy) {
+            console.log(file, pacingId, uploadedBy);
+            return res.status(400).json({ message: "Missing required fields or file" });
+        }
+
+        // // ✅ Move parsing logic here
+        // const csvString = file.buffer.toString();
+        // const leads = parse(csvString, {
+        //     columns: true,
+        //     skip_empty_lines: true
+        // });
+        const csvString = file.buffer.toString();
+
+        const rawLeads = await parseAsync(csvString, {
+            columns: true,          // use first row as headers
+            skip_empty_lines: true,
+            trim: true
+        });
+        // Step 3: Map each row to use camelCase keys
+        const leads = rawLeads.map(row =>
+            Object.fromEntries(
+                Object.entries(row)
+                    .filter(([key]) => key && key.trim() !== "") // skip empty headers
+                    .map(([key, value]) => [toCamelCase(key), value])
+            )
+        );
+
+
+        console.log(leads[0])
+
+        const filename = file.originalname;
+
+
+
+        // const uploadOb = await bulkUploadAssigned2(
+        //     filename,
+        //     Number(uploadedBy),
+        //     Number(pacingId),
+        //     leads,
+        //     req.io
+        // );
+
+
+        // if (!uploadOb) {
+        //     return res.status(400).json({ message: "Failed to add leads" });
+        // }
+
+        // res.status(201).json({ message: uploadOb.message });
+
+        res.status(201).json({ leads:leads});
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 module.exports = router;

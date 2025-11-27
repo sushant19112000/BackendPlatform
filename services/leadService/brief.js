@@ -14,7 +14,9 @@ const addBrief = async (data) => {
             leadDetails: data.leadDetails,
             leadDetailsSection: data.leadDetialsSection,
             remark: data.remark,
-            briefHyperlink: data.briefHyperlink
+            briefHyperlink: data.briefHyperlink,
+            files:data.files,
+            clientCode:data.clientCode
         }
 
 
@@ -62,8 +64,6 @@ const getBriefs = async (query = "query", filter = "status") => {
         if (query == "query" && filter == "status") {
             briefs = await prisma.brief.findMany();
         }
-
-
         return briefs;
     }
 

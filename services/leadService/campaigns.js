@@ -1,19 +1,19 @@
 const prisma = require('../../db/dbConnection')
 const addPacing = async (volumeId, scheduledFor, leadGoal, status) => {
-    try {
-        const newPacing = await prisma.pacing.create({
-            data: {
-                scheduledFor: new Date(scheduledFor),
-                leadGoal,
-                volumeId: volumeId,
-                status
-            }
-        })
-        return newPacing;
-    }
-    catch (e) {
-        console.log(e)
-    }
+  try {
+    const newPacing = await prisma.pacing.create({
+      data: {
+        scheduledFor: new Date(scheduledFor),
+        leadGoal,
+        volumeId: volumeId,
+        status
+      }
+    })
+    return newPacing;
+  }
+  catch (e) {
+    console.log(e)
+  }
 }
 
 
@@ -78,7 +78,6 @@ const fetchAllClientCampaigns = async (filter = 'None') => {
         break;
 
       case "Due Today":
-       
         where = {
           duedate: {
             gte: startOfDay,
@@ -185,158 +184,179 @@ const fetchAllClientCampaigns = async (filter = 'None') => {
 
 
 const fetchCampaign = async (id) => {
-    try {
-        const campaign = await prisma.campaign.findFirst({ where: { id: id }, include: { volumes: { include: { pacings: true } }, campaignDeliveries: true } });
-        if (!campaign) return false;
-        return campaign;
-    }
-    catch (e) {
-        console.log(e);
-    }
+  try {
+    const campaign = await prisma.campaign.findFirst({ where: { id: id }, include: { volumes: { include: { pacings: true } }, campaignDeliveries: true } });
+    if (!campaign) return false;
+    return campaign;
+  }
+  catch (e) {
+    console.log(e);
+  }
 }
 
 const fetchCampaignContent = async (id) => {
-    try {
-        const campaign = await prisma.campaign.findFirst({ where: { id: id }, select: { content: true } });
-        if (!campaign) return false;
-        return campaign;
-    }
-    catch (e) {
-        console.log(e);
-    }
+  try {
+    const campaign = await prisma.campaign.findFirst({ where: { id: id }, select: { content: true } });
+    if (!campaign) return false;
+    return campaign;
+  }
+  catch (e) {
+    console.log(e);
+  }
 }
 
 const fetchCampaignFiles = async (id) => {
-    try {
-        const campaign = await prisma.campaign.findFirst({ where: { id: id }, select: { filesInfo: true } });
-        if (!campaign) return false;
-        return campaign;
-    }
+  try {
+    const campaign = await prisma.campaign.findFirst({ where: { id: id }, select: { filesInfo: true } });
+    if (!campaign) return false;
+    return campaign;
+  }
 
-    catch (e) {
-        console.log(e);
-    }
+  catch (e) {
+    console.log(e);
+  }
 }
 
 const fetchCampaignUpdates = async (id) => {
-    try {
-        const campaign = await prisma.campaign.findFirst({ where: { id: id }, select: { updates: true } });
-        if (!campaign) return false;
-        return campaign;
-    }
+  try {
+    const campaign = await prisma.campaign.findFirst({ where: { id: id }, select: { updates: true } });
+    if (!campaign) return false;
+    return campaign;
+  }
 
-    catch (e) {
-        console.log(e);
-    }
+  catch (e) {
+    console.log(e);
+  }
 }
 
 
 const addCampaign = async (data) => {
-    try {
+  try {
 
-        let stringCode = String(data.code);
+    let stringCode = String(data.code);
 
-        // Check if campaign exists
-        const existingCampaign = await prisma.campaign.findFirst({
-            where: { code: stringCode }
+    // Check if campaign exists
+    const existingCampaign = await prisma.campaign.findFirst({
+      where: { code: stringCode }
+    });
+    if (existingCampaign) return false;
+
+    // Create new campaign
+    const newCampaign = await prisma.campaign.create({
+      data: {
+        code: stringCode,
+        name: data.name,
+        clientId: data.clientId,
+        leadgoal: data.leadGoal,
+        duedate: data.duedate,
+        info: data.info,
+        content: data.content,
+        filesInfo: data.filesInfo,
+        updates: data.updates,
+        completed: 0,
+        pending: 0,
+      },
+      include: {
+        volumes: true
+      }
+    });
+
+    // Create volumes
+    for (let v of data.volumes) {
+      let vExists = newCampaign.volumes.find((e) => e.name === v.name);
+      if (vExists) {
+        continue;
+      } else {
+        await prisma.volume.create({
+          data: {
+            campaignId: newCampaign.id,
+            name: v.name,
+            leadGoal: v.leadGoal,
+            completed: v.completed ?? 0,
+            pending: v.pending ?? 0,
+            status: "PENDING_APPROVAL",
+            validationProfile: {},
+            headers: {}
+          }
         });
-        if (existingCampaign) return false;
-
-        // Create new campaign
-        const newCampaign = await prisma.campaign.create({
-            data: {
-                code: stringCode,
-                name: data.name,
-                clientId: data.clientId,
-                leadgoal: data.leadGoal,
-                duedate: data.duedate,
-                info: data.info,
-                content: data.content,
-                filesInfo: data.filesInfo,
-                updates: data.updates,
-                completed: 0,
-                pending: 0,
-            },
-            include: {
-                volumes: true
-            }
-        });
-
-        // Create volumes
-        for (let v of data.volumes) {
-            let vExists = newCampaign.volumes.find((e) => e.name === v.name);
-            if (vExists) {
-                continue;
-            } else {
-                await prisma.volume.create({
-                    data: {
-                        campaignId: newCampaign.id,
-                        name: v.name,
-                        leadGoal: v.leadGoal,
-                        completed: v.completed ?? 0,
-                        pending: v.pending ?? 0,
-                        status: "PENDING_APPROVAL",
-                        validationProfile: {},
-                        headers: {}
-                    }
-                });
-            }
-        }
-
-        // Re-fetch campaign with updated volumes
-        const campaignWithVolumes = await prisma.campaign.findUnique({
-            where: { id: newCampaign.id },
-            include: { volumes: true }
-        });
-
-        // Create pacings
-        for (let pc of data.pacingInfo) {
-            let vol = campaignWithVolumes.volumes.find((e) => pc.volumeName === e.name);
-            if (!vol) {
-                console.warn(`No volume found for pacing: ${pc.volumeName}`);
-                continue;
-            }
-            let newPacing = await addPacing(
-                vol.id,
-                pc.scheduledFor,
-                pc.leadGoal,
-                pc.status,
-                vol.id
-            );
-            console.log(newPacing);
-        }
-
-        return campaignWithVolumes;
+      }
     }
-    catch (e) {
-        console.log(e)
+
+    // Re-fetch campaign with updated volumes
+    const campaignWithVolumes = await prisma.campaign.findUnique({
+      where: { id: newCampaign.id },
+      include: { volumes: true }
+    });
+
+    // Create pacings
+    for (let pc of data.pacingInfo) {
+      let vol = campaignWithVolumes.volumes.find((e) => pc.volumeName === e.name);
+      if (!vol) {
+        console.warn(`No volume found for pacing: ${pc.volumeName}`);
+        continue;
+      }
+      let newPacing = await addPacing(
+        vol.id,
+        pc.scheduledFor,
+        pc.leadGoal,
+        pc.status,
+        vol.id
+      );
+      console.log(newPacing);
     }
+
+    return campaignWithVolumes;
+  }
+  catch (e) {
+    console.log(e)
+  }
 }
 
 
 const editCampaign = async (campaignId, data) => {
-    try {
-        const existingCampaign = await prisma.campaign.findFirst({ where: { id: campaignId } })
-        if (!existingCampaign) return false;
-        const updatedCampaign = await prisma.campaign.update({ where: { id: campaignId }, data: data })
-        return true;
+  try {
+    const existingCampaign = await prisma.campaign.findFirst({ where: { id: campaignId } })
+    if (!existingCampaign) return false;
+    const updatedCampaign = await prisma.campaign.update({ where: { id: campaignId }, data: data })
+    return true;
 
-    }
-    catch (e) {
-        console.log(e)
-    }
+  }
+  catch (e) {
+    console.log(e)
+  }
 }
 
 const deleteCampaign = async (campaignId) => {
-    try {
-        console.log('delete Campaign')
-        const campaignExist = await prisma.campaign.delete({
-            where: { id: campaignId }
-        })
-    }
-    catch (e) {
-        console.log(e);
-    }
+  try {
+    console.log('delete Campaign')
+    const campaignExist = await prisma.campaign.delete({
+      where: { id: campaignId }
+    })
+  }
+  catch (e) {
+    console.log(e);
+  }
 }
+
+
+
+const fetchAllCampaignsCount = async () => {
+  try {
+    let res = { 
+      new: 0, duetoday: 0, overdue: 0, 
+      upcoming: 0, recentupdate: 0, active: 0, 
+      completed: 0, paused: 0, all:0, retouch:0
+    }
+   
+
+
+
+
+  } catch (e) {
+    console.error("Error fetching campaigns:", e);
+    return [];
+  }
+};
+
 
 module.exports = { fetchAllClientCampaigns, fetchCampaign, addCampaign, editCampaign, deleteCampaign, fetchCampaignContent, fetchCampaignFiles, fetchCampaignUpdates };

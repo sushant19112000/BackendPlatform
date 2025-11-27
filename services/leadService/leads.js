@@ -53,10 +53,7 @@ const fetchPacingLeads = async (pacingId, type) => {
             pacing = await prisma.pacing.findFirst({
                 where: { id: pacingId },
                 include: {
-                    volume: true,
-                    leads: {
-                        where: { phase1Validation: true, leadTemplateValidation: false }
-                    }
+                    volume: true
                 }
             });
         }
@@ -65,9 +62,7 @@ const fetchPacingLeads = async (pacingId, type) => {
                 where: { id: pacingId },
                 include: {
                     volume: true,
-                    leads: {
-                        where: { leadTemplateValidation: true }
-                    }
+                    leads: true
                 }
             });
         }

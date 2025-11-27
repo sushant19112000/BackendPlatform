@@ -195,8 +195,10 @@ const addCampaign = async (data) => {
                         completed: v.completed ?? 0,
                         pending: v.pending ?? 0,
                         status: "PENDING_APPROVAL",
-                        validationProfile: {},
+                      leadTemplate:{},
                         headers: {},
+                        externalRules:{}
+
                     },
                 });
             }
