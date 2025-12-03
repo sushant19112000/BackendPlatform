@@ -15,8 +15,8 @@ const addBrief = async (data) => {
             leadDetailsSection: data.leadDetialsSection,
             remark: data.remark,
             briefHyperlink: data.briefHyperlink,
-            files:data.files,
-            clientCode:data.clientCode
+            files: data.files,
+            clientCode: data.clientCode
         }
 
 
@@ -75,13 +75,13 @@ const getBriefs = async (query = "query", filter = "status") => {
 
 const getBriefsFilterCounts = async () => {
     try {
-        const res = { total: 0, pending: 0, inprogress: 0, complete: 0, recentupdate: 0,quoted:0 };
+        const res = { total: 0, pending: 0, inprogress: 0, complete: 0, recentupdate: 0, quoted: 0 };
         res.total = await prisma.brief.count();
         res.pending = await prisma.brief.count({ where: { status: "Pending" } })
         res.inprogress = await prisma.brief.count({ where: { status: "InProgress" } })
-        res.quoted= await prisma.brief.count({where:{status:"Quoted"}})
-        res.complete= await prisma.brief.count({where:{status:"Completed"}})
-        res.recentupdate=await prisma.brief.count({where:{status:"NewUpdate"}})
+        res.quoted = await prisma.brief.count({ where: { status: "Quoted" } })
+        res.complete = await prisma.brief.count({ where: { status: "Completed" } })
+        res.recentupdate = await prisma.brief.count({ where: { status: "NewUpdate" } })
         return res;
     }
     catch (e) {
@@ -102,7 +102,7 @@ const getBrief = async (id) => {
 
 
 
-const addQuote = (data) = async (id, quote) => {
+const addQuote = async (id, quote) => {
     try {
 
         //[{ quotedOn:"dateIst", data:[],updatedOn:"dateIst",quotedBy:"",updatedBy:""}]
@@ -140,4 +140,70 @@ const addQuote = (data) = async (id, quote) => {
     }
 }
 
-module.exports = { getBrief, getBriefs, addBrief, editBrief, addQuote,getBriefsFilterCounts };
+
+const updateQuote = async (briefId, quoteId, updatedData) => {
+    try {
+
+        //[{ quotedOn:"dateIst", data:[],updatedOn:"dateIst",quotedBy:"",updatedBy:""}]
+
+        // Check if brief exists
+        const brief = await prisma.brief.findUnique({
+            where: { id: briefId }
+        });
+        if (!brief) return false;
+        console.log(updatedData,"updatedData");
+        let quotes = brief.quotes || [];
+        for (let q of quotes) {
+            if (q.id == quoteId) {
+                q.updatedOn = updatedData.updatedOn
+                q.data = updatedData.data
+                q.updatedBy = updatedData.updatedBy
+            }
+        }
+
+
+        // Update
+        const updatedBrief = await prisma.brief.update({
+            where: { id: Number(briefId) },
+            data: {
+                quotes: quotes
+            }
+        });
+        return updatedBrief;
+
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+
+
+
+const deleteQuote = async (briefId, quoteId) => {
+    try {
+
+        //[{ quotedOn:"dateIst", data:[],updatedOn:"dateIst",quotedBy:"",updatedBy:""}]
+
+        // Check if brief exists
+        const brief = await prisma.brief.findUnique({
+            where: { id: briefId }
+        });
+        if (!brief) return false;
+         
+        let quotes = brief.quotes || [];
+        let newQuotes=quotes.filter((e)=>{e.id!=quoteId})
+        // Update
+        const updatedBrief = await prisma.brief.update({
+            where: { id: Number(briefId) },
+            data: {
+                quotes: newQuotes
+            }
+        });
+        return updatedBrief;
+
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+module.exports = { getBrief, getBriefs, addBrief, editBrief, addQuote, getBriefsFilterCounts,updateQuote ,deleteQuote};

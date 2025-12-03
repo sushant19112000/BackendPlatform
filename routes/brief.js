@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var { addBrief, getBriefs, getBrief, editBrief, addQuote, getBriefsFilterCounts } = require('../services/leadService/brief');
+var { addBrief, getBriefs, getBrief, editBrief, addQuote, getBriefsFilterCounts, updateQuote, deleteQuote } = require('../services/leadService/brief');
 const { message } = require('../db/dbConnection');
 
 // Fetch all briefs
@@ -122,6 +122,53 @@ router.put('/:id', async (req, res) => {
 });
 
 
+// Edit an existing brief
+router.put('/:id/quotes/:quoteId', async (req, res) => {
+    try {
+        const  id  = Number(req.params.id);
+        const quoteId= Number(req.params.quoteId);
+   
+        const updatedBriefQuote = await updateQuote(id,quoteId,req.body);
+    //   console.log(id,req.body,'bre')
+        if (!updatedBriefQuote) {
+            return res.status(400).json({ message: "Failed to update brief quote" });
+        }
+
+        res.status(200).json({
+            message: "Brief quote updated successfully",
+            data: updatedBriefQuote
+        });
+
+    } catch (error) {
+        console.error("Error updating brief:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
+
+// Edit an existing brief
+router.delete('/:id/quotes/:quoteId', async (req, res) => {
+    try {
+        const  id  = Number(req.params.id);
+        const quoteId= Number(req.params.quoteId);
+        
+        const updatedBriefQuote = await deleteQuote(id,quoteId);
+       console.log(id,quoteId,'delete brief')
+        if (!updatedBriefQuote) {
+            return res.status(400).json({ message: "Failed to update brief quote" });
+        }
+
+        res.status(200).json({
+            message: "Brief quote updated successfully",
+            data: updatedBriefQuote
+        });
+
+    } catch (error) {
+        console.error("Error updating brief:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 
 // // Update an existing client

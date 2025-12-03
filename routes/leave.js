@@ -2,6 +2,16 @@ var express = require('express');
 const prisma = require('../db/dbConnection');
 var router = express.Router();
 
+const now = new Date();
+
+// Today at 00:00:00
+const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+// Tomorrow at 00:00:00
+const tomorrowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+
+
 /**
  * Apply for leave
  */
@@ -30,24 +40,12 @@ router.post("/apply", async (req, res) => {
 /**
  * Get logged-in user's leaves
  */
-router.get("/my/:userId", async (req, res) => {
+
+
+router.get("/user-attendence/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const leaves = await prisma.userLeave.findMany({
-      where: { userId: Number(userId) },
-      orderBy: { created_at: "desc" },
-    });
-
-    res.json(leaves);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching leave records" });
-  }
-});
-
-router.get("/my-summary/:userId", async (req, res) => {
-  try {
-    const { userId } = req.params;
 
     // --- Define leave policy ---
     const leavePolicy = {
@@ -55,6 +53,22 @@ router.get("/my-summary/:userId", async (req, res) => {
       SICK: 12,
       UNPAID: 5,
     };
+
+
+
+    const attendance = await prisma.attendance.findFirst({
+      where: {
+        userId: Number(userId),
+        checkIn: {
+          gte: todayStart,
+          lt: tomorrowStart,
+        }
+      },
+      select: { checkIn: true, checkOut: true }
+    })
+
+
+
 
     // --- Fetch all user leaves ---
     const leaves = await prisma.userLeave.findMany({
@@ -99,6 +113,8 @@ router.get("/my-summary/:userId", async (req, res) => {
 
     // --- Send both sections together ---
     res.json({
+      checkIn: attendance.checkIn,
+      checkOut: attendance.checkOut,
       summary,
       leaves,
     });
@@ -110,9 +126,7 @@ router.get("/my-summary/:userId", async (req, res) => {
 
 
 
-/**
- * Admin: Get pending leave requests
- */
+
 router.get("/pending", async (req, res) => {
   try {
     const pendingLeaves = await prisma.userLeave.findMany({
@@ -152,10 +166,11 @@ router.post("/approve", async (req, res) => {
 /**
  * Summary for dashboard cards
  */
-router.get("/summary", async (req, res) => {
+router.get("/summary/counts", async (req, res) => {
   try {
     const totalEmployees = await prisma.user.count();
     const today = new Date();
+
 
     const onLeaveCount = await prisma.userLeave.count({
       where: {
@@ -164,6 +179,7 @@ router.get("/summary", async (req, res) => {
         status: "APPROVED",
       },
     });
+
 
     const presentCount = totalEmployees - onLeaveCount;
 
@@ -185,6 +201,42 @@ router.get("/summary", async (req, res) => {
       onCasualLeave: casualCount,
       onSickLeave: sickCount,
       onBreak: 0,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching summary" });
+  }
+});
+
+
+
+router.get("/summary/records", async (req, res) => {
+  try {
+
+    const leaves = await prisma.userLeave.findMany(
+      {
+        include: { user: { select: { name: true } }, approvedBy: { select: { name: true } } }
+
+      });
+
+    const attendance = await prisma.attendance.findMany({
+      where: {
+        checkIn: {
+          gte: todayStart,
+          lt: tomorrowStart,
+        }
+      },
+      select: { user: { select: { name: true } }, checkIn: true, checkOut: true }
+    })
+
+
+    // const breakCount = await prisma.userBreak.count({
+    //   where: { endedAt: null },
+    // });
+
+    res.json({
+      leaves,
+      attendance
     });
   } catch (error) {
     console.error(error);
