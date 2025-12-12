@@ -799,6 +799,7 @@ router.get('/:id/deliveries/:deliveryId', async (req, res) => {
 // 📦 POST /campaign/:id/deliveries
 router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
     try {
+        
         const campaignId = parseInt(req.params.id);
         console.log(campaignId, 'campaign id')
         const file = req.file;
@@ -824,11 +825,34 @@ router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
         };
 
         // 💾 Save to DB
-        const newCampaignDelivery = await addCampaignDeilvery(campaignId, data);
+        const { newCampaignDelivery, campaign } = await addCampaignDeilvery(campaignId, data);
 
         if (!newCampaignDelivery) {
             return res.status(400).json({ message: 'Error adding delivery' });
         }
+
+
+        const newNotification = await prisma.notification.create({
+            data: {
+                message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
+                notificationPriority: { connect: { id: 3 } },
+                url:"#",
+                type: "delivery",
+            }
+        });
+
+        const newRoleNotification=await prisma.roleNotification.create({
+            data:{
+                roleId:2,
+                notificationId:newNotification.id
+            }
+        })
+
+        req.io.emit('receiveCampaignNotification', {
+            type: 'delivery',
+            message: `A new delivery "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
+            payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
+        });
 
         res.status(200).json({
             message: 'Data uploaded successfully ✅',

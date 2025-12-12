@@ -21,7 +21,7 @@ router.get('/unassigned', async (req, res) => {
    try {
       const tasks = await getAllUnassignedTasks();
 
-    
+
       return res.status(200).json({ message: "Data fetched successfully", data: tasks });
    }
    catch (e) {
@@ -75,6 +75,21 @@ router.put('/update-status', async (req, res) => {
          });
       }
 
+      // update task status for both 
+      // user and assigned by 
+
+
+      // const newNotification = await prisma.notification.create({
+      //    data: {
+      //       message: `New Update "${req.body.title}" has been added in the ${update.name} . `,
+      //       notificationPriority: {
+      //          connect: { id: 3 } // adjust priority as needed
+      //       },
+      //       url: url,
+      //       type: "updates",
+      //    }
+      // });
+
       // 1️⃣ Check if user-task relation exists
       const userTask = await prisma.userTask.findFirst({
          where: {
@@ -82,14 +97,12 @@ router.put('/update-status', async (req, res) => {
             userId: Number(userId),
          },
       });
-       
+
       if (!userTask) {
          return res.status(403).json({
             message: "User does not have permission to update this task",
          });
       }
-
-      
 
       // 2️⃣ Update task status (only if relation exists)
       const updatedTask = await prisma.task.update({
@@ -97,8 +110,14 @@ router.put('/update-status', async (req, res) => {
          data: { status },
       });
 
+      // // Emit event
+      // req.io.emit('receiveTaskStatus', {
+      //    type: 'update',
+      //    message: `The status of task "${updatedTask.name}" has been changed to "${updatedTask.status}" by .`,
+      //    payload: { url, priorityId: 3, type: "files" }
+      // });
 
-  
+
 
       //  // 3️⃣ Update UserTask status as well (optional but recommended)
       //  await prisma.userTask.updateMany({

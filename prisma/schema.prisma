@@ -207,7 +207,6 @@ model notification {
   url                    String
   type                   String
   roleNotifications roleNotification[]          // 👈 Link to join table
-
 }
 
 model notificationPriority {

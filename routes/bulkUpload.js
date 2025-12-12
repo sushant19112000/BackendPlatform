@@ -234,6 +234,31 @@ router.post('/leads', upload.single('file'), async (req, res) => {
         //     return res.status(400).json({ message: "Failed to add leads" });
         // }
 
+
+
+        const newNotification = await prisma.notification.create({
+            data: {
+                message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
+                notificationPriority: { connect: { id: 3 } },
+                url:"#",
+                type: "delivery",
+            }
+        });
+
+        const newRoleNotification=await prisma.roleNotification.create({
+            data:{
+                roleId:2,
+                notificationId:newNotification.id
+            }
+        })
+
+        req.io.emit('receiveCampaignNotification', {
+            type: 'leadUpload',
+            message: `Leads have been uploaded for the pacing "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
+            payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
+        });
+
+
         // res.status(201).json({ message: uploadOb.message });
 
         res.status(201).json({ leads:leads});

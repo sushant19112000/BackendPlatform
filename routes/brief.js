@@ -67,7 +67,7 @@ router.post('/', async (req, res) => {
         if (!newBrief) {
             return res.status(400).json({ message: "Failed to add brief" });
         }
-
+        
         res.status(201).json({
             message: "Brief added successfully",
             data: newBrief

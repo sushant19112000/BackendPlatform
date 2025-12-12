@@ -35,6 +35,7 @@ const addCampaignDeilvery = async (campaignId, data) => {
         if (existingDelivery) {
             return false;
         }
+        const campaign= await prisma.campaign.findFirst({where:{id:campaignId}});
         const newDelivery = await prisma.campaignDeliveries.create({
             data: {
                 fileName: data.fileName,
@@ -56,7 +57,7 @@ const addCampaignDeilvery = async (campaignId, data) => {
                 })
             }
         }
-        return newDelivery;
+        return {newDelivery,campaign};
     }
     catch (e) {
         console.log(e);
