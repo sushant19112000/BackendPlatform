@@ -3,7 +3,7 @@ const transferPhaseValidation = require('../../middelware/validations/transferPh
 
 const { twoPhaseValidation } = require('../../middelware/validations/twoPhaseValidation/twoPhaseValidation');
 const unAssignedBasicValidation = require('../../middelware/validations/unassignedValidation/unassignedBasicValidation');
-const { assignedValidationService, unAssignedValidationService } = require('../../tasks/client');
+const { assignedValidationService, unAssignedValidationService, validationService } = require('../../tasks/client');
 
 
 
@@ -475,7 +475,7 @@ const bulkUploadAssigned = async (filename, uploadedBy, pacingId, leads) => {
 
 const bulkUploadAssigned2 = async (filename, uploadedBy, pacingId, leads, socket) => {
   try {
-
+   console.log(filename, uploadedBy, pacingId)
     // Fetch pacing with volume and campaign details
     const pacing = await prisma.pacing.findFirst({
       where: { id: pacingId },
@@ -503,26 +503,30 @@ const bulkUploadAssigned2 = async (filename, uploadedBy, pacingId, leads, socket
 
 
     // Skip if lead template is "template"
-    if (volume.leadTemplate === "template") return false;
+    if (Object.keys(volume.leadTemplate).length==0) return false;
 
 
     // Two-phase validation if template exists
-    if (volume.leadTemplate !== "template") {
+    
 
-      const leadTemplateProfile = JSON.parse(volume.leadTemplate);
+     
       if (leads.length > 0) {
         const headers = Object.keys(leads[0]);
-        const templateHeaders = Object.keys(leadTemplateProfile.leadTemplate.fieldRules);
+        const templateHeaders = Object.keys(volume.leadTemplate.fieldRules);
         const isValid = headers.every(h => templateHeaders.includes(h));
+        console.log(isValid,'is valid')
         if (!isValid) {
           return false;
         }
       }
+
       const profiles = {
-        basicValidationProfile: volume.validationProfile,
-        templateValidationProfile: leadTemplateProfile,
+        externalRules: volume.externalRules,
+        leadTemplate: volume.leadTemplate,
       };
-      assignedValidationService(
+
+      console.log(profiles,'volume profiles')
+      validationService(
         leads,
         profiles,
         campaign.id,
@@ -533,11 +537,7 @@ const bulkUploadAssigned2 = async (filename, uploadedBy, pacingId, leads, socket
         Number(uploadedBy)
       );
       return { message: "Bulk upload started" }
-    }
-    else {
-      return { message: "Bulk upload failed" }
-    }
-
+  
 
   } catch (e) {
     console.error("bulkUploadAssigned error:", e);

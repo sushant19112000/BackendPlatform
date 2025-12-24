@@ -12,26 +12,27 @@ datasource db {
 }
 
 model user {
-  id               Int                  @id @default(autoincrement())
-  email            String               @unique
-  name             String?
-  password         String
-  created_at       DateTime             @default(now())
-  updated_at       DateTime             @updatedAt
-  uploads          leadsUpload[]
-  roles            userrole[]
-  leaves           UserLeave[] // leaves applied by this user
-  approvedLeaves   UserLeave[]          @relation("LeaveApproval") // leaves this user approved
-  sentMessages     message[]            @relation("SentMessages")
-  receivedMessages message[]            @relation("ReceivedMessages")
-  groups           userGroups[]
-  sentMessage      groupMessage[]
-  tasks            UserTask[]           @relation("UserTasks")
-  breaks           UserBreak[]
-  assignedTasks    UserTask[]           @relation("AssignedTasks")
-  sessions         Session[]
-  deliveries       campaignDeliveries[]
-  attendance       Attendance[]
+  id                Int                  @id @default(autoincrement())
+  email             String               @unique
+  name              String?
+  password          String
+  created_at        DateTime             @default(now())
+  updated_at        DateTime             @updatedAt
+  uploads           leadsUpload[]
+  roles             userrole[]
+  leaves            UserLeave[] // leaves applied by this user
+  approvedLeaves    UserLeave[]          @relation("LeaveApproval") // leaves this user approved
+  sentMessages      message[]            @relation("SentMessages")
+  receivedMessages  message[]            @relation("ReceivedMessages")
+  groups            userGroups[]
+  sentMessage       groupMessage[]
+  tasks             UserTask[]           @relation("UserTasks")
+  breaks            UserBreak[]
+  assignedTasks     UserTask[]           @relation("AssignedTasks")
+  userNotifications userNotifications[]
+  sessions          Session[]
+  deliveries        campaignDeliveries[]
+  attendance        Attendance[]
 }
 
 model Attendance {
@@ -196,6 +197,14 @@ model userGroups {
   @@id([userId, groupId]) // composite primary key
 }
 
+model userNotifications {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  user           user         @relation(fields: [userId], references: [id])
+  notificationId Int
+  notification   notification @relation(fields: [notificationId], references: [id])
+}
+
 model notification {
   id                     Int                  @id @default(autoincrement())
   message                String
@@ -205,6 +214,7 @@ model notification {
   url                    String
   type                   String
   roleNotifications      roleNotification[] // 👈 Link to join table
+  userNotifications      userNotifications[]
 }
 
 model notificationPriority {

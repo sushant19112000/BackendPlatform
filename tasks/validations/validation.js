@@ -1,7 +1,58 @@
 const XLSX = require("xlsx");
 const axios = require("axios")
 const Papa = require("papaparse");
+// Loader function
+async function loadDataFromUrl(url, fileType, valueField = null, field) {
+  try {
+    const response = await axios.get(url, { responseType: "arraybuffer" });
 
+    // Normalizer function
+    const normalize = (val) => {
+      if (!val) return null;
+      let str = String(val).trim();
+      if (field === "email" || field === "domain") {
+        str = str.toLowerCase();
+      }
+      return str || null;
+    };
+
+    if (fileType === "json") {
+      const jsonData = JSON.parse(Buffer.from(response.data).toString("utf8"));
+      if (!Array.isArray(jsonData)) {
+        throw new Error("Invalid JSON format: expected an array of values");
+      }
+      return jsonData.map(normalize).filter(Boolean);
+
+    } else if (fileType === "csv") {
+      const csvText = Buffer.from(response.data).toString("utf8");
+      const parsed = Papa.parse(csvText, { skipEmptyLines: true });
+      const rows = parsed.data;
+
+      if (valueField == null) {
+        throw new Error("CSV requires a valueField (column index)");
+      }
+
+      return rows.map(row => normalize(row[valueField])).filter(Boolean);
+
+    } else if (fileType === "excel" || fileType === "xlsx") {
+      const workbook = XLSX.read(response.data, { type: "buffer" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+
+      if (valueField == null) {
+        throw new Error("Excel requires a valueField (column index)");
+      }
+
+      return sheet.map(row => normalize(row[valueField])).filter(Boolean);
+
+    } else {
+      throw new Error(`Unsupported fileType: ${fileType}`);
+    }
+  } catch (error) {
+    console.error("Error loading data:", error);
+    throw error;
+  }
+}
 
 // makeCamelCase and validateValue functions remain the same
 const makeCamelCase = str =>
@@ -41,14 +92,15 @@ const validateContactsPerCompany = (domain, maxCount, companyEmailDomainCounter)
 };
 
 // ---------------- MAIN VALIDATION ----------------
-const validation = async (data, profileT, campaignId, uploadId, pacingId, volumeId) => {
+const validation = async (data, profiles, campaignId, uploadId, pacingId, volumeId) => {
     try {
 
-        const profile = profileT;
+        // const profile = profileT;
+        const {externalRules,leadTemplate}=profiles
         const errors = [];
         const validData = [];
         const totalRows = data.length;
-
+    const sourceCache = {};
         for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
             const lead = data[rowIndex];
             if (!lead) continue; // skip undefined rows
@@ -64,8 +116,8 @@ const validation = async (data, profileT, campaignId, uploadId, pacingId, volume
                 const camelField = field;
                 const currentFieldErrors = [];
 
-                if (profile.fieldRules[camelField]) {
-                    const { regex, error, label, required } = profile.fieldRules[camelField];
+                if (leadTemplate.fieldRules[camelField]) {
+                    const { regex, error, label, required } = leadTemplate.fieldRules[camelField];
                     if (required || (/[a-zA-Z0-9]/.test(value))) {
                         try {
                             const regexObject = new RegExp(regex);
@@ -101,7 +153,7 @@ const validation = async (data, profileT, campaignId, uploadId, pacingId, volume
                 //     }
                 //   }
                 // }
-                for (const rule of profile.templateValueRules) {
+                for (const rule of leadTemplate.valueRules) {
                     const { mode, fieldNames, values, scope, error, source } = rule;
 
                     if (fieldNames.includes(field)) {
@@ -135,8 +187,8 @@ const validation = async (data, profileT, campaignId, uploadId, pacingId, volume
                     }
                 }
 
-                if (profile.externalValueRules.length > 0) {
-                    for (const rule of profile.externalValueRules) {
+                if (externalRules.length > 0) {
+                    for (const rule of externalRules) {
                         const { mode, fieldNames, values, scope, error, source } = rule;
 
                         if (fieldNames.includes(field)) {

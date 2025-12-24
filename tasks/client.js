@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const celery = require("celery-node");
 const celeryConfig = require("./config");
 const { json } = require("express");
+const validation = require("./validations/validation");
 
 const client = celery.createClient(
   celeryConfig.BROKER_URL,
@@ -164,7 +165,7 @@ const assignedValidationService = async (
   socket,
   userId
 ) => {
-  const { basicValidationProfile, templateValidationProfile } = profiles;
+  const { externalRules, leadTemplate } = profiles;
   const batchId = uuidv4(); // unique batch ID for this upload
 
   try {
@@ -512,4 +513,93 @@ const unAssignedValidationService = async (
 //   }
 // };
 
-module.exports = { assignedValidationService,leadCountUpdateTaskTrigger,unAssignedValidationService };
+
+
+
+const validationService = async (
+  data,
+  profiles,
+  campaignId,
+  uploadId,
+  pacingId,
+  volumeId,
+  socket,
+  userId
+) => {
+  const batchId = uuidv4(); // unique batch ID for this upload
+
+  try {
+    // Fetch existing leads
+    const existingLeads = await prisma.lead.findMany({
+      where: { campaignId },
+      select: { email: true },
+    });
+
+    /* -------------------- 1️⃣ Basic Validation -------------------- */
+    socket.emit("validationProgress", {
+      batchId,
+      userId,
+      step: "validation",
+      message: "Running  validations...",
+      percentage: 50,
+    });
+
+    const validation = client.createTask("tasks.validation");
+    const validationResult = await (
+      await validation.applyAsync([data, profiles, existingLeads])
+    ).get();
+    console.log(validationResult,'res')
+    // If no valid rows, stop here
+    if (!validationResult?.validRowsCount) {
+      await prisma.leadsUpload.update({
+        where: { id: uploadId },
+        data: { results:validationResult },
+      });
+
+      socket.emit("validationProgress", {
+        batchId,
+        userId,
+        step: "validation",
+        message: "Validation failed.",
+        percentage: 65,
+        result: validationResult,
+      });
+
+      return;
+    }
+
+    /* -------------------- 2️⃣ Bulk Lead Upload -------------------- */
+    const bulkUploadTask = client.createTask("tasks.bulkLeadUpload");
+
+    await bulkUploadTask.applyAsync([
+      validationResult.validData,
+      campaignId,
+      uploadId,
+      volumeId,
+      pacingId,
+      "template",
+    ]);
+
+    /* -------------------- ✅ Completed -------------------- */
+    socket.emit("validationProgress", {
+      batchId,
+      userId,
+      step: "completed",
+      message: "All steps finished successfully.",
+      percentage: 100,
+    });
+  } catch (err) {
+    console.error("Assigned Validation Service Error:", err);
+
+    socket.emit("validationProgress", {
+      batchId,
+      userId,
+      step: "failed",
+      message: "An unexpected error occurred.",
+      percentage: 0,
+      error: err?.message || "Unknown error",
+    });
+  }
+};
+
+module.exports = { assignedValidationService,leadCountUpdateTaskTrigger,unAssignedValidationService,validationService };

@@ -26,7 +26,7 @@ router.get('/unassigned/pacing/:id', async (req, res) => {
     }
 });
 
-router.get('/assigned/pacing/:id', async (req, res) => {
+router.get('/pacing/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
         const pacingLeads = await fetchPacingLeads(id,'assigned');

@@ -45,9 +45,7 @@ const bulkLeadUpload = async (
               volumeId,
               pacingId,
               email,
-              data: otherFields,
-              phase1Validation: true,
-              leadTemplateValidation: type=="template"?true:false,
+              data: otherFields
             },
           });
           inserted++;

@@ -29,6 +29,7 @@ model user {
   tasks                 UserTask[]             @relation("UserTasks")
   breaks                UserBreak[]
   assignedTasks         UserTask[]             @relation("AssignedTasks")
+  userNotifications   userNotifications[]
   sessions              Session[]
   deliveries            campaignDeliveries[]
   attendance            Attendance[]
@@ -198,6 +199,16 @@ model userGroups {
   @@id([userId, groupId]) // composite primary key
 }
 
+
+
+model userNotifications {
+  id  Int                     @id @default(autoincrement())
+  userId  Int 
+  user       user     @relation(fields: [userId], references: [id])
+  notificationId Int 
+   notification   notification  @relation(fields: [notificationId], references: [id])
+
+}
 model notification {
   id                     Int                     @id @default(autoincrement())
   message                String
@@ -207,6 +218,7 @@ model notification {
   url                    String
   type                   String
   roleNotifications roleNotification[]          // 👈 Link to join table
+  userNotifications  userNotifications[]
 }
 
 model notificationPriority {

@@ -186,7 +186,6 @@ router.post('/leads', upload.single('file'), async (req, res) => {
     try {
         const file = req.file;
         const { pacingId, uploadedBy } = req.body;
-        console.log(req.body,'body')
         if (!file || !pacingId || !uploadedBy) {
             console.log(file, pacingId, uploadedBy);
             return res.status(400).json({ message: "Missing required fields or file" });
@@ -215,48 +214,48 @@ router.post('/leads', upload.single('file'), async (req, res) => {
         );
 
 
-        console.log(leads[0])
+        // console.log(leads)
 
         const filename = file.originalname;
 
 
 
-        // const uploadOb = await bulkUploadAssigned2(
-        //     filename,
-        //     Number(uploadedBy),
-        //     Number(pacingId),
-        //     leads,
-        //     req.io
-        // );
+        const uploadOb = await bulkUploadAssigned2(
+            filename,
+            Number(uploadedBy),
+            Number(pacingId),
+            leads,
+            req.io
+        );
 
 
-        // if (!uploadOb) {
-        //     return res.status(400).json({ message: "Failed to add leads" });
-        // }
+        if (!uploadOb) {
+            return res.status(400).json({ message: "Failed to add leads" });
+        }
 
 
 
-        const newNotification = await prisma.notification.create({
-            data: {
-                message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
-                notificationPriority: { connect: { id: 3 } },
-                url:"#",
-                type: "delivery",
-            }
-        });
+        // const newNotification = await prisma.notification.create({
+        //     data: {
+        //         message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
+        //         notificationPriority: { connect: { id: 3 } },
+        //         url:"#",
+        //         type: "delivery",
+        //     }
+        // });
 
-        const newRoleNotification=await prisma.roleNotification.create({
-            data:{
-                roleId:2,
-                notificationId:newNotification.id
-            }
-        })
+        // const newRoleNotification=await prisma.roleNotification.create({
+        //     data:{
+        //         roleId:2,
+        //         notificationId:newNotification.id
+        //     }
+        // })
 
-        req.io.emit('receiveCampaignNotification', {
-            type: 'leadUpload',
-            message: `Leads have been uploaded for the pacing "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
-            payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
-        });
+        // req.io.emit('receiveCampaignNotification', {
+        //     type: 'leadUpload',
+        //     message: `Leads have been uploaded for the pacing "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
+        //     payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
+        // });
 
 
         // res.status(201).json({ message: uploadOb.message });

@@ -49,23 +49,15 @@ const fetchPacingLeads = async (pacingId, type) => {
         //  WHERE p.id = ${pacingId}
         // `);
         let pacing;
-        if (type == "unassigned") {
-            pacing = await prisma.pacing.findFirst({
-                where: { id: pacingId },
-                include: {
-                    volume: true
-                }
-            });
-        }
-        else {
-            pacing = await prisma.pacing.findFirst({
-                where: { id: pacingId },
-                include: {
-                    volume: true,
-                    leads: true
-                }
-            });
-        }
+
+        pacing = await prisma.pacing.findFirst({
+            where: { id: pacingId },
+            include: {
+                volume: true,
+                leads: true
+            }
+        });
+
 
 
 
@@ -74,7 +66,7 @@ const fetchPacingLeads = async (pacingId, type) => {
 
         let headers = [];
 
-        let leadTemplateFieldRules = JSON.parse(volume.leadTemplate).leadTemplate["fieldRules"];
+        let leadTemplateFieldRules = volume.leadTemplate["fieldRules"];
         for (let f in leadTemplateFieldRules) {
             headers.push([f, leadTemplateFieldRules[f]['label']]);
         }

@@ -222,6 +222,12 @@ exports.Prisma.UserGroupsScalarFieldEnum = {
   assignedAt: 'assignedAt'
 };
 
+exports.Prisma.UserNotificationsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  notificationId: 'notificationId'
+};
+
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   message: 'message',
@@ -527,6 +533,7 @@ exports.Prisma.ModelName = {
   groupMessage: 'groupMessage',
   group: 'group',
   userGroups: 'userGroups',
+  userNotifications: 'userNotifications',
   notification: 'notification',
   notificationPriority: 'notificationPriority',
   role: 'role',

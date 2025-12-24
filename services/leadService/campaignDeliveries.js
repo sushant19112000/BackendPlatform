@@ -30,6 +30,7 @@ const getCampaignDelivery = async (deliveryId) => {
 
 const addCampaignDeilvery = async (campaignId, data) => {
     try {
+    
         const submitted = data.leads.length;
         const existingDelivery = await prisma.campaignDeliveries.findFirst({ where: { fileName: data.fileName } })
         if (existingDelivery) {
@@ -41,9 +42,11 @@ const addCampaignDeilvery = async (campaignId, data) => {
                 fileName: data.fileName,
                 date: data.date,
                 submitted: submitted,
-                data: JSON.stringify(data.leads)
+                data: JSON.stringify(data.leads),
+                campaignId:campaignId
             }
         })
+      
         //  relate 
         for (let lead of data.leads) {
             const email = lead.email || lead.Email || lead['Email']
