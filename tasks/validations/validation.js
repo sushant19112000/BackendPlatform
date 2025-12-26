@@ -3,55 +3,55 @@ const axios = require("axios")
 const Papa = require("papaparse");
 // Loader function
 async function loadDataFromUrl(url, fileType, valueField = null, field) {
-  try {
-    const response = await axios.get(url, { responseType: "arraybuffer" });
+    try {
+        const response = await axios.get(url, { responseType: "arraybuffer" });
 
-    // Normalizer function
-    const normalize = (val) => {
-      if (!val) return null;
-      let str = String(val).trim();
-      if (field === "email" || field === "domain") {
-        str = str.toLowerCase();
-      }
-      return str || null;
-    };
+        // Normalizer function
+        const normalize = (val) => {
+            if (!val) return null;
+            let str = String(val).trim();
+            if (field === "email" || field === "domain") {
+                str = str.toLowerCase();
+            }
+            return str || null;
+        };
 
-    if (fileType === "json") {
-      const jsonData = JSON.parse(Buffer.from(response.data).toString("utf8"));
-      if (!Array.isArray(jsonData)) {
-        throw new Error("Invalid JSON format: expected an array of values");
-      }
-      return jsonData.map(normalize).filter(Boolean);
+        if (fileType === "json") {
+            const jsonData = JSON.parse(Buffer.from(response.data).toString("utf8"));
+            if (!Array.isArray(jsonData)) {
+                throw new Error("Invalid JSON format: expected an array of values");
+            }
+            return jsonData.map(normalize).filter(Boolean);
 
-    } else if (fileType === "csv") {
-      const csvText = Buffer.from(response.data).toString("utf8");
-      const parsed = Papa.parse(csvText, { skipEmptyLines: true });
-      const rows = parsed.data;
+        } else if (fileType === "csv") {
+            const csvText = Buffer.from(response.data).toString("utf8");
+            const parsed = Papa.parse(csvText, { skipEmptyLines: true });
+            const rows = parsed.data;
 
-      if (valueField == null) {
-        throw new Error("CSV requires a valueField (column index)");
-      }
+            if (valueField == null) {
+                throw new Error("CSV requires a valueField (column index)");
+            }
 
-      return rows.map(row => normalize(row[valueField])).filter(Boolean);
+            return rows.map(row => normalize(row[valueField])).filter(Boolean);
 
-    } else if (fileType === "excel" || fileType === "xlsx") {
-      const workbook = XLSX.read(response.data, { type: "buffer" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+        } else if (fileType === "excel" || fileType === "xlsx") {
+            const workbook = XLSX.read(response.data, { type: "buffer" });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
 
-      if (valueField == null) {
-        throw new Error("Excel requires a valueField (column index)");
-      }
+            if (valueField == null) {
+                throw new Error("Excel requires a valueField (column index)");
+            }
 
-      return sheet.map(row => normalize(row[valueField])).filter(Boolean);
+            return sheet.map(row => normalize(row[valueField])).filter(Boolean);
 
-    } else {
-      throw new Error(`Unsupported fileType: ${fileType}`);
+        } else {
+            throw new Error(`Unsupported fileType: ${fileType}`);
+        }
+    } catch (error) {
+        console.error("Error loading data:", error);
+        throw error;
     }
-  } catch (error) {
-    console.error("Error loading data:", error);
-    throw error;
-  }
 }
 
 // makeCamelCase and validateValue functions remain the same
@@ -92,15 +92,27 @@ const validateContactsPerCompany = (domain, maxCount, companyEmailDomainCounter)
 };
 
 // ---------------- MAIN VALIDATION ----------------
-const validation = async (data, profiles, campaignId, uploadId, pacingId, volumeId) => {
+const validation = async (data, profiles, existingLeads) => {
     try {
 
         // const profile = profileT;
-        const {externalRules,leadTemplate}=profiles
+        const { externalRules, leadTemplate } = profiles
         const errors = [];
         const validData = [];
         const totalRows = data.length;
-    const sourceCache = {};
+        const sourceCache = {};
+
+
+        const existingEmailsSet = new Set(existingLeads.map(l => l.email.toLowerCase()));
+        const companyEmailDomainCounter = {};
+        for (let email of existingEmailsSet) {
+            let d = email.split('@')[1]; // domain part
+            if (companyEmailDomainCounter.hasOwnProperty(d)) {
+                companyEmailDomainCounter[d] += 1;
+            } else {
+                companyEmailDomainCounter[d] = 1;
+            }
+        }
         for (let rowIndex = 0; rowIndex < data.length; rowIndex++) {
             const lead = data[rowIndex];
             if (!lead) continue; // skip undefined rows
@@ -228,6 +240,18 @@ const validation = async (data, profiles, campaignId, uploadId, pacingId, volume
                 }
             }
 
+            // Duplicate check (in-memory)
+            if (!hasValidationErrors) {
+                if (existingEmailsSet.has(lead.email.toLowerCase())) {
+                    hasValidationErrors = true;
+                    fieldValidationErrors.email = ['Duplicate lead'];
+                } else {
+                    existingEmailsSet.add(lead.email.toLowerCase());
+                    const { email, ...otherFields } = lead;
+                }
+            }
+
+
             if (hasValidationErrors) {
                 errors.push({
                     ...lead,            // spread other lead fields
@@ -242,6 +266,9 @@ const validation = async (data, profiles, campaignId, uploadId, pacingId, volume
 
         const validRowsCount = totalRows - errors.length;
         const errorRowsCount = errors.length;
+
+
+        console.log(errorRowsCount, 'errorRowCount')
 
         return { totalRows, validRowsCount, errorRowsCount, errors, validData };
     } catch (e) {

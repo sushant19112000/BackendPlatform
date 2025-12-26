@@ -32,11 +32,18 @@ const addCampaignDeilvery = async (campaignId, data) => {
     try {
     
         const submitted = data.leads.length;
-        const existingDelivery = await prisma.campaignDeliveries.findFirst({ where: { fileName: data.fileName } })
+         const campaign= await prisma.campaign.findFirst({where:{id:campaignId}});
+        
+
+        const existingDelivery = await prisma.campaignDeliveries.findFirst({ where: { fileName: data.fileName,campaignId:campaignId } })
+        console.log(existingDelivery,'flag')
         if (existingDelivery) {
             return false;
         }
-        const campaign= await prisma.campaign.findFirst({where:{id:campaignId}});
+
+       
+        // const campaign= await prisma.campaign.findFirst({where:{id:campaignId}});
+        
         const newDelivery = await prisma.campaignDeliveries.create({
             data: {
                 fileName: data.fileName,
@@ -52,7 +59,7 @@ const addCampaignDeilvery = async (campaignId, data) => {
             const email = lead.email || lead.Email || lead['Email']
             let db_lead = await prisma.lead.findFirst({ where: { campaignId: campaignId, email: email } });
             if (db_lead) {
-
+                console.log(db_lead.email,'email updated')
                 await prisma.lead.update({
                     where: { id: db_lead.id }, data: {
                         campaignDeliveryId: newDelivery.id

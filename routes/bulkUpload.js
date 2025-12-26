@@ -235,32 +235,32 @@ router.post('/leads', upload.single('file'), async (req, res) => {
 
 
 
-        // const newNotification = await prisma.notification.create({
-        //     data: {
-        //         message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
-        //         notificationPriority: { connect: { id: 3 } },
-        //         url:"#",
-        //         type: "delivery",
-        //     }
-        // });
+        const newNotification = await prisma.notification.create({
+            data: {
+                message: `Leads have been uploaded by ${uploadOb.user} for the  ${uploadOb.volume}/${uploadOb.pacing} has been added to ${uploadOb.campaign}`,
+                notificationPriority: { connect: { id: 3 } },
+                url:"#",
+                type: "leadsUpload",
+            }
+        });
 
-        // const newRoleNotification=await prisma.roleNotification.create({
-        //     data:{
-        //         roleId:2,
-        //         notificationId:newNotification.id
-        //     }
-        // })
+        const newRoleNotification=await prisma.roleNotification.create({
+            data:{
+                roleId:2,
+                notificationId:newNotification.id
+            }
+        })
 
-        // req.io.emit('receiveCampaignNotification', {
-        //     type: 'leadUpload',
-        //     message: `Leads have been uploaded for the pacing "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
-        //     payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
-        // });
+        req.io.emit('receiveCampaignNotification', {
+            type: 'leadUpload',
+            message: `Leads have been uploaded by ${uploadOb.user} for the  ${uploadOb.volume}/${uploadOb.pacing} has been added to ${uploadOb.campaign}.`,
+            payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
+        });
 
 
-        // res.status(201).json({ message: uploadOb.message });
+        res.status(201).json({ message: uploadOb.message });
 
-        res.status(201).json({ leads:leads});
+        // res.status(201).json({ leads:leads});
     } catch (e) {
         console.error(e);
         return res.status(500).json({ message: "Internal server error" });

@@ -150,9 +150,9 @@ const client = celery.createClient(
 
 
 
-const leadCountUpdateTaskTrigger=async(campaignId, uploadId, pacingId, volumeId)=>{
-    const leadCountUpdateTask = client.createTask("tasks.leadCountUpdateTask");
-    await leadCountUpdateTask.applyAsync([campaignId, uploadId, pacingId, volumeId]);
+const leadCountUpdateTaskTrigger = async (campaignId, uploadId, pacingId, volumeId) => {
+  const leadCountUpdateTask = client.createTask("tasks.leadCountUpdateTask");
+  await leadCountUpdateTask.applyAsync([campaignId, uploadId, pacingId, volumeId]);
 }
 
 const assignedValidationService = async (
@@ -220,9 +220,9 @@ const assignedValidationService = async (
 
     // 3️⃣ Bulk Lead Upload & Lead Count Update (silent, no socket emit)
     const bulkUploadTask = client.createTask("tasks.bulkLeadUpload");
-    await bulkUploadTask.applyAsync([templateResult.validData, campaignId, uploadId, volumeId, pacingId,"template"]);
+    await bulkUploadTask.applyAsync([templateResult.validData, campaignId, uploadId, volumeId, pacingId, "template"]);
 
-  
+
 
     // ✅ Final completed event
     socket.emit("validationProgress", { batchId, userId, step: "completed", message: "All steps finished successfully.", percentage: 100 });
@@ -267,14 +267,14 @@ const unAssignedValidationService = async (
       return;
     }
 
-    socket.emit("validationProgress", { batchId, userId, step: "basicValidation", message: "Basic validation completed.", percentage: 80,result: basicResult  });
+    socket.emit("validationProgress", { batchId, userId, step: "basicValidation", message: "Basic validation completed.", percentage: 80, result: basicResult });
 
- 
+
     // 3️⃣ Bulk Lead Upload & Lead Count Update (silent, no socket emit)
     const bulkUploadTask = client.createTask("tasks.bulkLeadUpload");
-    await bulkUploadTask.applyAsync([basicResult.validData, campaignId, uploadId, volumeId, pacingId,"basic"]);
+    await bulkUploadTask.applyAsync([basicResult.validData, campaignId, uploadId, volumeId, pacingId, "basic"]);
 
-  
+
 
     // ✅ Final completed event
     socket.emit("validationProgress", { batchId, userId, step: "completed", message: "All steps finished successfully.", percentage: 100 });
@@ -548,37 +548,46 @@ const validationService = async (
     const validationResult = await (
       await validation.applyAsync([data, profiles, existingLeads])
     ).get();
-    console.log(validationResult,'res')
-    // If no valid rows, stop here
-    if (!validationResult?.validRowsCount) {
-      await prisma.leadsUpload.update({
-        where: { id: uploadId },
-        data: { results:validationResult },
-      });
 
+    // If no valid rows, stop here
+
+    await prisma.leadsUpload.update({
+      where: { id: uploadId },
+      data: { results: validationResult },
+    });
+
+    socket.emit("validationProgress", {
+      batchId,
+      userId,
+      step: "validation",
+      message: "Validation Result",
+      percentage: 65,
+      result: validationResult,
+    });
+
+
+    if (!validationResult.validData.length) {
       socket.emit("validationProgress", {
         batchId,
         userId,
-        step: "validation",
-        message: "Validation failed.",
-        percentage: 65,
-        result: validationResult,
+        step: "completed",
+        message: "No valid leads found.",
+        percentage: 100,
       });
-
       return;
     }
-
     /* -------------------- 2️⃣ Bulk Lead Upload -------------------- */
     const bulkUploadTask = client.createTask("tasks.bulkLeadUpload");
-
-    await bulkUploadTask.applyAsync([
-      validationResult.validData,
-      campaignId,
-      uploadId,
-      volumeId,
-      pacingId,
-      "template",
-    ]);
+    if (validationResult.validData.length > 0) {
+      await bulkUploadTask.applyAsync([
+        validationResult.validData,
+        campaignId,
+        uploadId,
+        volumeId,
+        pacingId,
+        "template",
+      ]);
+    }
 
     /* -------------------- ✅ Completed -------------------- */
     socket.emit("validationProgress", {
@@ -602,4 +611,4 @@ const validationService = async (
   }
 };
 
-module.exports = { assignedValidationService,leadCountUpdateTaskTrigger,unAssignedValidationService,validationService };
+module.exports = { assignedValidationService, leadCountUpdateTaskTrigger, unAssignedValidationService, validationService };

@@ -475,8 +475,10 @@ const bulkUploadAssigned = async (filename, uploadedBy, pacingId, leads) => {
 
 const bulkUploadAssigned2 = async (filename, uploadedBy, pacingId, leads, socket) => {
   try {
-   console.log(filename, uploadedBy, pacingId)
+
     // Fetch pacing with volume and campaign details
+
+    const user = await prisma.user.findFirst({ where: { id: uploadedBy } });
     const pacing = await prisma.pacing.findFirst({
       where: { id: pacingId },
       include: {
@@ -503,41 +505,41 @@ const bulkUploadAssigned2 = async (filename, uploadedBy, pacingId, leads, socket
 
 
     // Skip if lead template is "template"
-    if (Object.keys(volume.leadTemplate).length==0) return false;
+    if (Object.keys(volume.leadTemplate).length == 0) return false;
 
 
     // Two-phase validation if template exists
-    
 
-     
-      if (leads.length > 0) {
-        const headers = Object.keys(leads[0]);
-        const templateHeaders = Object.keys(volume.leadTemplate.fieldRules);
-        const isValid = headers.every(h => templateHeaders.includes(h));
-        console.log(isValid,'is valid')
-        if (!isValid) {
-          return false;
-        }
+
+
+    if (leads.length > 0) {
+      const headers = Object.keys(leads[0]);
+      const templateHeaders = Object.keys(volume.leadTemplate.fieldRules);
+      const isValid = headers.every(h => templateHeaders.includes(h));
+      console.log(isValid, 'is valid')
+      if (!isValid) {
+        return false;
       }
+    }
 
-      const profiles = {
-        externalRules: volume.externalRules,
-        leadTemplate: volume.leadTemplate,
-      };
+    const profiles = {
+      externalRules: volume.externalRules,
+      leadTemplate: volume.leadTemplate,
+    };
 
-      console.log(profiles,'volume profiles')
-      validationService(
-        leads,
-        profiles,
-        campaign.id,
-        newLeadsUpload.id,
-        pacingId,
-        volume.id,
-        socket,
-        Number(uploadedBy)
-      );
-      return { message: "Bulk upload started" }
-  
+    console.log(profiles, 'volume profiles')
+    validationService(
+      leads,
+      profiles,
+      campaign.id,
+      newLeadsUpload.id,
+      pacingId,
+      volume.id,
+      socket,
+      Number(uploadedBy)
+    );
+    return { message: "Bulk upload started", campaign: campaign.name, pacing: pacing.updated_at, volume: volume.name, user: user.name }
+
 
   } catch (e) {
     console.error("bulkUploadAssigned error:", e);
