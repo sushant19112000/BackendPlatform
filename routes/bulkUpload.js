@@ -6,7 +6,7 @@ const parseAsync = promisify(parse); // Convert callback to Promise
 const { bulkUploadAssigned, bulkUploadAssign, bulkUploadAssigned2, bulkUploadUnassigned, bulkUploadUnAssigned2 } = require('../services/leadService/bulkUpload');
 const prisma = require('../db/dbConnection');
 const router = express.Router();
-
+const roles = [1, 2, 3]
 const storage = multer.memoryStorage(); // Use memory or diskStorage if needed
 const upload = multer({ storage });
 
@@ -240,21 +240,21 @@ router.post('/leads', upload.single('file'), async (req, res) => {
                 message: `Leads have been uploaded by ${uploadOb.user} for the  ${uploadOb.volume}/${uploadOb.pacing} has been added to ${uploadOb.campaign}`,
                 notificationPriority: { connect: { id: 3 } },
                 url:"#",
-                type: "leadsUpload",
+                type: "bulkUpload",
             }
         });
 
-        const newRoleNotification=await prisma.roleNotification.create({
-            data:{
-                roleId:2,
-                notificationId:newNotification.id
-            }
-        })
+        await prisma.roleNotification.createMany({
+            data: roles.map((roleId) => ({
+                notificationId: newNotification.id,
+                roleId,
+            })),
+        });
 
-        req.io.emit('receiveCampaignNotification', {
-            type: 'leadUpload',
+        req.io.emit('bulkUpload', {
+            type: 'bulkUpload',
             message: `Leads have been uploaded by ${uploadOb.user} for the  ${uploadOb.volume}/${uploadOb.pacing} has been added to ${uploadOb.campaign}.`,
-            payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
+            payload: { url: "#", priorityId: 4, type: "bulkUpload", role: "admin" }
         });
 
 

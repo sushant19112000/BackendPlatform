@@ -534,7 +534,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/sushant/Desktop/workLeadGenNov14/backend/generated/prisma",
+      "value": "/home/sushant/Platform/backend/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -548,7 +548,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/sushant/Desktop/workLeadGenNov14/backend/prisma/schema.prisma",
+    "sourceFilePath": "/home/sushant/Platform/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -562,6 +562,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {

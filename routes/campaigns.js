@@ -85,7 +85,7 @@ router.post('/', async (req, res) => {
                     connect: { id: 4 } // adjust priority as needed
                 },
                 url: url,
-                type: "info",
+                type: "activity",
             }
         });
 
@@ -96,10 +96,10 @@ router.post('/', async (req, res) => {
             })),
         });
         // Emit the event to all connected clients
-        req.io.emit('receiveCampaignNotification', {
-            type: 'added',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `New Campaign "${newCampaign.name}" has been added.`,
-            payload: { url: url, priorityId: 4, type: "campaign" }
+            payload: { url: url, priorityId: 4, type: "activity" }
         });
 
 
@@ -120,10 +120,10 @@ router.put('/:id', async (req, res) => {
         if (!updatedCampaign) return res.status(404).json({ message: "Campaign not found or update failed" });
 
         // Emit the event to all connected clients
-        req.io.emit('receiveCampaignNotification', {
-            type: 'update',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `Campaign "${newCampaign.name}" has been updated.`,
-            payload: { url: url, priorityId: 5, type: "campaign" }
+            payload: { url: url, priorityId: 5, type: "activity" }
         });
 
         return res.status(200).json({ message: "Campaign updated successfully", data: updatedCampaign });
@@ -189,7 +189,7 @@ router.post('/:id/content', async (req, res) => {
                     connect: { id: 3 } // adjust priority as needed
                 },
                 url: url,
-                type: "content",
+                type: "activity",
 
             },
 
@@ -204,10 +204,10 @@ router.post('/:id/content', async (req, res) => {
 
 
         // Emit the event to all connected clients
-        req.io.emit('receiveCampaignNotification', {
-            type: 'added',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `New Asset "${req.body.title}" has been added in the ${updatedCampaign.name} .`,
-            payload: { url: url, priorityId: 3, type: "content" }
+            payload: { url: url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data Added successfully", data: updatedCampaign.content });
@@ -252,7 +252,7 @@ router.put('/:id/content', async (req, res) => {
                 message: `Asset "${updatedEntry.title}" has been updated in ${updatedCampaign.name}.`,
                 notificationPriority: { connect: { id: 3 } },
                 url,
-                type: "content",
+                type: "activity",
             }
         });
 
@@ -263,10 +263,10 @@ router.put('/:id/content', async (req, res) => {
             })),
         });
 
-        req.io.emit('receiveCampaignNotification', {
-            type: 'edited',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `Asset "${updatedEntry.title}" has been updated in ${updatedCampaign.name}.`,
-            payload: { url, priorityId: 3, type: "content" }
+            payload: { url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data Updated successfully", data: updatedCampaign.content });
@@ -309,7 +309,7 @@ router.delete('/:id/content', async (req, res) => {
                 message: `Asset "${deletedEntry.title}" has been deleted from ${updatedCampaign.name}.`,
                 notificationPriority: { connect: { id: 3 } },
                 url,
-                type: "content",
+                type: "activity",
             }
         });
 
@@ -320,10 +320,10 @@ router.delete('/:id/content', async (req, res) => {
             })),
         });
 
-        req.io.emit('receiveCampaignNotification', {
-            type: 'deleted',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `Asset "${deletedEntry.title}" has been deleted from ${updatedCampaign.name}.`,
-            payload: { url, priorityId: 3, type: "content" }
+            payload: { url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data Deleted successfully", data: updatedCampaign.content });
@@ -366,7 +366,7 @@ router.post('/:id/files', async (req, res) => {
                     connect: { id: 3 } // adjust priority as needed
                 },
                 url: url,
-                type: "files",
+                type: "activity",
             }
         });
         await prisma.roleNotification.createMany({
@@ -376,10 +376,10 @@ router.post('/:id/files', async (req, res) => {
             })),
         });
         // Emit the event to all connected clients
-        req.io.emit('receiveCampaignNotification', {
-            type: 'added',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `New file "${req.body.name}" has been added in the ${updatedCampaign.name} .`,
-            payload: { url: url, priorityId: 3, type: "files" }
+            payload: { url: url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data fetched successfully", data: updatedCampaign.filesInfo });
@@ -423,7 +423,7 @@ router.put('/:id/files', async (req, res) => {
                 message: `File "${updatedEntry.name}" has been updated in ${updatedCampaign.name}.`,
                 notificationPriority: { connect: { id: 3 } },
                 url,
-                type: "files",
+                type: "activity",
             }
         });
 
@@ -436,10 +436,10 @@ router.put('/:id/files', async (req, res) => {
         });
 
         // Emit event
-        req.io.emit('receiveCampaignNotification', {
-            type: 'edited',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `File "${updatedEntry.name}" has been updated in ${updatedCampaign.name}.`,
-            payload: { url, priorityId: 3, type: "files" }
+            payload: { url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data Updated successfully", data: updatedCampaign.filesInfo });
@@ -483,7 +483,7 @@ router.delete('/:id/files', async (req, res) => {
                 message: `File "${deletedEntry[0].name}" has been deleted from ${updatedCampaign.name}.`,
                 notificationPriority: { connect: { id: 3 } },
                 url,
-                type: "files",
+                type: "activity",
             }
         });
 
@@ -496,10 +496,10 @@ router.delete('/:id/files', async (req, res) => {
         });
 
         // Emit event
-        req.io.emit('receiveCampaignNotification', {
-            type: 'deleted',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `File "${deletedEntry[0].name}" has been deleted from ${updatedCampaign.name}.`,
-            payload: { url, priorityId: 3, type: "files" }
+            payload: { url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data Deleted successfully", data: updatedCampaign.filesInfo });
@@ -537,7 +537,7 @@ router.post('/:id/updates', async (req, res) => {
 
         const updatedCampaign = await addUpdate(campaignId, req.body);
         if (!updatedCampaign) return res.status(404).json({ message: "Campaign not found" });
-        let url = urlGenerator(updatedCampaign.clientId, updatedCampaign.id, "updates")
+        let url = urlGenerator(updatedCampaign.clientId, updatedCampaign.id, "activity")
         const newNotification = await prisma.notification.create({
             data: {
                 message: `New Update "${req.body.title}" has been added in the ${updatedCampaign.name} . `,
@@ -545,7 +545,7 @@ router.post('/:id/updates', async (req, res) => {
                     connect: { id: 3 } // adjust priority as needed
                 },
                 url: url,
-                type: "updates",
+                type: "activity",
             }
         });
 
@@ -557,10 +557,10 @@ router.post('/:id/updates', async (req, res) => {
         });
 
         // Emit the event to all connected clients
-        req.io.emit('receiveCampaignNotification', {
-            type: 'added',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `New Update "${req.body.title}" has been added in the ${updatedCampaign.name} .`,
-            payload: { url: url, priorityId: 3, type: "updates" }
+            payload: { url: url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Data Uploaded successfully", data: [...updates] });
@@ -607,7 +607,7 @@ router.put('/:id/updates', async (req, res) => {
                 message: `Update "${updatedEntry.title}" has been edited in ${updatedCampaign.name}.`,
                 notificationPriority: { connect: { id: 3 } },
                 url,
-                type: "updates",
+                type: "activity",
             }
         });
 
@@ -620,8 +620,8 @@ router.put('/:id/updates', async (req, res) => {
         });
 
         // Emit event
-        req.io.emit('receiveCampaignNotification', {
-            type: 'edited',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `Update "${updatedEntry.title}" has been edited in ${updatedCampaign.name}.`,
             payload: { url, priorityId: 3, type: "updates" }
         });
@@ -669,7 +669,7 @@ router.delete('/:id/updates', async (req, res) => {
                 message: `Update "${deletedEntry.title}" has been deleted from ${updatedCampaign.name}.`,
                 notificationPriority: { connect: { id: 3 } },
                 url,
-                type: "updates",
+                type: "activity",
             }
         });
 
@@ -682,10 +682,10 @@ router.delete('/:id/updates', async (req, res) => {
         });
 
         // Emit event
-        req.io.emit('receiveCampaignNotification', {
-            type: 'deleted',
+        req.io.emit('activity', {
+            type: 'activity',
             message: `Update "${deletedEntry.title}" has been deleted from ${updatedCampaign.name}.`,
-            payload: { url, priorityId: 3, type: "updates" }
+            payload: { url, priorityId: 3, type: "activity" }
         });
 
         return res.status(200).json({ message: "Update deleted successfully", data: updatedCampaign.updates });
@@ -799,9 +799,9 @@ router.get('/:id/deliveries/:deliveryId', async (req, res) => {
 // 📦 POST /campaign/:id/deliveries
 router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
     try {
-        
+
         const campaignId = parseInt(req.params.id);
-      
+
         const file = req.file;
         const csvString = file.buffer.toString();
         const leads = await parseAsync(csvString, {
@@ -810,7 +810,7 @@ router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
         });
         const filename = file.originalname;
         const { date } = req.body;
-        
+
         if (!req.file || !date) {
             return res.status(400).json({ message: 'Date and file are required.' });
         }
@@ -822,38 +822,38 @@ router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
             date: new Date(date),
             leads,
         };
-       
+
         // 💾 Save to DB
         const { newCampaignDelivery, campaign } = await addCampaignDeilvery(campaignId, data);
-        
-       
+
+
 
         if (!newCampaignDelivery) {
             return res.status(400).json({ message: 'Error adding delivery' });
         }
 
 
-        // const newNotification = await prisma.notification.create({
-        //     data: {
-        //         message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
-        //         notificationPriority: { connect: { id: 3 } },
-        //         url:"#",
-        //         type: "delivery",
-        //     }
-        // });
+        const newNotification = await prisma.notification.create({
+            data: {
+                message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
+                notificationPriority: { connect: { id: 3 } },
+                url: "#",
+                type: "delivery",
+            }
+        });
 
-        // const newRoleNotification=await prisma.roleNotification.create({
-        //     data:{
-        //         roleId:2,
-        //         notificationId:newNotification.id
-        //     }
-        // })
+        await prisma.roleNotification.createMany({
+            data: roles.map((roleId) => ({
+                notificationId: newNotification.id,
+                roleId,
+            })),
+        });
 
-        // req.io.emit('receiveCampaignNotification', {
-        //     type: 'delivery',
-        //     message: `A new delivery "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
-        //     payload: { url: "#", priorityId: 4, type: "campaign", role: "admin" }
-        // });
+        req.io.emit('delivery', {
+            type: 'delivery',
+            message: `A new delivery "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
+            payload: { url: "#", priorityId: 4, type: "delivery", role: "admin" }
+        });
 
         res.status(200).json({
             message: 'Data uploaded successfully ✅',

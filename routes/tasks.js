@@ -4,7 +4,7 @@ var router = express.Router();
 const { getAllTasks, createTask, getTask, getAllUnassignedTasks } = require('../services/tasks/tasks');
 const { multiUserTaskAssign, getUserTasks, getUserTask, getTasksAssignedBy } = require('../services/tasks/userTasks');
 const prisma = require('../db/dbConnection');
-
+const roles = [1, 2]
 
 router.get('/', async (req, res) => {
    try {
@@ -65,6 +65,160 @@ router.get('/user-tasks', async (req, res) => {
    }
 })
 
+// router.put('/update-status', async (req, res) => {
+//    try {
+//       const { taskId, userId, status } = req.body;
+
+//       if (!taskId || !userId || !status) {
+//          return res.status(400).json({
+//             message: "taskId, userId, and status are required",
+//          });
+//       }
+
+//       const taskIdNum = Number(taskId);
+//       const userIdNum = Number(userId);
+
+//       // Check user-task relation
+//       const userTask = await prisma.userTask.findFirst({
+//          where: {
+//             taskId: taskIdNum,
+//             userId: userIdNum,
+//          },
+//       });
+
+//       // Fetch task once
+//       const task = await prisma.task.findUnique({
+//          where: { id: taskIdNum },
+//       });
+
+//       if (!task) {
+//          return res.status(404).json({ message: "Task not found" });
+//       }
+
+//       // If no user-task relation, check admin role
+//       if (!userTask) {
+//          const userRole = await prisma.userrole.findFirst({
+//             where: { userId: userIdNum },
+//             include: { role: true, user: true },
+//          });
+
+//          if (!['admin', 'superAdmin'].includes(userRole?.role?.name)) {
+//             return res.status(403).json({
+//                message: "User does not have permission to update this task",
+//             });
+//          }
+
+//          // Admin update
+//          const updatedTask = await prisma.task.update({
+//             where: { id: taskIdNum },
+//             data: { status },
+//          });
+
+//          const message = `Task "${updatedTask.name}" status was updated to "${updatedTask.status}" by admin.`;
+
+//          let newNotification = await prisma.notification.create({
+//             data: {
+//                message,
+//                notificationPriority: { connect: { id: 3 } },
+//                url: `/tasks/${updatedTask.id}`,
+//                type: "task-status-updated-by-admin",
+//             },
+//          });
+
+//          req.io.emit('receiveTaskStatus', {
+//             type: "task-status-updated-by-admin",
+//             taskId: updatedTask.id,
+//             message,
+//             payload: {
+//                status: updatedTask.status,
+//                userId: userTask.userId,
+//                assignedById: userTask.assignedById
+//             },
+//          });
+
+
+//          let newUserNotificationLink = await prisma.userNotifications.create({
+//             data: {
+//                userId: userTask.userId,
+//                notificationId: newNotification.id
+//             }
+//          })
+
+//          let newUser2NotificationLink = await prisma.userNotifications.create({
+//             data: {
+//                userId: userTask.assignedById,
+//                notificationId: newNotification.id
+//             }
+//          })
+//                console.log(newNotification,'new ')
+
+//          return res.status(200).json({
+//             message: "Task status updated successfully by admin",
+//             data: updatedTask,
+//          });
+//       }
+
+//       // User update
+//       const updatedTask = await prisma.task.update({
+//          where: { id: taskIdNum },
+//          data: { status },
+//       });
+
+//       const message = `Task "${updatedTask.name}" status was updated to "${updatedTask.status}" by the assigned user.`;
+
+//       let newNotification = await prisma.notification.create({
+//          data: {
+//             message,
+//             notificationPriority: { connect: { id: 3 } },
+//             url: `/tasks/${updatedTask.id}`,
+//             type: "task-status-updated-by-user",
+
+//          },
+//       });
+
+//       console.log(newNotification,'new ')
+
+//       req.io.emit('receiveTaskStatus', {
+//          type: "task-status-updated-by-user",
+//          taskId: updatedTask.id,
+//          message,
+//          payload: {
+//             status: updatedTask.status,
+//             userId: userTask.userId,
+//             assignedById: userTask.assignedById
+//          },
+//       });
+
+
+//       let newUserNotificationLink = await prisma.userNotifications.create({
+//          data: {
+//             userId: userTask.userId,
+//             notificationId: newNotification.id
+//          }
+//       })
+
+//       let newUser2NotificationLink = await prisma.userNotifications.create({
+//          data: {
+//             userId: userTask.assignedById,
+//             notificationId: newNotification.id
+//          }
+//       })
+
+//       return res.status(200).json({
+//          message: "Task status updated successfully",
+//          data: updatedTask,
+//       });
+
+//    } catch (error) {
+//       console.error("Error updating task status:", error);
+//       return res.status(500).json({
+//          message: "Internal server error",
+//       });
+//    }
+// });
+
+
+
 router.put('/update-status', async (req, res) => {
    try {
       const { taskId, userId, status } = req.body;
@@ -78,15 +232,7 @@ router.put('/update-status', async (req, res) => {
       const taskIdNum = Number(taskId);
       const userIdNum = Number(userId);
 
-      // Check user-task relation
-      const userTask = await prisma.userTask.findFirst({
-         where: {
-            taskId: taskIdNum,
-            userId: userIdNum,
-         },
-      });
-
-      // Fetch task once
+      // Fetch task
       const task = await prisma.task.findUnique({
          where: { id: taskIdNum },
       });
@@ -95,7 +241,24 @@ router.put('/update-status', async (req, res) => {
          return res.status(404).json({ message: "Task not found" });
       }
 
-      // If no user-task relation, check admin role
+      // Check if user is assigned to task
+      const userTask = await prisma.userTask.findFirst({
+         where: {
+            taskId: taskIdNum,
+            userId: userIdNum,
+         },
+         include: { user: true },
+      });
+
+      let isAdmin = false;
+      let updatedByName = null;
+
+      // Assigned user
+      if (userTask) {
+         updatedByName = userTask.user.name;
+      }
+
+      // If not assigned, check admin role
       if (!userTask) {
          const userRole = await prisma.userrole.findFirst({
             where: { userId: userIdNum },
@@ -104,105 +267,71 @@ router.put('/update-status', async (req, res) => {
 
          if (!['admin', 'superAdmin'].includes(userRole?.role?.name)) {
             return res.status(403).json({
-               message: "User does not have permission to update this task",
+               message: "You do not have permission to update this task",
             });
          }
 
-         // Admin update
-         const updatedTask = await prisma.task.update({
-            where: { id: taskIdNum },
-            data: { status },
-         });
-
-         const message = `Task "${updatedTask.name}" status was updated to "${updatedTask.status}" by admin.`;
-
-         let newNotification = await prisma.notification.create({
-            data: {
-               message,
-               notificationPriority: { connect: { id: 3 } },
-               url: `/tasks/${updatedTask.id}`,
-               type: "task-status-updated-by-admin",
-            },
-         });
-
-         req.io.emit('receiveTaskStatus', {
-            type: "task-status-updated-by-admin",
-            taskId: updatedTask.id,
-            message,
-            payload: {
-               status: updatedTask.status,
-               userId: userTask.userId,
-               assignedById: userTask.assignedById
-            },
-         });
-
-
-         let newUserNotificationLink = await prisma.userNotifications.create({
-            data: {
-               userId: userTask.userId,
-               notificationId: newNotification.id
-            }
-         })
-
-         let newUser2NotificationLink = await prisma.userNotifications.create({
-            data: {
-               userId: userTask.assignedById,
-               notificationId: newNotification.id
-            }
-         })
-               console.log(newNotification,'new ')
-
-         return res.status(200).json({
-            message: "Task status updated successfully by admin",
-            data: updatedTask,
-         });
+         isAdmin = true;
+         updatedByName = `${userRole.user.name} (${userRole.role.name})`;
       }
 
-      // User update
+      // Update task status
       const updatedTask = await prisma.task.update({
          where: { id: taskIdNum },
          data: { status },
       });
 
-      const message = `Task "${updatedTask.name}" status was updated to "${updatedTask.status}" by the assigned user.`;
+      // Build notification message (single source of truth)
+      const message = `Task "${updatedTask.name}" status was updated to "${updatedTask.status}" by ${updatedByName}.`;
 
-      let newNotification = await prisma.notification.create({
+      // Create notification
+      const newNotification = await prisma.notification.create({
          data: {
             message,
             notificationPriority: { connect: { id: 3 } },
             url: `/tasks/${updatedTask.id}`,
-            type: "task-status-updated-by-user",
-
+            type: 'task'
          },
       });
 
-      console.log(newNotification,'new ')
+      // Notify assigned users
+      const assignedUsers = await prisma.userTask.findMany({
+         where: { taskId: taskIdNum },
+         select: { userId: true },
+      });
 
-      req.io.emit('receiveTaskStatus', {
-         type: "task-status-updated-by-user",
+      if (assignedUsers.length) {
+         await prisma.userNotifications.createMany({
+            data: assignedUsers.map((u) => ({
+               userId: u.userId,
+               notificationId: newNotification.id,
+            })),
+         });
+      }
+
+      // Notify admin roles (admin updates only)
+      if (isAdmin) {
+         await prisma.roleNotification.createMany({
+            data: roles.map((roleId) => ({
+               notificationId: newNotification.id,
+               roleId,
+            })),
+         });
+      }
+
+      // Emit socket event
+      req.io.emit('task', {
+         type: newNotification.type,
          taskId: updatedTask.id,
          message,
+         assignedTo:userTask.userId,
+         assignedBy:userTask.assignedById,
          payload: {
             status: updatedTask.status,
-            userId: userTask.userId,
-            assignedById: userTask.assignedById
+            updatedBy: isAdmin ? "admin" : "user",
+            updatedByName,
          },
       });
-
-
-      let newUserNotificationLink = await prisma.userNotifications.create({
-         data: {
-            userId: userTask.userId,
-            notificationId: newNotification.id
-         }
-      })
-
-      let newUser2NotificationLink = await prisma.userNotifications.create({
-         data: {
-            userId: userTask.assignedById,
-            notificationId: newNotification.id
-         }
-      })
 
       return res.status(200).json({
          message: "Task status updated successfully",
