@@ -1,0 +1,85 @@
+  "message": "Data fetched successfully",
+  "uploads": [
+    {
+      "id": 23,
+      "pacingId": 15,
+      "uploadedBy": 2,
+      "filename": "Palo Alto Just Global -Sheet5.csv",
+      "created_at": "2025-12-26T16:45:27.944Z",
+      "updated_at": "2025-12-26T16:45:28.686Z",
+      "results": {
+        "totalRows": 126,
+        "validRowsCount": 105,
+        "errorRowsCount": 21,
+        "errors": [
+          {
+            "email": "jason.mcclafferty@davita.com",
+            "title": "Mr.",
+            "firstName": "Jason",
+            "lastName": "McClafferty",
+            "companyTelephone": "12537334602",
+            "directTelephone": "",
+            "mobileTelephone": "",
+            "region": "US",
+            "jobTitle": "Security Engineer",
+            "audience": "IT",
+            "authority": "Influencer",
+            "addressLine1": "3201 S 323rd St",
+            "addressLine2": "",
+            "addressLine3": "",
+            "addressCity": "Federal Way",
+            "addressStateCode": "Washington",
+            "addressPostalCode": "98001",
+            "addressCountryCode": "",
+            "companyName": "DaVita Inc.",
+            "companySize": "10001+",
+            "industry": "Healthcare Private",
+            "optInTime": "",
+            "ipAddress": "",
+            "verificationUrl": "",
+            "contentTitle": "95% of Organizations Report Browser-Based Threats. Are You Protected?",
+            "privacyPolicy": "*",
+            "termsOfUse": "*",
+            "_errors": {
+              "lastName": [
+                "Last name must start with uppercase, only letters allowed, no spaces."
+              ]
+            }
+          },
+          {
+            "email": "ria.jairam@adp.com",
+            "title": "Ms.",
+            "firstName": "Ria",
+            "lastName": "Jairam",
+            "companyTelephone": "19739743064",
+            "directTelephone": "",
+            "mobileTelephone": "",
+            "region": "US",
+            "jobTitle": "Security Architect",
+            "audience": "IT",
+            "authority": "Influencer",
+            "addressLine1": "One ADP Boulevard",
+            "addressLine2": "",
+            "addressLine3": "",
+            "addressCity": "Roseland",
+            "addressStateCode": "New Jersey",
+            "addressPostalCode": "7068",
+            "addressCountryCode": "",
+            "companyName": "Automatic Data Processing, Inc.",
+            "companySize": "10001+",
+            "industry": "Recruitment",
+            "optInTime": "",
+            "ipAddress": "",
+            "verificationUrl": "",
+            "contentTitle": "The Strategic Need for Secure Browsers",
+            "privacyPolicy": "*",
+            "termsOfUse": "*",
+            "_errors": {
+              "title": [
+                "title is not in picklist"
+              ]
+            }
+          }
+        ]
+      }
+    }

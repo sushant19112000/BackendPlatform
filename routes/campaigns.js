@@ -824,18 +824,18 @@ router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
         };
 
         // 💾 Save to DB
-        const { newCampaignDelivery, campaign } = await addCampaignDeilvery(campaignId, data);
+        const { newDelivery, campaign } = await addCampaignDeilvery(campaignId, data);
 
 
 
-        if (!newCampaignDelivery) {
+        if (!newDelivery) {
             return res.status(400).json({ message: 'Error adding delivery' });
         }
 
 
         const newNotification = await prisma.notification.create({
             data: {
-                message: `New Delivery ${newCampaignDelivery.fileName} has been added for ${campaign.name}`,
+                message: `New Delivery ${newDelivery.fileName} has been added for ${campaign.name}`,
                 notificationPriority: { connect: { id: 3 } },
                 url: "#",
                 type: "delivery",
@@ -851,13 +851,13 @@ router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
 
         req.io.emit('delivery', {
             type: 'delivery',
-            message: `A new delivery "${newCampaignDelivery.fileName}" has been added to ${campaign.name}.`,
+            message: `A new delivery "${newDelivery.fileName}" has been added to ${campaign.name}.`,
             payload: { url: "#", priorityId: 4, type: "delivery", role: "admin" }
         });
 
         res.status(200).json({
             message: 'Data uploaded successfully ✅',
-            data: newCampaignDelivery,
+            data: newDelivery,
         });
     } catch (error) {
         console.error('❌ Error adding delivery:', error);

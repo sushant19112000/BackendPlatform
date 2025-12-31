@@ -67,6 +67,7 @@ const addCampaignDeilvery = async (campaignId, data) => {
                 })
             }
         }
+        console.log({newDelivery,campaign})
         return {newDelivery,campaign};
     }
     catch (e) {
