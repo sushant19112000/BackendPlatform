@@ -145,14 +145,15 @@ const deletePacing = async (pacingId) => {
 }
 
 
-const editPacing = async (campaignId, data) => {
+const editPacing = async (pacingId, data) => {
     try {
-        const pacingExist = await prisma.pacing.findFirst({ where: { id: campaignId } })
+        const pacingExist = await prisma.pacing.findFirst({ where: { id: pacingId } })
         if (!pacingExist) {
             return false;
         }
-        await prisma.pacing.update({ where: { id: id }, data: data })
-
+        
+        const updatedPacing=await prisma.pacing.update({ where: { id: pacingExist.id }, data: data })
+        return updatedPacing;
     }
     catch (e) {
         console.log(e);

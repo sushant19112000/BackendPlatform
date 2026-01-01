@@ -1,5 +1,6 @@
 var express = require('express');
 const { getAllPacings, getCampaignPacings, createPacing, getPacing, deletePacing, editPacing, getPacingsByCampaignIdAndVolumeName, getPacingsByVolumeId, getPacingsByVolumeIdAndStatus } = require('../services/leadService/pacings');
+
 var router = express.Router();
 
 
@@ -64,9 +65,11 @@ router.post('/',async(req,res)=>{
 
 router.put('/:id',async(req,res)=>{
     try{
-     const data=req.json();
+     const data=req.body;
      const pacingId = Number(req.params.id);
-     const updatedPacing= await editPacing(id,data)
+     const updatedPacing= await editPacing(pacingId,data)
+     console.log(updatedPacing.status,'status')
+     if(!updatedPacing) return res.status(400).json({ message:"Pacing not updated"});
      return res.status(201).json({ message: "Data Updated successfully", data: updatedPacing });
      
     }
