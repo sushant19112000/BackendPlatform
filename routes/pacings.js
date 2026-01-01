@@ -65,12 +65,12 @@ router.post('/',async(req,res)=>{
 
 router.put('/:id',async(req,res)=>{
     try{
-     const data=req.body;
-     const pacingId = Number(req.params.id);
-     const updatedPacing= await editPacing(pacingId,data)
-     console.log(updatedPacing.status,'status')
-     if(!updatedPacing) return res.status(400).json({ message:"Pacing not updated"});
-     return res.status(201).json({ message: "Data Updated successfully", data: updatedPacing });
+    const data=req.body;
+    const pacingId = Number(req.params.id);
+    const updatedPacing= await editPacing(pacingId,data)
+   
+    if(!updatedPacing) return res.status(400).json({ message:"Pacing not updated"});
+    return res.status(201).json({ message: "Data Updated successfully", data: updatedPacing });
      
     }
     catch(e){
