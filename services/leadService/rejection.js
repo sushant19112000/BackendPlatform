@@ -1,6 +1,6 @@
 const prisma = require("../../db/dbConnection");
 
-const internalRejection = async (pacingId, rejections) => {
+const internalRejection = async (campaignId, rejections) => {
     try {
         if (rejections.length == 0) return false;
         let res = []

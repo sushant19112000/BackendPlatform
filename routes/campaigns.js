@@ -16,7 +16,7 @@ const { addFileInfo, updateFileInfo, deleteFileInfo } = require('../services/lea
 const { editUpdate, addUpdate, deleteUpdate } = require('../services/leadService/updates');
 const { addCampaignInfo, updateCampaignInfo, deleteCampaignInfo } = require('../services/leadService/info');
 const prisma = require('../db/dbConnection');
-const { getCampaignDeliveries, getCampaignDelivery, addCampaignDeilvery } = require('../services/leadService/campaignDeliveries');
+const { getCampaignDeliveries, getCampaignDelivery, addCampaignDeilvery, updateCampaignDelivery, addCampaignRejections } = require('../services/leadService/campaignDeliveries');
 const roles = [1, 2, 3]
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -859,6 +859,135 @@ router.post('/deliveries/:id', upload.single('file'), async (req, res) => {
             message: 'Data uploaded successfully ✅',
             data: newDelivery,
         });
+    } catch (error) {
+        console.error('❌ Error adding delivery:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
+// 📦 POST /campaign/:id/deliveries
+router.put('/deliveries/:id', upload.single('file'), async (req, res) => {
+    try {
+        const deliveryId = parseInt(req.params.id);
+        const data = req.body;
+
+        console.log(data, 'in route')
+
+        if (!data) {
+            return res.status(400).json({ message: 'Invalid request' });
+        }
+
+
+
+        // 💾 Save to DB
+        const updatedDelivery = await updateCampaignDelivery(deliveryId, data);
+
+
+
+        if (!updatedDelivery) {
+            return res.status(400).json({ message: 'Error updating delivery' });
+        }
+
+
+        const newNotification = await prisma.notification.create({
+            data: {
+                message: `Delivery  ${updatedDelivery.fileName} has been updated for ${updatedDelivery.campaign.name}`,
+                notificationPriority: { connect: { id: 3 } },
+                url: "#",
+                type: "delivery",
+            }
+        });
+
+        await prisma.roleNotification.createMany({
+            data: roles.map((roleId) => ({
+                notificationId: newNotification.id,
+                roleId,
+            })),
+        });
+
+        req.io.emit('delivery', {
+            type: 'delivery',
+            message: `A new delivery "${updatedDelivery.fileName}" has been added to ${updatedDelivery.campaign.name}.`,
+            payload: { url: "#", priorityId: 4, type: "delivery", role: "admin" }
+        });
+
+        res.status(200).json({
+            message: 'Data Updated successfully ✅',
+            data: updatedDelivery,
+        });
+    } catch (error) {
+        console.error('❌ Error adding delivery:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
+// 📦 POST /campaign/:id/deliveries
+router.post('/rejections/:campaignId', upload.single('file'), async (req, res) => {
+    try {
+
+        const campaignId = parseInt(req.params.campaignId);
+       
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+
+        const file = req.file;
+        const csvString = file.buffer.toString();
+
+        const leads = await parseAsync(csvString, {
+            columns: true,
+            skip_empty_lines: true,
+        });
+      
+        // 💾 Save rejection data
+        const updatedCampaign = await addCampaignRejections(campaignId, leads);
+
+        if (!updatedCampaign) {
+            return res.status(400).json({ message: "Error uploading rejections" });
+        }
+
+     
+   
+
+        // 🔔 Create notification (type unchanged)
+        const newNotification = await prisma.notification.create({
+            data: {
+                message: `Rejection data uploaded for campaign "${updatedCampaign.name}".`,
+                notificationPriority: { connect: { id: 3 } },
+                url: "#",
+                type: "delivery",
+            },
+        });
+
+        // 🔗 Attach notification to roles
+        await prisma.roleNotification.createMany({
+            data: roles.map((roleId) => ({
+                notificationId: newNotification.id,
+                roleId,
+            })),
+        });
+
+        // 📡 Emit socket event (type & event unchanged)
+        req.io.emit("delivery", {
+            type: "delivery",
+            message: `Rejection data has been uploaded for campaign "${updatedCampaign.name}".`,
+            payload: {
+                url: "#",
+                priorityId: 4,
+                type: "delivery",
+                role: "admin",
+            },
+        });
+
+        // ✅ API response
+        res.status(200).json({
+            message: "Rejection file uploaded successfully ✅"
+        });
+
     } catch (error) {
         console.error('❌ Error adding delivery:', error);
         res.status(500).json({ message: 'Internal server error' });

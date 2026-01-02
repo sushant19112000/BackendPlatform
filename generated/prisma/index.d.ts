@@ -216,6 +216,18 @@ export const TaskLevel: {
 export type TaskLevel = (typeof TaskLevel)[keyof typeof TaskLevel]
 
 
+export const CampaignDeliveryStatus: {
+  SUBMITTED: 'SUBMITTED',
+  DELIVERED: 'DELIVERED',
+  REVIEWED: 'REVIEWED',
+  ALL_ACCEPTED: 'ALL_ACCEPTED',
+  ALL_REJECTED: 'ALL_REJECTED',
+  PARTIALLY_ACCEPTED: 'PARTIALLY_ACCEPTED'
+};
+
+export type CampaignDeliveryStatus = (typeof CampaignDeliveryStatus)[keyof typeof CampaignDeliveryStatus]
+
+
 export const campaignType: {
   DOUBLE_TOUCH: 'DOUBLE_TOUCH',
   SINGLE_TOUCH: 'SINGLE_TOUCH',
@@ -265,6 +277,18 @@ export const BriefStatus: {
 export type BriefStatus = (typeof BriefStatus)[keyof typeof BriefStatus]
 
 
+export const leadstatus: {
+  VALIDATED: 'VALIDATED',
+  QC_ACCEPTED: 'QC_ACCEPTED',
+  QC_REJECTED: 'QC_REJECTED',
+  DELIVERED: 'DELIVERED',
+  CL_ACCEPTED: 'CL_ACCEPTED',
+  CL_REJECTED: 'CL_REJECTED'
+};
+
+export type leadstatus = (typeof leadstatus)[keyof typeof leadstatus]
+
+
 export const reportType: {
   TODAY: 'TODAY',
   OVERDUE: 'OVERDUE',
@@ -309,6 +333,10 @@ export type TaskLevel = $Enums.TaskLevel
 
 export const TaskLevel: typeof $Enums.TaskLevel
 
+export type CampaignDeliveryStatus = $Enums.CampaignDeliveryStatus
+
+export const CampaignDeliveryStatus: typeof $Enums.CampaignDeliveryStatus
+
 export type campaignType = $Enums.campaignType
 
 export const campaignType: typeof $Enums.campaignType
@@ -328,6 +356,10 @@ export const BriefType: typeof $Enums.BriefType
 export type BriefStatus = $Enums.BriefStatus
 
 export const BriefStatus: typeof $Enums.BriefStatus
+
+export type leadstatus = $Enums.leadstatus
+
+export const leadstatus: typeof $Enums.leadstatus
 
 export type reportType = $Enums.reportType
 
@@ -27262,6 +27294,7 @@ export namespace Prisma {
     rejections: number | null
     uploaderId: number | null
     data: string | null
+    status: $Enums.CampaignDeliveryStatus | null
   }
 
   export type CampaignDeliveriesMaxAggregateOutputType = {
@@ -27275,6 +27308,7 @@ export namespace Prisma {
     rejections: number | null
     uploaderId: number | null
     data: string | null
+    status: $Enums.CampaignDeliveryStatus | null
   }
 
   export type CampaignDeliveriesCountAggregateOutputType = {
@@ -27288,6 +27322,7 @@ export namespace Prisma {
     rejections: number
     uploaderId: number
     data: number
+    status: number
     _all: number
   }
 
@@ -27323,6 +27358,7 @@ export namespace Prisma {
     rejections?: true
     uploaderId?: true
     data?: true
+    status?: true
   }
 
   export type CampaignDeliveriesMaxAggregateInputType = {
@@ -27336,6 +27372,7 @@ export namespace Prisma {
     rejections?: true
     uploaderId?: true
     data?: true
+    status?: true
   }
 
   export type CampaignDeliveriesCountAggregateInputType = {
@@ -27349,6 +27386,7 @@ export namespace Prisma {
     rejections?: true
     uploaderId?: true
     data?: true
+    status?: true
     _all?: true
   }
 
@@ -27449,6 +27487,7 @@ export namespace Prisma {
     rejections: number
     uploaderId: number | null
     data: string
+    status: $Enums.CampaignDeliveryStatus
     _count: CampaignDeliveriesCountAggregateOutputType | null
     _avg: CampaignDeliveriesAvgAggregateOutputType | null
     _sum: CampaignDeliveriesSumAggregateOutputType | null
@@ -27481,6 +27520,7 @@ export namespace Prisma {
     rejections?: boolean
     uploaderId?: boolean
     data?: boolean
+    status?: boolean
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     uploader?: boolean | campaignDeliveries$uploaderArgs<ExtArgs>
     leads?: boolean | campaignDeliveries$leadsArgs<ExtArgs>
@@ -27498,6 +27538,7 @@ export namespace Prisma {
     rejections?: boolean
     uploaderId?: boolean
     data?: boolean
+    status?: boolean
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     uploader?: boolean | campaignDeliveries$uploaderArgs<ExtArgs>
   }, ExtArgs["result"]["campaignDeliveries"]>
@@ -27513,6 +27554,7 @@ export namespace Prisma {
     rejections?: boolean
     uploaderId?: boolean
     data?: boolean
+    status?: boolean
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     uploader?: boolean | campaignDeliveries$uploaderArgs<ExtArgs>
   }, ExtArgs["result"]["campaignDeliveries"]>
@@ -27528,9 +27570,10 @@ export namespace Prisma {
     rejections?: boolean
     uploaderId?: boolean
     data?: boolean
+    status?: boolean
   }
 
-  export type campaignDeliveriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "campaignId" | "date" | "fileName" | "submitted" | "accepted" | "errors" | "rejections" | "uploaderId" | "data", ExtArgs["result"]["campaignDeliveries"]>
+  export type campaignDeliveriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "campaignId" | "date" | "fileName" | "submitted" | "accepted" | "errors" | "rejections" | "uploaderId" | "data" | "status", ExtArgs["result"]["campaignDeliveries"]>
   export type campaignDeliveriesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     uploader?: boolean | campaignDeliveries$uploaderArgs<ExtArgs>
@@ -27564,6 +27607,7 @@ export namespace Prisma {
       rejections: number
       uploaderId: number | null
       data: string
+      status: $Enums.CampaignDeliveryStatus
     }, ExtArgs["result"]["campaignDeliveries"]>
     composites: {}
   }
@@ -28000,6 +28044,7 @@ export namespace Prisma {
     readonly rejections: FieldRef<"campaignDeliveries", 'Int'>
     readonly uploaderId: FieldRef<"campaignDeliveries", 'Int'>
     readonly data: FieldRef<"campaignDeliveries", 'String'>
+    readonly status: FieldRef<"campaignDeliveries", 'CampaignDeliveryStatus'>
   }
     
 
@@ -33345,6 +33390,7 @@ export namespace Prisma {
     pending: boolean | null
     rejected: boolean | null
     rejectedReason: string | null
+    leadstatus: $Enums.leadstatus | null
   }
 
   export type LeadMaxAggregateOutputType = {
@@ -33364,6 +33410,7 @@ export namespace Prisma {
     pending: boolean | null
     rejected: boolean | null
     rejectedReason: string | null
+    leadstatus: $Enums.leadstatus | null
   }
 
   export type LeadCountAggregateOutputType = {
@@ -33384,6 +33431,7 @@ export namespace Prisma {
     pending: number
     rejected: number
     rejectedReason: number
+    leadstatus: number
     _all: number
   }
 
@@ -33423,6 +33471,7 @@ export namespace Prisma {
     pending?: true
     rejected?: true
     rejectedReason?: true
+    leadstatus?: true
   }
 
   export type LeadMaxAggregateInputType = {
@@ -33442,6 +33491,7 @@ export namespace Prisma {
     pending?: true
     rejected?: true
     rejectedReason?: true
+    leadstatus?: true
   }
 
   export type LeadCountAggregateInputType = {
@@ -33462,6 +33512,7 @@ export namespace Prisma {
     pending?: true
     rejected?: true
     rejectedReason?: true
+    leadstatus?: true
     _all?: true
   }
 
@@ -33569,6 +33620,7 @@ export namespace Prisma {
     pending: boolean
     rejected: boolean
     rejectedReason: string
+    leadstatus: $Enums.leadstatus
     _count: LeadCountAggregateOutputType | null
     _avg: LeadAvgAggregateOutputType | null
     _sum: LeadSumAggregateOutputType | null
@@ -33608,6 +33660,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: boolean
+    leadstatus?: boolean
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     pacing?: boolean | pacingDefaultArgs<ExtArgs>
     volume?: boolean | volumeDefaultArgs<ExtArgs>
@@ -33633,6 +33686,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: boolean
+    leadstatus?: boolean
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     pacing?: boolean | pacingDefaultArgs<ExtArgs>
     volume?: boolean | volumeDefaultArgs<ExtArgs>
@@ -33658,6 +33712,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: boolean
+    leadstatus?: boolean
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     pacing?: boolean | pacingDefaultArgs<ExtArgs>
     volume?: boolean | volumeDefaultArgs<ExtArgs>
@@ -33683,9 +33738,10 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: boolean
+    leadstatus?: boolean
   }
 
-  export type leadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "data" | "email" | "campaignId" | "pacingId" | "volumeId" | "uploadId" | "uploadType" | "created_at" | "updated_at" | "qcResult" | "qcReason" | "campaignDeliveryId" | "accepted" | "pending" | "rejected" | "rejectedReason", ExtArgs["result"]["lead"]>
+  export type leadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "data" | "email" | "campaignId" | "pacingId" | "volumeId" | "uploadId" | "uploadType" | "created_at" | "updated_at" | "qcResult" | "qcReason" | "campaignDeliveryId" | "accepted" | "pending" | "rejected" | "rejectedReason" | "leadstatus", ExtArgs["result"]["lead"]>
   export type leadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | campaignDefaultArgs<ExtArgs>
     pacing?: boolean | pacingDefaultArgs<ExtArgs>
@@ -33735,6 +33791,7 @@ export namespace Prisma {
       pending: boolean
       rejected: boolean
       rejectedReason: string
+      leadstatus: $Enums.leadstatus
     }, ExtArgs["result"]["lead"]>
     composites: {}
   }
@@ -34180,6 +34237,7 @@ export namespace Prisma {
     readonly pending: FieldRef<"lead", 'Boolean'>
     readonly rejected: FieldRef<"lead", 'Boolean'>
     readonly rejectedReason: FieldRef<"lead", 'String'>
+    readonly leadstatus: FieldRef<"lead", 'leadstatus'>
   }
     
 
@@ -38132,7 +38190,8 @@ export namespace Prisma {
     errors: 'errors',
     rejections: 'rejections',
     uploaderId: 'uploaderId',
-    data: 'data'
+    data: 'data',
+    status: 'status'
   };
 
   export type CampaignDeliveriesScalarFieldEnum = (typeof CampaignDeliveriesScalarFieldEnum)[keyof typeof CampaignDeliveriesScalarFieldEnum]
@@ -38226,7 +38285,8 @@ export namespace Prisma {
     accepted: 'accepted',
     pending: 'pending',
     rejected: 'rejected',
-    rejectedReason: 'rejectedReason'
+    rejectedReason: 'rejectedReason',
+    leadstatus: 'leadstatus'
   };
 
   export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
@@ -38414,6 +38474,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CampaignDeliveryStatus'
+   */
+  export type EnumCampaignDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CampaignDeliveryStatus'>
+    
+
+
+  /**
    * Reference to a field of type 'VolumeStatus'
    */
   export type EnumVolumeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VolumeStatus'>
@@ -38438,6 +38505,13 @@ export namespace Prisma {
    * Reference to a field of type 'BriefType'
    */
   export type EnumBriefTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BriefType'>
+    
+
+
+  /**
+   * Reference to a field of type 'leadstatus'
+   */
+  export type EnumleadstatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'leadstatus'>
     
 
 
@@ -39787,6 +39861,7 @@ export namespace Prisma {
     rejections?: IntFilter<"campaignDeliveries"> | number
     uploaderId?: IntNullableFilter<"campaignDeliveries"> | number | null
     data?: StringFilter<"campaignDeliveries"> | string
+    status?: EnumCampaignDeliveryStatusFilter<"campaignDeliveries"> | $Enums.CampaignDeliveryStatus
     campaign?: XOR<CampaignScalarRelationFilter, campaignWhereInput>
     uploader?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
     leads?: LeadListRelationFilter
@@ -39803,6 +39878,7 @@ export namespace Prisma {
     rejections?: SortOrder
     uploaderId?: SortOrderInput | SortOrder
     data?: SortOrder
+    status?: SortOrder
     campaign?: campaignOrderByWithRelationInput
     uploader?: userOrderByWithRelationInput
     leads?: leadOrderByRelationAggregateInput
@@ -39822,6 +39898,7 @@ export namespace Prisma {
     rejections?: IntFilter<"campaignDeliveries"> | number
     uploaderId?: IntNullableFilter<"campaignDeliveries"> | number | null
     data?: StringFilter<"campaignDeliveries"> | string
+    status?: EnumCampaignDeliveryStatusFilter<"campaignDeliveries"> | $Enums.CampaignDeliveryStatus
     campaign?: XOR<CampaignScalarRelationFilter, campaignWhereInput>
     uploader?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
     leads?: LeadListRelationFilter
@@ -39838,6 +39915,7 @@ export namespace Prisma {
     rejections?: SortOrder
     uploaderId?: SortOrderInput | SortOrder
     data?: SortOrder
+    status?: SortOrder
     _count?: campaignDeliveriesCountOrderByAggregateInput
     _avg?: campaignDeliveriesAvgOrderByAggregateInput
     _max?: campaignDeliveriesMaxOrderByAggregateInput
@@ -39859,6 +39937,7 @@ export namespace Prisma {
     rejections?: IntWithAggregatesFilter<"campaignDeliveries"> | number
     uploaderId?: IntNullableWithAggregatesFilter<"campaignDeliveries"> | number | null
     data?: StringWithAggregatesFilter<"campaignDeliveries"> | string
+    status?: EnumCampaignDeliveryStatusWithAggregatesFilter<"campaignDeliveries"> | $Enums.CampaignDeliveryStatus
   }
 
   export type volumeWhereInput = {
@@ -40257,6 +40336,7 @@ export namespace Prisma {
     pending?: BoolFilter<"lead"> | boolean
     rejected?: BoolFilter<"lead"> | boolean
     rejectedReason?: StringFilter<"lead"> | string
+    leadstatus?: EnumleadstatusFilter<"lead"> | $Enums.leadstatus
     campaign?: XOR<CampaignScalarRelationFilter, campaignWhereInput>
     pacing?: XOR<PacingScalarRelationFilter, pacingWhereInput>
     volume?: XOR<VolumeScalarRelationFilter, volumeWhereInput>
@@ -40282,6 +40362,7 @@ export namespace Prisma {
     pending?: SortOrder
     rejected?: SortOrder
     rejectedReason?: SortOrder
+    leadstatus?: SortOrder
     campaign?: campaignOrderByWithRelationInput
     pacing?: pacingOrderByWithRelationInput
     volume?: volumeOrderByWithRelationInput
@@ -40311,6 +40392,7 @@ export namespace Prisma {
     pending?: BoolFilter<"lead"> | boolean
     rejected?: BoolFilter<"lead"> | boolean
     rejectedReason?: StringFilter<"lead"> | string
+    leadstatus?: EnumleadstatusFilter<"lead"> | $Enums.leadstatus
     campaign?: XOR<CampaignScalarRelationFilter, campaignWhereInput>
     pacing?: XOR<PacingScalarRelationFilter, pacingWhereInput>
     volume?: XOR<VolumeScalarRelationFilter, volumeWhereInput>
@@ -40336,6 +40418,7 @@ export namespace Prisma {
     pending?: SortOrder
     rejected?: SortOrder
     rejectedReason?: SortOrder
+    leadstatus?: SortOrder
     _count?: leadCountOrderByAggregateInput
     _avg?: leadAvgOrderByAggregateInput
     _max?: leadMaxOrderByAggregateInput
@@ -40364,6 +40447,7 @@ export namespace Prisma {
     pending?: BoolWithAggregatesFilter<"lead"> | boolean
     rejected?: BoolWithAggregatesFilter<"lead"> | boolean
     rejectedReason?: StringWithAggregatesFilter<"lead"> | string
+    leadstatus?: EnumleadstatusWithAggregatesFilter<"lead"> | $Enums.leadstatus
   }
 
   export type leadsUploadWhereInput = {
@@ -41813,6 +41897,7 @@ export namespace Prisma {
     errors?: number
     rejections?: number
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     campaign?: campaignCreateNestedOneWithoutCampaignDeliveriesInput
     uploader?: userCreateNestedOneWithoutDeliveriesInput
     leads?: leadCreateNestedManyWithoutCampaignDeliveryInput
@@ -41829,6 +41914,7 @@ export namespace Prisma {
     rejections?: number
     uploaderId?: number | null
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     leads?: leadUncheckedCreateNestedManyWithoutCampaignDeliveryInput
   }
 
@@ -41840,6 +41926,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     campaign?: campaignUpdateOneRequiredWithoutCampaignDeliveriesNestedInput
     uploader?: userUpdateOneWithoutDeliveriesNestedInput
     leads?: leadUpdateManyWithoutCampaignDeliveryNestedInput
@@ -41856,6 +41943,7 @@ export namespace Prisma {
     rejections?: IntFieldUpdateOperationsInput | number
     uploaderId?: NullableIntFieldUpdateOperationsInput | number | null
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     leads?: leadUncheckedUpdateManyWithoutCampaignDeliveryNestedInput
   }
 
@@ -41870,6 +41958,7 @@ export namespace Prisma {
     rejections?: number
     uploaderId?: number | null
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
   }
 
   export type campaignDeliveriesUpdateManyMutationInput = {
@@ -41880,6 +41969,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
   }
 
   export type campaignDeliveriesUncheckedUpdateManyInput = {
@@ -41893,6 +41983,7 @@ export namespace Prisma {
     rejections?: IntFieldUpdateOperationsInput | number
     uploaderId?: NullableIntFieldUpdateOperationsInput | number | null
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
   }
 
   export type volumeCreateInput = {
@@ -42325,6 +42416,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
     campaign: campaignCreateNestedOneWithoutLeadsInput
     pacing: pacingCreateNestedOneWithoutLeadsInput
     volume: volumeCreateNestedOneWithoutLeadsInput
@@ -42350,6 +42442,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadUpdateInput = {
@@ -42364,6 +42457,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
     campaign?: campaignUpdateOneRequiredWithoutLeadsNestedInput
     pacing?: pacingUpdateOneRequiredWithoutLeadsNestedInput
     volume?: volumeUpdateOneRequiredWithoutLeadsNestedInput
@@ -42389,6 +42483,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadCreateManyInput = {
@@ -42409,6 +42504,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadUpdateManyMutationInput = {
@@ -42423,6 +42519,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadUncheckedUpdateManyInput = {
@@ -42443,6 +42540,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadsUploadCreateInput = {
@@ -43946,6 +44044,13 @@ export namespace Prisma {
     _max?: NestedEnumcampaignTypeFilter<$PrismaModel>
   }
 
+  export type EnumCampaignDeliveryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CampaignDeliveryStatus | EnumCampaignDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CampaignDeliveryStatus[]
+    notIn?: $Enums.CampaignDeliveryStatus[]
+    not?: NestedEnumCampaignDeliveryStatusFilter<$PrismaModel> | $Enums.CampaignDeliveryStatus
+  }
+
   export type CampaignScalarRelationFilter = {
     is?: campaignWhereInput
     isNot?: campaignWhereInput
@@ -43962,6 +44067,7 @@ export namespace Prisma {
     rejections?: SortOrder
     uploaderId?: SortOrder
     data?: SortOrder
+    status?: SortOrder
   }
 
   export type campaignDeliveriesAvgOrderByAggregateInput = {
@@ -43985,6 +44091,7 @@ export namespace Prisma {
     rejections?: SortOrder
     uploaderId?: SortOrder
     data?: SortOrder
+    status?: SortOrder
   }
 
   export type campaignDeliveriesMinOrderByAggregateInput = {
@@ -43998,6 +44105,7 @@ export namespace Prisma {
     rejections?: SortOrder
     uploaderId?: SortOrder
     data?: SortOrder
+    status?: SortOrder
   }
 
   export type campaignDeliveriesSumOrderByAggregateInput = {
@@ -44008,6 +44116,16 @@ export namespace Prisma {
     errors?: SortOrder
     rejections?: SortOrder
     uploaderId?: SortOrder
+  }
+
+  export type EnumCampaignDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CampaignDeliveryStatus | EnumCampaignDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CampaignDeliveryStatus[]
+    notIn?: $Enums.CampaignDeliveryStatus[]
+    not?: NestedEnumCampaignDeliveryStatusWithAggregatesFilter<$PrismaModel> | $Enums.CampaignDeliveryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCampaignDeliveryStatusFilter<$PrismaModel>
+    _max?: NestedEnumCampaignDeliveryStatusFilter<$PrismaModel>
   }
 
   export type EnumVolumeStatusFilter<$PrismaModel = never> = {
@@ -44363,6 +44481,13 @@ export namespace Prisma {
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
+  export type EnumleadstatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.leadstatus | EnumleadstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.leadstatus[]
+    notIn?: $Enums.leadstatus[]
+    not?: NestedEnumleadstatusFilter<$PrismaModel> | $Enums.leadstatus
+  }
+
   export type PacingScalarRelationFilter = {
     is?: pacingWhereInput
     isNot?: pacingWhereInput
@@ -44401,6 +44526,7 @@ export namespace Prisma {
     pending?: SortOrder
     rejected?: SortOrder
     rejectedReason?: SortOrder
+    leadstatus?: SortOrder
   }
 
   export type leadAvgOrderByAggregateInput = {
@@ -44429,6 +44555,7 @@ export namespace Prisma {
     pending?: SortOrder
     rejected?: SortOrder
     rejectedReason?: SortOrder
+    leadstatus?: SortOrder
   }
 
   export type leadMinOrderByAggregateInput = {
@@ -44448,6 +44575,7 @@ export namespace Prisma {
     pending?: SortOrder
     rejected?: SortOrder
     rejectedReason?: SortOrder
+    leadstatus?: SortOrder
   }
 
   export type leadSumOrderByAggregateInput = {
@@ -44465,6 +44593,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type EnumleadstatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.leadstatus | EnumleadstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.leadstatus[]
+    notIn?: $Enums.leadstatus[]
+    not?: NestedEnumleadstatusWithAggregatesFilter<$PrismaModel> | $Enums.leadstatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumleadstatusFilter<$PrismaModel>
+    _max?: NestedEnumleadstatusFilter<$PrismaModel>
   }
 
   export type leadsUploadCountOrderByAggregateInput = {
@@ -46313,6 +46451,10 @@ export namespace Prisma {
     connect?: leadWhereUniqueInput | leadWhereUniqueInput[]
   }
 
+  export type EnumCampaignDeliveryStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CampaignDeliveryStatus
+  }
+
   export type campaignUpdateOneRequiredWithoutCampaignDeliveriesNestedInput = {
     create?: XOR<campaignCreateWithoutCampaignDeliveriesInput, campaignUncheckedCreateWithoutCampaignDeliveriesInput>
     connectOrCreate?: campaignCreateOrConnectWithoutCampaignDeliveriesInput
@@ -46659,6 +46801,10 @@ export namespace Prisma {
 
   export type NullableBoolFieldUpdateOperationsInput = {
     set?: boolean | null
+  }
+
+  export type EnumleadstatusFieldUpdateOperationsInput = {
+    set?: $Enums.leadstatus
   }
 
   export type campaignUpdateOneRequiredWithoutLeadsNestedInput = {
@@ -47123,6 +47269,23 @@ export namespace Prisma {
     _max?: NestedEnumcampaignTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumCampaignDeliveryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CampaignDeliveryStatus | EnumCampaignDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CampaignDeliveryStatus[]
+    notIn?: $Enums.CampaignDeliveryStatus[]
+    not?: NestedEnumCampaignDeliveryStatusFilter<$PrismaModel> | $Enums.CampaignDeliveryStatus
+  }
+
+  export type NestedEnumCampaignDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CampaignDeliveryStatus | EnumCampaignDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CampaignDeliveryStatus[]
+    notIn?: $Enums.CampaignDeliveryStatus[]
+    not?: NestedEnumCampaignDeliveryStatusWithAggregatesFilter<$PrismaModel> | $Enums.CampaignDeliveryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCampaignDeliveryStatusFilter<$PrismaModel>
+    _max?: NestedEnumCampaignDeliveryStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumVolumeStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.VolumeStatus | EnumVolumeStatusFieldRefInput<$PrismaModel>
     in?: $Enums.VolumeStatus[]
@@ -47214,12 +47377,29 @@ export namespace Prisma {
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
+  export type NestedEnumleadstatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.leadstatus | EnumleadstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.leadstatus[]
+    notIn?: $Enums.leadstatus[]
+    not?: NestedEnumleadstatusFilter<$PrismaModel> | $Enums.leadstatus
+  }
+
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumleadstatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.leadstatus | EnumleadstatusFieldRefInput<$PrismaModel>
+    in?: $Enums.leadstatus[]
+    notIn?: $Enums.leadstatus[]
+    not?: NestedEnumleadstatusWithAggregatesFilter<$PrismaModel> | $Enums.leadstatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumleadstatusFilter<$PrismaModel>
+    _max?: NestedEnumleadstatusFilter<$PrismaModel>
   }
 
   export type NestedEnumreportTypeFilter<$PrismaModel = never> = {
@@ -47587,6 +47767,7 @@ export namespace Prisma {
     errors?: number
     rejections?: number
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     campaign?: campaignCreateNestedOneWithoutCampaignDeliveriesInput
     leads?: leadCreateNestedManyWithoutCampaignDeliveryInput
   }
@@ -47601,6 +47782,7 @@ export namespace Prisma {
     errors?: number
     rejections?: number
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     leads?: leadUncheckedCreateNestedManyWithoutCampaignDeliveryInput
   }
 
@@ -47994,6 +48176,7 @@ export namespace Prisma {
     rejections?: IntFilter<"campaignDeliveries"> | number
     uploaderId?: IntNullableFilter<"campaignDeliveries"> | number | null
     data?: StringFilter<"campaignDeliveries"> | string
+    status?: EnumCampaignDeliveryStatusFilter<"campaignDeliveries"> | $Enums.CampaignDeliveryStatus
   }
 
   export type AttendanceUpsertWithWhereUniqueWithoutUserInput = {
@@ -50489,6 +50672,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
     pacing: pacingCreateNestedOneWithoutLeadsInput
     volume: volumeCreateNestedOneWithoutLeadsInput
     upload?: leadsUploadCreateNestedOneWithoutLeadsInput
@@ -50512,6 +50696,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadCreateOrConnectWithoutCampaignInput = {
@@ -50531,6 +50716,7 @@ export namespace Prisma {
     errors?: number
     rejections?: number
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     uploader?: userCreateNestedOneWithoutDeliveriesInput
     leads?: leadCreateNestedManyWithoutCampaignDeliveryInput
   }
@@ -50545,6 +50731,7 @@ export namespace Prisma {
     rejections?: number
     uploaderId?: number | null
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     leads?: leadUncheckedCreateNestedManyWithoutCampaignDeliveryInput
   }
 
@@ -50650,6 +50837,7 @@ export namespace Prisma {
     pending?: BoolFilter<"lead"> | boolean
     rejected?: BoolFilter<"lead"> | boolean
     rejectedReason?: StringFilter<"lead"> | string
+    leadstatus?: EnumleadstatusFilter<"lead"> | $Enums.leadstatus
   }
 
   export type campaignDeliveriesUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -50786,6 +50974,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
     campaign: campaignCreateNestedOneWithoutLeadsInput
     pacing: pacingCreateNestedOneWithoutLeadsInput
     volume: volumeCreateNestedOneWithoutLeadsInput
@@ -50809,6 +50998,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadCreateOrConnectWithoutCampaignDeliveryInput = {
@@ -51054,6 +51244,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
     campaign: campaignCreateNestedOneWithoutLeadsInput
     pacing: pacingCreateNestedOneWithoutLeadsInput
     upload?: leadsUploadCreateNestedOneWithoutLeadsInput
@@ -51077,6 +51268,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadCreateOrConnectWithoutVolumeInput = {
@@ -51403,6 +51595,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
     campaign: campaignCreateNestedOneWithoutLeadsInput
     volume: volumeCreateNestedOneWithoutLeadsInput
     upload?: leadsUploadCreateNestedOneWithoutLeadsInput
@@ -51426,6 +51619,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadCreateOrConnectWithoutPacingInput = {
@@ -51683,6 +51877,7 @@ export namespace Prisma {
     errors?: number
     rejections?: number
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
     campaign?: campaignCreateNestedOneWithoutCampaignDeliveriesInput
     uploader?: userCreateNestedOneWithoutDeliveriesInput
   }
@@ -51698,6 +51893,7 @@ export namespace Prisma {
     rejections?: number
     uploaderId?: number | null
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
   }
 
   export type campaignDeliveriesCreateOrConnectWithoutLeadsInput = {
@@ -51888,6 +52084,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     campaign?: campaignUpdateOneRequiredWithoutCampaignDeliveriesNestedInput
     uploader?: userUpdateOneWithoutDeliveriesNestedInput
   }
@@ -51903,6 +52100,7 @@ export namespace Prisma {
     rejections?: IntFieldUpdateOperationsInput | number
     uploaderId?: NullableIntFieldUpdateOperationsInput | number | null
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
   }
 
   export type pacingCreateWithoutUploadsInput = {
@@ -51945,6 +52143,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
     campaign: campaignCreateNestedOneWithoutLeadsInput
     pacing: pacingCreateNestedOneWithoutLeadsInput
     volume: volumeCreateNestedOneWithoutLeadsInput
@@ -51968,6 +52167,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadCreateOrConnectWithoutUploadInput = {
@@ -52250,6 +52450,7 @@ export namespace Prisma {
     errors?: number
     rejections?: number
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
   }
 
   export type AttendanceCreateManyUserInput = {
@@ -52580,6 +52781,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     campaign?: campaignUpdateOneRequiredWithoutCampaignDeliveriesNestedInput
     leads?: leadUpdateManyWithoutCampaignDeliveryNestedInput
   }
@@ -52594,6 +52796,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     leads?: leadUncheckedUpdateManyWithoutCampaignDeliveryNestedInput
   }
 
@@ -52607,6 +52810,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
   }
 
   export type AttendanceUpdateWithoutUserInput = {
@@ -53057,6 +53261,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type campaignDeliveriesCreateManyCampaignInput = {
@@ -53069,6 +53274,7 @@ export namespace Prisma {
     rejections?: number
     uploaderId?: number | null
     data?: string
+    status?: $Enums.CampaignDeliveryStatus
   }
 
   export type volumeUpdateWithoutCampaignInput = {
@@ -53122,6 +53328,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
     pacing?: pacingUpdateOneRequiredWithoutLeadsNestedInput
     volume?: volumeUpdateOneRequiredWithoutLeadsNestedInput
     upload?: leadsUploadUpdateOneWithoutLeadsNestedInput
@@ -53145,6 +53352,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadUncheckedUpdateManyWithoutCampaignInput = {
@@ -53164,6 +53372,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type campaignDeliveriesUpdateWithoutCampaignInput = {
@@ -53174,6 +53383,7 @@ export namespace Prisma {
     errors?: IntFieldUpdateOperationsInput | number
     rejections?: IntFieldUpdateOperationsInput | number
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     uploader?: userUpdateOneWithoutDeliveriesNestedInput
     leads?: leadUpdateManyWithoutCampaignDeliveryNestedInput
   }
@@ -53188,6 +53398,7 @@ export namespace Prisma {
     rejections?: IntFieldUpdateOperationsInput | number
     uploaderId?: NullableIntFieldUpdateOperationsInput | number | null
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
     leads?: leadUncheckedUpdateManyWithoutCampaignDeliveryNestedInput
   }
 
@@ -53201,6 +53412,7 @@ export namespace Prisma {
     rejections?: IntFieldUpdateOperationsInput | number
     uploaderId?: NullableIntFieldUpdateOperationsInput | number | null
     data?: StringFieldUpdateOperationsInput | string
+    status?: EnumCampaignDeliveryStatusFieldUpdateOperationsInput | $Enums.CampaignDeliveryStatus
   }
 
   export type leadCreateManyCampaignDeliveryInput = {
@@ -53220,6 +53432,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadUpdateWithoutCampaignDeliveryInput = {
@@ -53234,6 +53447,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
     campaign?: campaignUpdateOneRequiredWithoutLeadsNestedInput
     pacing?: pacingUpdateOneRequiredWithoutLeadsNestedInput
     volume?: volumeUpdateOneRequiredWithoutLeadsNestedInput
@@ -53257,6 +53471,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadUncheckedUpdateManyWithoutCampaignDeliveryInput = {
@@ -53276,6 +53491,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type pacingCreateManyVolumeInput = {
@@ -53305,6 +53521,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type pacingUpdateWithoutVolumeInput = {
@@ -53352,6 +53569,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
     campaign?: campaignUpdateOneRequiredWithoutLeadsNestedInput
     pacing?: pacingUpdateOneRequiredWithoutLeadsNestedInput
     upload?: leadsUploadUpdateOneWithoutLeadsNestedInput
@@ -53375,6 +53593,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadUncheckedUpdateManyWithoutVolumeInput = {
@@ -53394,6 +53613,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type BriefUpdatesCreateManyBreifInput = {
@@ -53472,6 +53692,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadsUploadCreateManyPacingInput = {
@@ -53495,6 +53716,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
     campaign?: campaignUpdateOneRequiredWithoutLeadsNestedInput
     volume?: volumeUpdateOneRequiredWithoutLeadsNestedInput
     upload?: leadsUploadUpdateOneWithoutLeadsNestedInput
@@ -53518,6 +53740,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadUncheckedUpdateManyWithoutPacingInput = {
@@ -53537,6 +53760,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadsUploadUpdateWithoutPacingInput = {
@@ -53584,6 +53808,7 @@ export namespace Prisma {
     pending?: boolean
     rejected?: boolean
     rejectedReason?: string
+    leadstatus?: $Enums.leadstatus
   }
 
   export type leadUpdateWithoutUploadInput = {
@@ -53598,6 +53823,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
     campaign?: campaignUpdateOneRequiredWithoutLeadsNestedInput
     pacing?: pacingUpdateOneRequiredWithoutLeadsNestedInput
     volume?: volumeUpdateOneRequiredWithoutLeadsNestedInput
@@ -53621,6 +53847,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
   export type leadUncheckedUpdateManyWithoutUploadInput = {
@@ -53640,6 +53867,7 @@ export namespace Prisma {
     pending?: BoolFieldUpdateOperationsInput | boolean
     rejected?: BoolFieldUpdateOperationsInput | boolean
     rejectedReason?: StringFieldUpdateOperationsInput | string
+    leadstatus?: EnumleadstatusFieldUpdateOperationsInput | $Enums.leadstatus
   }
 
 

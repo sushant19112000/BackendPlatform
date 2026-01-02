@@ -284,19 +284,29 @@ model campaign {
 }
 
 model campaignDeliveries {
-  id         Int      @id @default(autoincrement())
-  campaignId Int      @default(6)
-  campaign   campaign @relation(fields: [campaignId], references: [id])
-  date       DateTime @default(now())
-  fileName   String   @default("default_delivery_file.xlsx")
-  submitted  Int      @default(0)
-  accepted   Int      @default(0)
-  errors     Int      @default(0)
-  rejections Int      @default(0)
+  id         Int                    @id @default(autoincrement())
+  campaignId Int                    @default(6)
+  campaign   campaign               @relation(fields: [campaignId], references: [id])
+  date       DateTime               @default(now())
+  fileName   String                 @default("default_delivery_file.xlsx")
+  submitted  Int                    @default(0)
+  accepted   Int                    @default(0)
+  errors     Int                    @default(0)
+  rejections Int                    @default(0)
   uploaderId Int?
-  uploader   user?    @relation(fields: [uploaderId], references: [id])
-  data       String   @default("data")
+  uploader   user?                  @relation(fields: [uploaderId], references: [id])
+  data       String                 @default("data")
   leads      lead[]
+  status     CampaignDeliveryStatus @default(DELIVERED)
+}
+
+enum CampaignDeliveryStatus {
+  SUBMITTED
+  DELIVERED
+  REVIEWED
+  ALL_ACCEPTED
+  ALL_REJECTED
+  PARTIALLY_ACCEPTED
 }
 
 enum campaignType {
@@ -427,9 +437,19 @@ model lead {
   pending            Boolean             @default(false)
   rejected           Boolean             @default(false)
   rejectedReason     String              @default("Reason")
+  leadstatus         leadstatus          @default(VALIDATED)
 
   @@unique([campaignId, email])
   @@index([uploadId])
+}
+
+enum leadstatus {
+  VALIDATED
+  QC_ACCEPTED
+  QC_REJECTED
+  DELIVERED
+  CL_ACCEPTED
+  CL_REJECTED
 }
 
 model leadsUpload {

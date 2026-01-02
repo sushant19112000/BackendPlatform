@@ -299,7 +299,8 @@ exports.Prisma.CampaignDeliveriesScalarFieldEnum = {
   errors: 'errors',
   rejections: 'rejections',
   uploaderId: 'uploaderId',
-  data: 'data'
+  data: 'data',
+  status: 'status'
 };
 
 exports.Prisma.VolumeScalarFieldEnum = {
@@ -378,7 +379,8 @@ exports.Prisma.LeadScalarFieldEnum = {
   accepted: 'accepted',
   pending: 'pending',
   rejected: 'rejected',
-  rejectedReason: 'rejectedReason'
+  rejectedReason: 'rejectedReason',
+  leadstatus: 'leadstatus'
 };
 
 exports.Prisma.LeadsUploadScalarFieldEnum = {
@@ -479,6 +481,15 @@ exports.campaignType = exports.$Enums.campaignType = {
   RANDOM: 'RANDOM'
 };
 
+exports.CampaignDeliveryStatus = exports.$Enums.CampaignDeliveryStatus = {
+  SUBMITTED: 'SUBMITTED',
+  DELIVERED: 'DELIVERED',
+  REVIEWED: 'REVIEWED',
+  ALL_ACCEPTED: 'ALL_ACCEPTED',
+  ALL_REJECTED: 'ALL_REJECTED',
+  PARTIALLY_ACCEPTED: 'PARTIALLY_ACCEPTED'
+};
+
 exports.VolumeStatus = exports.$Enums.VolumeStatus = {
   PENDING_APPROVAL: 'PENDING_APPROVAL',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -505,6 +516,15 @@ exports.BriefStatus = exports.$Enums.BriefStatus = {
 exports.BriefType = exports.$Enums.BriefType = {
   LEADGEN: 'LEADGEN',
   HTML: 'HTML'
+};
+
+exports.leadstatus = exports.$Enums.leadstatus = {
+  VALIDATED: 'VALIDATED',
+  QC_ACCEPTED: 'QC_ACCEPTED',
+  QC_REJECTED: 'QC_REJECTED',
+  DELIVERED: 'DELIVERED',
+  CL_ACCEPTED: 'CL_ACCEPTED',
+  CL_REJECTED: 'CL_REJECTED'
 };
 
 exports.reportType = exports.$Enums.reportType = {
