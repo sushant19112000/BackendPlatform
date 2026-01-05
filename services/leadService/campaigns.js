@@ -185,9 +185,56 @@ const fetchAllClientCampaigns = async (filter = 'None') => {
 
 const fetchCampaign = async (id) => {
   try {
-    const campaign = await prisma.campaign.findFirst({ where: { id: id }, include: { volumes: { include: { pacings: true } }, campaignDeliveries: true } });
-    if (!campaign) return false;
-    return campaign;
+    /* -------------------- Initialize summary -------------------- */
+    const leadSummary = {
+      LEADGOAL:0,
+      VALIDATED: 0,     // total campaign leads
+      QC_ACCEPTED: 0,
+      QC_REJECTED: 0,
+      DELIVERED: 0,
+      CL_ACCEPTED: 0,
+      CL_REJECTED: 0,
+    };
+
+    /* -------------------- Total campaign leads -------------------- */
+    leadSummary.VALIDATED = await prisma.lead.count({
+      where: { campaignId: id },
+    });
+
+    /* -------------------- Status-wise counts -------------------- */
+    const leadStatusCounts = await prisma.lead.groupBy({
+      by: ['leadstatus'],
+      where: {
+        campaignId: id,
+        leadstatus: {
+          not: 'VALIDATED', // IMPORTANT: exclude validated
+        },
+      },
+      _count: { _all: true },
+    });
+
+    for (const row of leadStatusCounts) {
+      leadSummary[row.leadstatus] = row._count._all;
+    }
+
+    /* -------------------- Campaign -------------------- */
+    const campaign = await prisma.campaign.findFirst({
+      where: { id },
+      include: {
+        volumes: { include: { pacings: true } },
+        campaignDeliveries: true,
+      },
+    });
+    leadSummary.LEADGOAL=campaign.leadgoal
+
+    if (!campaign) return null;
+
+    /* -------------------- Final response -------------------- */
+    return {
+      ...campaign,
+      leadSummary,
+    };
+
   }
   catch (e) {
     console.log(e);
@@ -255,6 +302,7 @@ const addCampaign = async (data) => {
         updates: data.updates,
         completed: 0,
         pending: 0,
+        
       },
       include: {
         volumes: true
@@ -342,12 +390,12 @@ const deleteCampaign = async (campaignId) => {
 
 const fetchAllCampaignsCount = async () => {
   try {
-    let res = { 
-      new: 0, duetoday: 0, overdue: 0, 
-      upcoming: 0, recentupdate: 0, active: 0, 
-      completed: 0, paused: 0, all:0, retouch:0
+    let res = {
+      new: 0, duetoday: 0, overdue: 0,
+      upcoming: 0, recentupdate: 0, active: 0,
+      completed: 0, paused: 0, all: 0, retouch: 0
     }
-   
+
 
 
 

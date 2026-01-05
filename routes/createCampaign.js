@@ -163,7 +163,7 @@ const addCampaign = async (data) => {
             data: {
                 code: stringCode,
                 name: data.name,
-                clientId: 1,
+                clientId: data.clientId,
                 leadgoal: data.leadGoal,
                 duedate: data.duedate,
                 info: {},

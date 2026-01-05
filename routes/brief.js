@@ -411,7 +411,7 @@ router.delete('/:id/quotes/:quoteId', async (req, res) => {
     try {
         const id = Number(req.params.id);
         const quoteId = Number(req.params.quoteId);
-
+        console.log('briefid',id,'quoteid',quoteId)
         const updatedBriefQuote = await deleteQuote(id, quoteId);
         if (!updatedBriefQuote) {
             return res.status(400).json({ message: "Failed to update brief quote" });

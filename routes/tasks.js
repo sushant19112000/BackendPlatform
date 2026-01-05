@@ -310,22 +310,22 @@ router.put('/update-status', async (req, res) => {
       }
 
       // Notify admin roles (admin updates only)
-      if (isAdmin) {
-         await prisma.roleNotification.createMany({
-            data: roles.map((roleId) => ({
-               notificationId: newNotification.id,
-               roleId,
-            })),
-         });
-      }
+      // if (isAdmin) {
+      await prisma.roleNotification.createMany({
+         data: roles.map((roleId) => ({
+            notificationId: newNotification.id,
+            roleId,
+         })),
+      });
+      // }
 
       // Emit socket event
       req.io.emit('task', {
          type: newNotification.type,
          taskId: updatedTask.id,
          message,
-         assignedTo:userTask.userId,
-         assignedBy:userTask.assignedById,
+         assignedTo: userTask.userId,
+         assignedBy: userTask.assignedById,
          payload: {
             status: updatedTask.status,
             updatedBy: isAdmin ? "admin" : "user",
@@ -529,6 +529,55 @@ router.post('/:id/assign', async (req, res) => {
       const { users, assignedById } = data;
 
       const taskAssignedData = await multiUserTaskAssign(users, assignedById, taskId);
+
+      const { task, assignedBy, assignedUsers } = taskAssignedData;
+      let usersStr = ""
+      for (let user of assignedUsers) {
+         usersStr += user.name + ","
+      }
+      const message = `Task "${task.name}" has been assigned by ${assignedBy.name} to ${usersStr}`;
+      // Create notification
+      const newNotification = await prisma.notification.create({
+         data: {
+            message,
+            notificationPriority: { connect: { id: 3 } },
+            url: `/tasks/${task.id}`,
+            type: 'task'
+         },
+      });
+      if (assignedUsers.length) {
+         await prisma.userNotifications.createMany({
+            data: assignedUsers.map((u) => ({
+               userId: u.id,
+               notificationId: newNotification.id,
+            })),
+         });
+      }
+
+      // Notify admin roles (admin updates only)
+      // if (isAdmin) {
+      await prisma.roleNotification.createMany({
+         data: roles.map((roleId) => ({
+            notificationId: newNotification.id,
+            roleId,
+         })),
+      });
+      // }
+
+      // Emit socket event
+      req.io.emit('task', {
+         type: newNotification.type,
+         taskId: task.id,
+         message,
+         assignedTo: assignedUsers,
+         assignedBy: assignedBy.id,
+         payload: {
+            status: task.status,
+            updatedBy: "admin",
+            updatedByName:assignedBy.name,
+         },
+      });
+
       return res.status(201).json({ data: taskAssignedData })
    }
    catch (e) {

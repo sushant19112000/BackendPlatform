@@ -782,9 +782,8 @@ router.get('/:id/deliveries', async (req, res) => {
 })
 
 // campaignDeliveries for the campaign
-router.get('/:id/deliveries/:deliveryId', async (req, res) => {
+router.get('/deliveries/:deliveryId', async (req, res) => {
     try {
-        const campaignId = Number(req.params.id);
         const deliveryId = Number(req.params.deliveryId);
         const campaignDelivery = await getCampaignDelivery(deliveryId);
         res.status(200).json({
@@ -909,7 +908,7 @@ router.put('/deliveries/:id', upload.single('file'), async (req, res) => {
 
         req.io.emit('delivery', {
             type: 'delivery',
-            message: `A new delivery "${updatedDelivery.fileName}" has been added to ${updatedDelivery.campaign.name}.`,
+            message: `Delivery "${updatedDelivery.fileName}" has been updated for ${updatedDelivery.campaign.name}.`,
             payload: { url: "#", priorityId: 4, type: "delivery", role: "admin" }
         });
 

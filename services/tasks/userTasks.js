@@ -11,7 +11,8 @@ const assignTask = async (userId, taskId, assignedById) => {
                 taskId: taskId,
                 assignedById: assignedById,
                 totalTime: 0
-            }
+            },
+            include:{user:true}
         })
         return newUserTask;
     }
@@ -22,14 +23,15 @@ const assignTask = async (userId, taskId, assignedById) => {
 
 const multiUserTaskAssign = async (users, assignedById, taskId) => {
     try {
-        console.log(users, 'users')
-        let taskAssignedData = { users: [], taskId, assignedById }
+       
+        const task= await prisma.task.findFirst({where:{id:taskId}});
+        const assignedBy= await prisma.user.findFirst({where:{id:assignedById}})
+
+        let taskAssignedData = { assignedUsers: [], taskId, assignedById,task,assignedBy }
         for (let user of users) {
             try {
                 let newUserTask = await assignTask(user, taskId, assignedById);
-                console.log(taskId, 'taskId')
-                console.log(newUserTask, 'task assigned')
-                taskAssignedData.users.push(user)
+                taskAssignedData.assignedUsers.push(newUserTask.user)
             }
             catch (e) {
                 console.log(e, `failed to assign task ${taskId} to the user ${user}`)

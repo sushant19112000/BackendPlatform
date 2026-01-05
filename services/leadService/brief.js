@@ -191,7 +191,9 @@ const deleteQuote = async (briefId, quoteId) => {
         if (!brief) return false;
          
         let quotes = brief.quotes || [];
-        let newQuotes=quotes.filter((e)=>{e.id!=quoteId})
+        console.log(brief.quotes,'brief quotes')
+       let newQuotes = quotes.filter(e => e.id !== Number(quoteId));
+        console.log(newQuotes,'quotes filetered')
         // Update
         const updatedBrief = await prisma.brief.update({
             where: { id: Number(briefId) },
@@ -199,6 +201,7 @@ const deleteQuote = async (briefId, quoteId) => {
                 quotes: newQuotes
             }
         });
+        console.log(updatedBrief.quotes,'updtaed')
         return updatedBrief;
 
     }
